@@ -20,6 +20,7 @@ import javax.swing.JList;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.AbstractListModel;
+import java.awt.Font;
 
 public class BuchMaster {
 
@@ -145,6 +146,7 @@ public class BuchMaster {
 		buchInventarPanel.add(btnNewButton, gbc_btnNewButton);
 		
 		JList list = new JList();
+		list.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		list.setBorder(new LineBorder(new Color(0, 0, 0)));
 		list.setModel(new AbstractListModel() {
 			String[] values = new String[] {"Lord of the rings: The fellowship of the ring", "Lord of the rings: The tow towers", "Lord of the rings: The return of the King"};
