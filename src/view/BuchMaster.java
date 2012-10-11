@@ -71,9 +71,6 @@ public class BuchMaster {
 		gbc_buchMasterTabs.gridy = 0;
 		frame.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
 		
-		JPanel ausleiheTab = new JPanel();
-		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
-		
 		JPanel buecherTab = new JPanel();
 		buchMasterTabs.addTab("B\u00FCcher", null, buecherTab, null);
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
@@ -126,7 +123,7 @@ public class BuchMaster {
 		
 		JLabel lblAusgewhlt = new JLabel("Ausgew\u00E4hlt: 1");
 		GridBagConstraints gbc_lblAusgewhlt = new GridBagConstraints();
-		gbc_lblAusgewhlt.gridwidth = 2;
+		gbc_lblAusgewhlt.gridwidth = 3;
 		gbc_lblAusgewhlt.anchor = GridBagConstraints.WEST;
 		gbc_lblAusgewhlt.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAusgewhlt.gridx = 0;
@@ -165,6 +162,9 @@ public class BuchMaster {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		buchInventarPanel.add(list, gbc_list);
+		
+		JPanel ausleiheTab = new JPanel();
+		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
 
 }
