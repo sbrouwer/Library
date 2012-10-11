@@ -90,11 +90,10 @@ public class BuchDetail {
 		
 		JLabel lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
-		gbc_lblAutor.gridheight = 2;
 		gbc_lblAutor.gridwidth = 2;
 		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAutor.gridx = 0;
-		gbc_lblAutor.gridy = 1;
+		gbc_lblAutor.gridy = 2;
 		panel.add(lblAutor, gbc_lblAutor);
 		
 		textField_1 = new JTextField();
@@ -148,15 +147,15 @@ public class BuchDetail {
 		panel_1.setBorder(new TitledBorder(null, "\u00CBxemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
-		gbl_panel_1.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel_1.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Anzahl: 5");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.gridwidth = 2;
+		gbc_lblNewLabel_2.gridwidth = 4;
 		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 0;
@@ -169,14 +168,14 @@ public class BuchDetail {
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
+		gbc_btnNewButton.gridx = 4;
 		gbc_btnNewButton.gridy = 0;
 		panel_1.add(btnNewButton, gbc_btnNewButton);
 		
 		JButton btnExemplanHinzufgen = new JButton(" Exemplan hinzuf\u00FCgen");
 		GridBagConstraints gbc_btnExemplanHinzufgen = new GridBagConstraints();
 		gbc_btnExemplanHinzufgen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnExemplanHinzufgen.gridx = 6;
+		gbc_btnExemplanHinzufgen.gridx = 7;
 		gbc_btnExemplanHinzufgen.gridy = 0;
 		panel_1.add(btnExemplanHinzufgen, gbc_btnExemplanHinzufgen);
 		
@@ -192,8 +191,7 @@ public class BuchDetail {
 			}
 		});
 		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.gridwidth = 7;
-		gbc_list.insets = new Insets(0, 0, 0, 5);
+		gbc_list.gridwidth = 8;
 		gbc_list.fill = GridBagConstraints.BOTH;
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
