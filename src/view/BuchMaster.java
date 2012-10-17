@@ -21,8 +21,9 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.AbstractListModel;
 import java.awt.Font;
+import java.util.Observable;
 
-public class BuchMaster {
+public class BuchMaster extends Observable{
 
 	private JFrame frame;
 
@@ -122,14 +123,14 @@ public class BuchMaster {
 			}
 		});
 		
-		JLabel lblAusgewhlt = new JLabel("Ausgew\u00E4hlt: 1");
-		GridBagConstraints gbc_lblAusgewhlt = new GridBagConstraints();
-		gbc_lblAusgewhlt.gridwidth = 3;
-		gbc_lblAusgewhlt.anchor = GridBagConstraints.WEST;
-		gbc_lblAusgewhlt.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAusgewhlt.gridx = 0;
-		gbc_lblAusgewhlt.gridy = 0;
-		buchInventarPanel.add(lblAusgewhlt, gbc_lblAusgewhlt);
+		JLabel lblAusgewaehlt = new JLabel("Ausgew\u00E4hlt: 1");
+		GridBagConstraints gbc_lblAusgewaehlt = new GridBagConstraints();
+		gbc_lblAusgewaehlt.gridwidth = 3;
+		gbc_lblAusgewaehlt.anchor = GridBagConstraints.WEST;
+		gbc_lblAusgewaehlt.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAusgewaehlt.gridx = 0;
+		gbc_lblAusgewaehlt.gridy = 0;
+		buchInventarPanel.add(lblAusgewaehlt, gbc_lblAusgewaehlt);
 		GridBagConstraints gbc_btn_selektierteAnzeigen = new GridBagConstraints();
 		gbc_btn_selektierteAnzeigen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btn_selektierteAnzeigen.insets = new Insets(0, 0, 5, 5);

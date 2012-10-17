@@ -20,8 +20,10 @@ import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.util.Observable;
+import java.util.Observer;
 
-public class BuchDetail {
+public class BuchDetail implements Observer{
 
 	private JFrame frame;
 	private JTextField textField;
@@ -196,6 +198,19 @@ public class BuchDetail {
 		gbc_list.gridx = 0;
 		gbc_list.gridy = 1;
 		panel_1.add(list, gbc_list);
+	}
+	/**
+	 * @param
+	 * @author Simon Brouwer, Adrian Rieser
+	 * @return void
+	 * Updates the fields that have changed in another BuchDetail
+	 */
+	void updateFields(){
+		
+	}
+	@Override
+	public void update(Observable o, Object arg) {
+		updateFields();	
 	}
 
 }
