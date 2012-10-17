@@ -21,6 +21,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.border.LineBorder;
 
 import domain.Book;
+import domain.Library;
 
 import java.awt.Color;
 import java.util.Observable;
@@ -33,7 +34,9 @@ public class BuchDetail implements Observer{
 	private JTextField txtAutor;
 	private JTextField txtVerlag;
 	private JTextField txtRegal;
+	private JLabel lblAnzahl;
 	private Book book;
+	private Library library;
 
 	/**
 	 * Launch the application.
@@ -58,9 +61,11 @@ public class BuchDetail implements Observer{
 		initialize();
 		frame.setVisible(true);
 	}
-	public BuchDetail(Book book){
+	public BuchDetail(Book book, Library library){
 		this.book = book;
+		this.library = library;
 		initialize();
+		updateFields();
 		frame.setVisible(true);
 	}
 
@@ -165,7 +170,7 @@ public class BuchDetail implements Observer{
 		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
-		JLabel lblAnzahl = new JLabel("Anzahl: 5");
+		lblAnzahl = new JLabel("Anzahl: 5");
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.gridwidth = 4;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
