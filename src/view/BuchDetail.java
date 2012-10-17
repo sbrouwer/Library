@@ -19,6 +19,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.LineBorder;
+
+import domain.Book;
+
 import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
@@ -26,10 +29,11 @@ import java.util.Observer;
 public class BuchDetail implements Observer{
 
 	private JFrame frame;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
+	private JTextField txtTitel;
+	private JTextField txtAutor;
+	private JTextField txtVerlag;
+	private JTextField txtRegal;
+	private Book book;
 
 	/**
 	 * Launch the application.
@@ -52,6 +56,12 @@ public class BuchDetail implements Observer{
 	 */
 	public BuchDetail() {
 		initialize();
+		frame.setVisible(true);
+	}
+	public BuchDetail(Book book){
+		this.book = book;
+		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -73,22 +83,22 @@ public class BuchDetail implements Observer{
 		gbl_panel.rowWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
-		JLabel lblNewLabel = new JLabel("Titel");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridwidth = 2;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		panel.add(lblNewLabel, gbc_lblNewLabel);
+		JLabel lblTitel = new JLabel("Titel");
+		GridBagConstraints gbc_lblTitel = new GridBagConstraints();
+		gbc_lblTitel.gridwidth = 2;
+		gbc_lblTitel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTitel.gridx = 0;
+		gbc_lblTitel.gridy = 0;
+		panel.add(lblTitel, gbc_lblTitel);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 0;
-		panel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		txtTitel = new JTextField();
+		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
+		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
+		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTitel.gridx = 3;
+		gbc_txtTitel.gridy = 0;
+		panel.add(txtTitel, gbc_txtTitel);
+		txtTitel.setColumns(10);
 		
 		JLabel lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
@@ -98,34 +108,34 @@ public class BuchDetail implements Observer{
 		gbc_lblAutor.gridy = 2;
 		panel.add(lblAutor, gbc_lblAutor);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridheight = 2;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 3;
-		gbc_textField_1.gridy = 1;
-		panel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		txtAutor = new JTextField();
+		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
+		gbc_txtAutor.gridheight = 2;
+		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
+		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAutor.gridx = 3;
+		gbc_txtAutor.gridy = 1;
+		panel.add(txtAutor, gbc_txtAutor);
+		txtAutor.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("Verlag");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridheight = 2;
-		gbc_lblNewLabel_1.gridwidth = 2;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 3;
-		panel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		JLabel lblVerlag = new JLabel("Verlag");
+		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
+		gbc_lblVerlag.gridheight = 2;
+		gbc_lblVerlag.gridwidth = 2;
+		gbc_lblVerlag.insets = new Insets(0, 0, 5, 5);
+		gbc_lblVerlag.gridx = 0;
+		gbc_lblVerlag.gridy = 3;
+		panel.add(lblVerlag, gbc_lblVerlag);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.gridheight = 2;
-		gbc_textField_2.insets = new Insets(0, 0, 5, 0);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 3;
-		gbc_textField_2.gridy = 3;
-		panel.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		txtVerlag = new JTextField();
+		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
+		gbc_txtVerlag.gridheight = 2;
+		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
+		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtVerlag.gridx = 3;
+		gbc_txtVerlag.gridy = 3;
+		panel.add(txtVerlag, gbc_txtVerlag);
+		txtVerlag.setColumns(10);
 		
 		JLabel lblRegal = new JLabel("Regal");
 		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
@@ -136,14 +146,14 @@ public class BuchDetail implements Observer{
 		gbc_lblRegal.gridy = 5;
 		panel.add(lblRegal, gbc_lblRegal);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.gridheight = 2;
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 3;
-		gbc_textField_3.gridy = 5;
-		panel.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		txtRegal = new JTextField();
+		GridBagConstraints gbc_txtRegal = new GridBagConstraints();
+		gbc_txtRegal.gridheight = 2;
+		gbc_txtRegal.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtRegal.gridx = 3;
+		gbc_txtRegal.gridy = 5;
+		panel.add(txtRegal, gbc_txtRegal);
+		txtRegal.setColumns(10);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "\u00CBxemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -155,35 +165,35 @@ public class BuchDetail implements Observer{
 		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("Anzahl: 5");
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.gridwidth = 4;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 0;
-		gbc_lblNewLabel_2.gridy = 0;
-		panel_1.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		JLabel lblAnzahl = new JLabel("Anzahl: 5");
+		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
+		gbc_lblAnzahl.gridwidth = 4;
+		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAnzahl.gridx = 0;
+		gbc_lblAnzahl.gridy = 0;
+		panel_1.add(lblAnzahl, gbc_lblAnzahl);
 		
-		JButton btnNewButton = new JButton("Ausgew\u00E4hlte Entfernen");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
+		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 0;
-		panel_1.add(btnNewButton, gbc_btnNewButton);
+		GridBagConstraints gbc_btnAusgewaehlteEntfernen = new GridBagConstraints();
+		gbc_btnAusgewaehlteEntfernen.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAusgewaehlteEntfernen.gridx = 4;
+		gbc_btnAusgewaehlteEntfernen.gridy = 0;
+		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 		
-		JButton btnExemplanHinzufgen = new JButton(" Exemplan hinzuf\u00FCgen");
-		GridBagConstraints gbc_btnExemplanHinzufgen = new GridBagConstraints();
-		gbc_btnExemplanHinzufgen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnExemplanHinzufgen.gridx = 7;
-		gbc_btnExemplanHinzufgen.gridy = 0;
-		panel_1.add(btnExemplanHinzufgen, gbc_btnExemplanHinzufgen);
+		JButton btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
+		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
+		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
+		gbc_btnExemplarHinzufuegen.gridx = 7;
+		gbc_btnExemplarHinzufuegen.gridy = 0;
+		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
 		
-		JList list = new JList();
-		list.setBorder(new LineBorder(new Color(0, 0, 0)));
-		list.setModel(new AbstractListModel() {
+		JList listBuchDetail = new JList();
+		listBuchDetail.setBorder(new LineBorder(new Color(0, 0, 0)));
+		listBuchDetail.setModel(new AbstractListModel() {
 			String[] values = new String[] {"4234: Verf\u00FCgbar", "5344: Verf\u00FCgbar", "7574: Ausgeliehen 10.10.12 -19.11.12"};
 			public int getSize() {
 				return values.length;
@@ -192,12 +202,12 @@ public class BuchDetail implements Observer{
 				return values[index];
 			}
 		});
-		GridBagConstraints gbc_list = new GridBagConstraints();
-		gbc_list.gridwidth = 8;
-		gbc_list.fill = GridBagConstraints.BOTH;
-		gbc_list.gridx = 0;
-		gbc_list.gridy = 1;
-		panel_1.add(list, gbc_list);
+		GridBagConstraints gbc_listBuchDetail = new GridBagConstraints();
+		gbc_listBuchDetail.gridwidth = 8;
+		gbc_listBuchDetail.fill = GridBagConstraints.BOTH;
+		gbc_listBuchDetail.gridx = 0;
+		gbc_listBuchDetail.gridy = 1;
+		panel_1.add(listBuchDetail, gbc_listBuchDetail);
 	}
 	/**
 	 * @param
@@ -206,7 +216,18 @@ public class BuchDetail implements Observer{
 	 * Updates the fields that have changed in another BuchDetail
 	 */
 	void updateFields(){
-		
+		if(book == null){
+			txtTitel.setText("");
+			txtAutor.setText("");
+			txtVerlag.setText("");
+			txtRegal.setText("");
+		}
+		else{
+			txtTitel.setText(book.getName());
+			txtAutor.setText(book.getAuthor());
+			txtVerlag.setText(book.getPublisher());
+			txtRegal.setText(book.getShelf().toString());
+		}
 	}
 	@Override
 	public void update(Observable o, Object arg) {
