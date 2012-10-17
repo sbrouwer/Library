@@ -26,6 +26,7 @@ import domain.Library;
 import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JScrollPane;
 
 public class BuchDetail implements Observer{
 
@@ -75,7 +76,7 @@ public class BuchDetail implements Observer{
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -165,9 +166,9 @@ public class BuchDetail implements Observer{
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel_1.rowHeights = new int[]{0, 0, 0};
+		gbl_panel_1.rowHeights = new int[]{0, 0, 0, 0};
 		gbl_panel_1.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
 		lblAnzahl = new JLabel("Anzahl: 5");
@@ -196,7 +197,18 @@ public class BuchDetail implements Observer{
 		gbc_btnExemplarHinzufuegen.gridy = 0;
 		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridheight = 2;
+		gbc_scrollPane.gridwidth = 8;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		panel_1.add(scrollPane, gbc_scrollPane);
+		
 		JList listBuchDetail = new JList();
+		scrollPane.setViewportView(listBuchDetail);
 		listBuchDetail.setBorder(new LineBorder(new Color(0, 0, 0)));
 		listBuchDetail.setModel(new AbstractListModel() {
 			String[] values = new String[] {"4234: Verf\u00FCgbar", "5344: Verf\u00FCgbar", "7574: Ausgeliehen 10.10.12 -19.11.12"};
@@ -207,12 +219,6 @@ public class BuchDetail implements Observer{
 				return values[index];
 			}
 		});
-		GridBagConstraints gbc_listBuchDetail = new GridBagConstraints();
-		gbc_listBuchDetail.gridwidth = 8;
-		gbc_listBuchDetail.fill = GridBagConstraints.BOTH;
-		gbc_listBuchDetail.gridx = 0;
-		gbc_listBuchDetail.gridy = 1;
-		panel_1.add(listBuchDetail, gbc_listBuchDetail);
 	}
 	/**
 	 * @param

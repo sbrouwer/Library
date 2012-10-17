@@ -31,6 +31,7 @@ import java.awt.Font;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import javax.swing.JScrollPane;
 
 public class BuchMaster extends Observable{
 
@@ -44,6 +45,7 @@ public class BuchMaster extends Observable{
 	private JList<String> listBuchInventar;
 	private List<Book> books;
 	private Library library;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -137,8 +139,8 @@ public class BuchMaster extends Observable{
 		buecherTab.add(buchInventarPanel, gbc_buchInventarPanel);
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
 		gbl_buchInventarPanel.columnWidths = new int[]{69, 0, 131, 145, 0, 0, 0};
-		gbl_buchInventarPanel.rowHeights = new int[]{23, 50, 0};
-		gbl_buchInventarPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_buchInventarPanel.rowHeights = new int[]{23, 0, 0};
+		gbl_buchInventarPanel.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_buchInventarPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 		
@@ -175,10 +177,6 @@ public class BuchMaster extends Observable{
 		gbc_btnNeuesBuch.gridx = 5;
 		gbc_btnNeuesBuch.gridy = 0;
 		buchInventarPanel.add(btnNeuesBuch, gbc_btnNeuesBuch);
-		
-		listBuchInventar = new JList<String>();
-		listBuchInventar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		listBuchInventar.setBorder(new LineBorder(new Color(0, 0, 0)));
 		books = library.getBooks();											//Bücherliste holen
 		DefaultListModel listBuchInventarModel = new DefaultListModel<String>();
 		//Liste füllen
@@ -186,16 +184,23 @@ public class BuchMaster extends Observable{
 			listBuchInventarModel.addElement(b.getName());
 		}
 		
+		scrollPane = new JScrollPane();
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.gridwidth = 6;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		buchInventarPanel.add(scrollPane, gbc_scrollPane);
+		
+		listBuchInventar = new JList<String>();
+		scrollPane.setViewportView(listBuchInventar);
+		listBuchInventar.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		listBuchInventar.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
 		listBuchInventar.setModel(listBuchInventarModel);
 		
 		ListModel<String> model = listBuchInventar.getModel();
-		GridBagConstraints gbc_listBuchInventar = new GridBagConstraints();
-		gbc_listBuchInventar.gridwidth = 6;
-		gbc_listBuchInventar.insets = new Insets(0, 0, 0, 5);
-		gbc_listBuchInventar.fill = GridBagConstraints.BOTH;
-		gbc_listBuchInventar.gridx = 0;
-		gbc_listBuchInventar.gridy = 1;
-		buchInventarPanel.add(listBuchInventar, gbc_listBuchInventar);
 		
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
