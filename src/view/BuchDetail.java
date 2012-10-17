@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import domain.Book;
 import domain.Copy;
 import domain.Library;
+import domain.Loan;
 
 import java.awt.Color;
 import java.util.List;
@@ -218,18 +219,12 @@ public class BuchDetail implements Observer{
 		copies = library.getCopiesOfBook(book);										//Bücherliste holen
 		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		//Liste füllen
+		
 		for(Copy c : copies){
 			listBuchDetailModel.addElement("" + c.getInventoryNumber() + " : ");
+			System.out.println(c.getInventoryNumber());
 		}
-		/*listBuchDetail.setModel(new AbstractListModel() {
-			String[] values = new String[] {"4234: Verf\u00FCgbar", "5344: Verf\u00FCgbar", "7574: Ausgeliehen 10.10.12 -19.11.12"};
-			public int getSize() {
-				return values.length;
-			}
-			public Object getElementAt(int index) {
-				return values[index];
-			}
-		});*/
+		listBuchDetail.setModel(listBuchDetailModel);
 	}
 	/**
 	 * @param
