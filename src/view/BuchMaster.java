@@ -2,8 +2,11 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JToolBar;
+import javax.swing.ListModel;
+
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JTabbedPane;
@@ -39,6 +42,7 @@ public class BuchMaster extends Observable{
 	private JLabel lblAusgewaehlt;
 	private JButton btnNeuesBuch;
 	private JList<String> listBuchInventar;
+	private List<Book> books;
 	private Library library;
 
 	/**
@@ -175,7 +179,14 @@ public class BuchMaster extends Observable{
 		listBuchInventar = new JList<String>();
 		listBuchInventar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		listBuchInventar.setBorder(new LineBorder(new Color(0, 0, 0)));
-		listBuchInventar.setModel(new AbstractListModel() {
+		books = library.getBooks();
+		DefaultListModel listBuchInventarModel = new DefaultListModel<String>();
+		for(Book b : books){
+			listBuchInventarModel.addElement(b.getName());
+		}
+		
+		listBuchInventar.setModel(listBuchInventarModel);
+		/*listBuchInventar.setModel(new AbstractListModel() {
 			String[] values = new String[] {"A Designer's Guide to Adobe InDesign and XML: Harness the Power of XML to Automate your Print and Web Workflows","Lord of the rings: The fellowship of the ring", "Lord of the rings: The tow towers", "Lord of the rings: The return of the King"};
 			public int getSize() {
 				return values.length;
@@ -183,7 +194,9 @@ public class BuchMaster extends Observable{
 			public Object getElementAt(int index) {
 				return values[index];
 			}
-		});
+		});*/
+		
+		ListModel<String> model = listBuchInventar.getModel();
 		GridBagConstraints gbc_listBuchInventar = new GridBagConstraints();
 		gbc_listBuchInventar.gridwidth = 6;
 		gbc_listBuchInventar.insets = new Insets(0, 0, 0, 5);
