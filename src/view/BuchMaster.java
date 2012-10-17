@@ -32,6 +32,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import javax.swing.JScrollPane;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class BuchMaster extends Observable{
 
@@ -155,7 +159,7 @@ public class BuchMaster extends Observable{
 			}
 		});
 		
-		lblAusgewaehlt = new JLabel("Ausgew\u00E4hlt: 1");
+		lblAusgewaehlt = new JLabel("Ausgew\u00E4hlt: 0");
 		GridBagConstraints gbc_lblAusgewaehlt = new GridBagConstraints();
 		gbc_lblAusgewaehlt.gridwidth = 3;
 		gbc_lblAusgewaehlt.anchor = GridBagConstraints.WEST;
@@ -194,6 +198,11 @@ public class BuchMaster extends Observable{
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
 		
 		listBuchInventar = new JList<String>();
+		listBuchInventar.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				lblAusgewaehlt.setText("Ausgewählt: " + listBuchInventar.getSelectedValuesList().size());
+			}
+		});
 		scrollPane.setViewportView(listBuchInventar);
 		listBuchInventar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		listBuchInventar.setBorder(new LineBorder(new Color(0, 0, 0)));

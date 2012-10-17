@@ -2,6 +2,7 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
@@ -21,9 +22,11 @@ import javax.swing.AbstractListModel;
 import javax.swing.border.LineBorder;
 
 import domain.Book;
+import domain.Copy;
 import domain.Library;
 
 import java.awt.Color;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JScrollPane;
@@ -38,6 +41,7 @@ public class BuchDetail implements Observer{
 	private JLabel lblAnzahl;
 	private Book book;
 	private Library library;
+	private List<Copy> copies;
 
 	/**
 	 * Launch the application.
@@ -171,7 +175,8 @@ public class BuchDetail implements Observer{
 		gbl_panel_1.rowWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
 		panel_1.setLayout(gbl_panel_1);
 		
-		lblAnzahl = new JLabel("Anzahl: 5");
+		lblAnzahl = new JLabel("Anzahl: 1");
+		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.gridwidth = 4;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
@@ -210,7 +215,13 @@ public class BuchDetail implements Observer{
 		JList listBuchDetail = new JList();
 		scrollPane.setViewportView(listBuchDetail);
 		listBuchDetail.setBorder(new LineBorder(new Color(0, 0, 0)));
-		listBuchDetail.setModel(new AbstractListModel() {
+		copies = library.getCopiesOfBook(book);										//Bücherliste holen
+		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
+		//Liste füllen
+		for(Copy c : copies){
+			listBuchDetailModel.addElement("" + c.getInventoryNumber() + " : ");
+		}
+		/*listBuchDetail.setModel(new AbstractListModel() {
 			String[] values = new String[] {"4234: Verf\u00FCgbar", "5344: Verf\u00FCgbar", "7574: Ausgeliehen 10.10.12 -19.11.12"};
 			public int getSize() {
 				return values.length;
@@ -218,7 +229,7 @@ public class BuchDetail implements Observer{
 			public Object getElementAt(int index) {
 				return values[index];
 			}
-		});
+		});*/
 	}
 	/**
 	 * @param
