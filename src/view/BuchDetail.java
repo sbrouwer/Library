@@ -88,6 +88,7 @@ public class BuchDetail implements Observer {
 		// frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(
 				new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		frame.setTitle("Buch Detail Ansicht");
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen",
