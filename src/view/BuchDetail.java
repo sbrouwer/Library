@@ -48,29 +48,8 @@ public class BuchDetail implements Observer {
 	private List<Loan> lent;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BuchDetail window = new BuchDetail();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
-	public BuchDetail() {
-		initialize();
-		frame.setVisible(true);
-	}
-
 	public BuchDetail(Book book, Library library) {
 		this.book = book;
 		this.library = library;
@@ -86,13 +65,11 @@ public class BuchDetail implements Observer {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
 		// frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		frame.getContentPane().setLayout(
-				new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buch Detail Ansicht");
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buch Informationen",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
