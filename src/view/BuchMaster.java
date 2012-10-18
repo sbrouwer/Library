@@ -36,6 +36,9 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class BuchMaster extends Observable{
 
@@ -46,10 +49,10 @@ public class BuchMaster extends Observable{
 	private JButton btnSelektierteAnzeigen;
 	private JLabel lblAusgewaehlt;
 	private JButton btnNeuesBuch;
-	private JList<String> listBuchInventar;
 	private List<Book> books;
 	private Library library;
 	private JScrollPane scrollPane;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -151,9 +154,9 @@ public class BuchMaster extends Observable{
 		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				List<String> selected = listBuchInventar.getSelectedValuesList();
-				for(String s : selected){
-					Book book = library.findByBookTitle(s);
+				int selected[] = table.getSelectedRows();
+				for(int i : selected){
+					Book book = library.findByBookTitle(table.getModel().getValueAt(i, 1).toString());
 					BuchDetail bookDetail = new BuchDetail(book,library);
 				}
 			}
@@ -181,12 +184,7 @@ public class BuchMaster extends Observable{
 		gbc_btnNeuesBuch.gridx = 5;
 		gbc_btnNeuesBuch.gridy = 0;
 		buchInventarPanel.add(btnNeuesBuch, gbc_btnNeuesBuch);
-		books = library.getBooks();											//Bücherliste holen
-		DefaultListModel listBuchInventarModel = new DefaultListModel<String>();
-		//Liste füllen
-		for(Book b : books){
-			listBuchInventarModel.addElement(b.getName());
-		}
+
 		
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -197,19 +195,24 @@ public class BuchMaster extends Observable{
 		gbc_scrollPane.gridy = 1;
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
 		
-		listBuchInventar = new JList<String>();
-		listBuchInventar.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				lblAusgewaehlt.setText("Ausgewählt: " + listBuchInventar.getSelectedValuesList().size());
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		table.setCellSelectionEnabled(true);
+		books = library.getBooks();	
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Verf\u00FCgbar", "Name", "Autor", "Verlag"
 			}
-		});
-		scrollPane.setViewportView(listBuchInventar);
-		listBuchInventar.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		listBuchInventar.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
-		listBuchInventar.setModel(listBuchInventarModel);
-		
-		ListModel<String> model = listBuchInventar.getModel();
+		));
+		 
+		for(int i = 0; i < books.size(); i++){
+			String[] s = { "" + (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(books.get(i)).size()),books.get(i).getName(),books.get(i).getAuthor(),books.get(i).getPublisher()};
+			( (DefaultTableModel) table.getModel() ).addRow(s);
+		}
+		table.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPane.setViewportView(table);
 		
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
