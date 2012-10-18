@@ -97,7 +97,6 @@ public class BuchMaster extends Observable {
 	 */
 	private void initialize() {
 
-		books = library.getBooks();
 
 		frame = new JFrame();
 		frame.setBounds(100, 100, 607, 516);
@@ -109,7 +108,9 @@ public class BuchMaster extends Observable {
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		frame.getContentPane().setLayout(gridBagLayout);
-
+		
+		books = library.getBooks();
+		
 		JTabbedPane buchMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_buchMasterTabs = new GridBagConstraints();
 		gbc_buchMasterTabs.gridheight = 2;
@@ -208,29 +209,40 @@ public class BuchMaster extends Observable {
 		chckbxNurVerfgbare.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
-
-				for (int i = 0; i < books.size(); i++) {
-					if (arg0.getStateChange() == 1) {
-						if ((library.getCopiesOfBook(books.get(i)).size() - library
-								.getLentCopiesOfBook(books.get(i)).size()) <= 0) {
-							((DefaultTableModel) table.getModel()).removeRow(i);
-							i = i - 1;
-						}
-					} else {
-						if ((library.getCopiesOfBook(books.get(i)).size() - library
-								.getLentCopiesOfBook(books.get(i)).size()) > 0) {
+				// remove all entries				
+				for (int i = table.getRowCount() - 1; i >= 0; i--) {
+					((DefaultTableModel) table.getModel()).removeRow(i);
+				}
+				if (arg0.getStateChange() == 1) { //If hook is set, add only entries with available Copies (Number of Copies - Number of Lent Copies)
+					for (int x = 0; x < books.size(); x++) {
+						if ((library.getCopiesOfBook(books.get(x)).size() - library
+								.getLentCopiesOfBook(books.get(x)).size()) > 0) {
 							String[] s = {
 									""
 											+ (library.getCopiesOfBook(
-													books.get(i)).size() - library
+													books.get(x)).size() - library
 													.getLentCopiesOfBook(
-															books.get(i))
+															books.get(x))
 													.size()),
-									books.get(i).getName(),
-									books.get(i).getAuthor(),
-									books.get(i).getPublisher() };
+									books.get(x).getName(),
+									books.get(x).getAuthor(),
+									books.get(x).getPublisher() };
 							((DefaultTableModel) table.getModel()).addRow(s);
 						}
+					}
+				} else { //if hook is not set, add all Books
+					for (int i = 0; i < books.size(); i++) {
+						String[] s = {
+								""
+										+ (library
+												.getCopiesOfBook(books.get(i))
+												.size() - library
+												.getLentCopiesOfBook(
+														books.get(i)).size()),
+								books.get(i).getName(),
+								books.get(i).getAuthor(),
+								books.get(i).getPublisher() };
+						((DefaultTableModel) table.getModel()).addRow(s);
 					}
 				}
 			}
