@@ -39,6 +39,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.JTextField;
+import javax.swing.JCheckBox;
 
 public class BuchMaster extends Observable{
 
@@ -47,12 +49,14 @@ public class BuchMaster extends Observable{
 	private JLabel lblAnzahlBuecher;
 	private JLabel lblAnzahlExemplare;
 	private JButton btnSelektierteAnzeigen;
-	private JLabel lblAusgewaehlt;
 	private JButton btnNeuesBuch;
 	private List<Book> books;
 	private Library library;
 	private JScrollPane scrollPane;
 	private JTable table;
+	private JTextField txtSuche;
+	private JCheckBox chckbxNurVerfgbare;
+	private JLabel lblAlleBcherDer;
 
 	/**
 	 * Launch the application.
@@ -89,7 +93,7 @@ public class BuchMaster extends Observable{
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 561, 518);
+		frame.setBounds(100, 100, 607, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{545, 0};
@@ -101,7 +105,7 @@ public class BuchMaster extends Observable{
 		JTabbedPane buchMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_buchMasterTabs = new GridBagConstraints();
 		gbc_buchMasterTabs.gridheight = 2;
-		gbc_buchMasterTabs.insets = new Insets(0, 0, 5, 0);
+		gbc_buchMasterTabs.insets = new Insets(0, 5, 5, 0);
 		gbc_buchMasterTabs.fill = GridBagConstraints.BOTH;
 		gbc_buchMasterTabs.gridx = 0;
 		gbc_buchMasterTabs.gridy = 0;
@@ -111,9 +115,9 @@ public class BuchMaster extends Observable{
 		buchMasterTabs.addTab("B\u00FCcher", null, buecherTab, null);
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
 		gbl_buecherTab.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_buecherTab.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_buecherTab.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gbl_buecherTab.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_buecherTab.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_buecherTab.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		buecherTab.setLayout(gbl_buecherTab);
 		
 		JPanel inventarStatistikenPanel = new JPanel();
@@ -121,7 +125,7 @@ public class BuchMaster extends Observable{
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
 		gbc_inventarStatistikenPanel.gridwidth = 5;
 		gbc_inventarStatistikenPanel.anchor = GridBagConstraints.NORTH;
-		gbc_inventarStatistikenPanel.insets = new Insets(0, 0, 5, 0);
+		gbc_inventarStatistikenPanel.insets = new Insets(0, 5, 5, 0);
 		gbc_inventarStatistikenPanel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_inventarStatistikenPanel.gridx = 0;
 		gbc_inventarStatistikenPanel.gridy = 0;
@@ -134,15 +138,23 @@ public class BuchMaster extends Observable{
 		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: 2200");
 		inventarStatistikenPanel.add(lblAnzahlExemplare);
 		
+		lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
+		GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
+		gbc_lblAlleBcherDer.anchor = GridBagConstraints.WEST;
+		gbc_lblAlleBcherDer.insets = new Insets(0, 20, 5, 5);
+		gbc_lblAlleBcherDer.gridx = 0;
+		gbc_lblAlleBcherDer.gridy = 1;
+		buecherTab.add(lblAlleBcherDer, gbc_lblAlleBcherDer);
+		
 		JPanel buchInventarPanel = new JPanel();
 		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
+		gbc_buchInventarPanel.insets = new Insets(0, 5, 5, 5);
 		gbc_buchInventarPanel.gridheight = 2;
-		gbc_buchInventarPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_buchInventarPanel.gridwidth = 5;
 		gbc_buchInventarPanel.fill = GridBagConstraints.BOTH;
 		gbc_buchInventarPanel.gridx = 0;
-		gbc_buchInventarPanel.gridy = 1;
+		gbc_buchInventarPanel.gridy = 2;
 		buecherTab.add(buchInventarPanel, gbc_buchInventarPanel);
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
 		gbl_buchInventarPanel.columnWidths = new int[]{69, 0, 131, 145, 0, 0, 0};
@@ -150,6 +162,17 @@ public class BuchMaster extends Observable{
 		gbl_buchInventarPanel.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_buchInventarPanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
+		
+		txtSuche = new JTextField();
+		txtSuche.setText("Suche");
+		GridBagConstraints gbc_txtSuche = new GridBagConstraints();
+		gbc_txtSuche.gridwidth = 2;
+		gbc_txtSuche.insets = new Insets(0, 5, 5, 5);
+		gbc_txtSuche.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSuche.gridx = 1;
+		gbc_txtSuche.gridy = 0;
+		buchInventarPanel.add(txtSuche, gbc_txtSuche);
+		txtSuche.setColumns(10);
 		
 		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
@@ -162,18 +185,16 @@ public class BuchMaster extends Observable{
 			}
 		});
 		
-		lblAusgewaehlt = new JLabel("Ausgew\u00E4hlt: 0");
-		GridBagConstraints gbc_lblAusgewaehlt = new GridBagConstraints();
-		gbc_lblAusgewaehlt.gridwidth = 3;
-		gbc_lblAusgewaehlt.anchor = GridBagConstraints.WEST;
-		gbc_lblAusgewaehlt.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAusgewaehlt.gridx = 0;
-		gbc_lblAusgewaehlt.gridy = 0;
-		buchInventarPanel.add(lblAusgewaehlt, gbc_lblAusgewaehlt);
+		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
+		GridBagConstraints gbc_chckbxNurVerfgbare = new GridBagConstraints();
+		gbc_chckbxNurVerfgbare.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxNurVerfgbare.gridx = 3;
+		gbc_chckbxNurVerfgbare.gridy = 0;
+		buchInventarPanel.add(chckbxNurVerfgbare, gbc_chckbxNurVerfgbare);
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAnzeigen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSelektierteAnzeigen.gridx = 3;
+		gbc_btnSelektierteAnzeigen.gridx = 4;
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		buchInventarPanel.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 		
@@ -189,7 +210,6 @@ public class BuchMaster extends Observable{
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 6;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
