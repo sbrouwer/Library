@@ -102,7 +102,7 @@ public class BuchMaster extends Observable {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 607, 516);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Swinging Library2");
+		frame.setTitle("Swinging Library");
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 545, 0 };
 		gridBagLayout.rowHeights = new int[] { 237, 5, 0 };
