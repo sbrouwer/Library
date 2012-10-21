@@ -108,10 +108,11 @@ public class BuchMaster extends Observable {
 		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 50,
 				5));
 
-		lblAnzahlBuecher = new JLabel("Anzahl B\u00FCcher: 865");
+		lblAnzahlBuecher = new JLabel("Anzahl Bücher: " + library.getBooks().size());
 		inventarStatistikenPanel.add(lblAnzahlBuecher);
 
-		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: 2200");
+		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: " + (library.getBooks().size() + library.getCopies().size()));
+		
 		inventarStatistikenPanel.add(lblAnzahlExemplare);
 
 		lblAlleBcherDer = new JLabel(
