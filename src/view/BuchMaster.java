@@ -255,6 +255,7 @@ public class BuchMaster extends Observable {
 		});
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setCellSelectionEnabled(true);
+		table.setAutoCreateRowSorter(true);
 
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
