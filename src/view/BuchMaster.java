@@ -179,40 +179,12 @@ public class BuchMaster extends Observable {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries				
-				for (int i = table.getRowCount() - 1; i >= 0; i--) {
-					((DefaultTableModel) table.getModel()).removeRow(i);
-				}
+				deleteTableRows(table);
+				
 				if (arg0.getStateChange() == 1) { //If hook is set, add only entries with available Copies (Number of Copies - Number of Lent Copies)
-					for (int x = 0; x < books.size(); x++) {
-						if ((library.getCopiesOfBook(books.get(x)).size() - library
-								.getLentCopiesOfBook(books.get(x)).size()) > 0) {
-							String[] s = {
-									""
-											+ (library.getCopiesOfBook(
-													books.get(x)).size() - library
-													.getLentCopiesOfBook(
-															books.get(x))
-													.size()),
-									books.get(x).getName(),
-									books.get(x).getAuthor(),
-									books.get(x).getPublisher() };
-							((DefaultTableModel) table.getModel()).addRow(s);
-						}
-					}
+					addAvailableBooks();
 				} else { //if hook is not set, add all Books
-					for (int i = 0; i < books.size(); i++) {
-						String[] s = {
-								""
-										+ (library
-												.getCopiesOfBook(books.get(i))
-												.size() - library
-												.getLentCopiesOfBook(
-														books.get(i)).size()),
-								books.get(i).getName(),
-								books.get(i).getAuthor(),
-								books.get(i).getPublisher() };
-						((DefaultTableModel) table.getModel()).addRow(s);
-					}
+					addAllBooks();
 				}
 			}
 		});
@@ -292,6 +264,56 @@ public class BuchMaster extends Observable {
 
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
+	}
+	
+	/**
+	 * Deletes all rows from a Table
+	 * @param _table Table to delete the entries(rows) from
+	 */
+	private void deleteTableRows(JTable _table){
+		for (int i = _table.getRowCount() - 1; i >= 0; i--) {
+			((DefaultTableModel) _table.getModel()).removeRow(i);
+		}
+	}
+	
+	/**
+	 * Adds all Books from the Library to the Inventary Table
+	 */
+	private void addAllBooks(){
+		for (int i = 0; i < books.size(); i++) {
+			String[] s = {
+					""
+							+ (library
+									.getCopiesOfBook(books.get(i))
+									.size() - library
+									.getLentCopiesOfBook(
+											books.get(i)).size()),
+					books.get(i).getName(),
+					books.get(i).getAuthor(),
+					books.get(i).getPublisher() };
+			((DefaultTableModel) table.getModel()).addRow(s);
+		}
+	}
+	/**
+	 * Adds only Available Books from the Library to the Inventary Table
+	 */
+	private void addAvailableBooks(){
+		for (int x = 0; x < books.size(); x++) {
+			if ((library.getCopiesOfBook(books.get(x)).size() - library
+					.getLentCopiesOfBook(books.get(x)).size()) > 0) {
+				String[] s = {
+						""
+								+ (library.getCopiesOfBook(
+										books.get(x)).size() - library
+										.getLentCopiesOfBook(
+												books.get(x))
+										.size()),
+						books.get(x).getName(),
+						books.get(x).getAuthor(),
+						books.get(x).getPublisher() };
+				((DefaultTableModel) table.getModel()).addRow(s);
+			}
+		}
 	}
 
 }
