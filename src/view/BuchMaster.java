@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
@@ -31,6 +32,10 @@ import domain.Book;
 import domain.Library;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class BuchMaster extends Observable {
 
@@ -151,6 +156,24 @@ public class BuchMaster extends Observable {
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 
 		txtSuche = new JTextField();
+		txtSuche.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent arg0) {
+				if(txtSuche.getText().contains("Suche")){
+					txtSuche.setText("");
+				}
+			}
+		});
+		txtSuche.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(txtSuche.getText().length() > 0){
+					search(txtSuche.getText());
+				} else{
+					addAllBooks();
+				}
+			}
+		});
 		txtSuche.setText("Suche");
 		GridBagConstraints gbc_txtSuche = new GridBagConstraints();
 		gbc_txtSuche.gridwidth = 2;
@@ -314,6 +337,38 @@ public class BuchMaster extends Observable {
 				((DefaultTableModel) table.getModel()).addRow(s);
 			}
 		}
+	}
+	private void addBooks(List<Book> l){
+		deleteTableRows(table);
+		for(int i = 0; i < l.size(); i++){
+			String[] s = {
+					""
+							+ (library
+									.getCopiesOfBook(l.get(i))
+									.size() - library
+									.getLentCopiesOfBook(
+											l.get(i)).size()),
+					l.get(i).getName(),
+					l.get(i).getAuthor(),
+					l.get(i).getPublisher() };
+			((DefaultTableModel) table.getModel()).addRow(s);
+		}
+	}
+	
+	private void search(String s){
+		List<Book> booksToDisplay = new ArrayList<Book>();
+		for(int i = 0; i < books.size(); i++){
+			if(books.get(i).getName().contains(s)){
+				booksToDisplay.add(books.get(i));
+			}
+			if(books.get(i).getAuthor().contains(s)){
+				booksToDisplay.add(books.get(i));
+			}
+			if(books.get(i).getPublisher().contains(s)){
+				booksToDisplay.add(books.get(i));
+			}
+		}
+		addBooks(booksToDisplay);
 	}
 
 }
