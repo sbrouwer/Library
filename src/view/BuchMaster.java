@@ -37,7 +37,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class BuchMaster extends Observable {
+public class BuchMaster extends Observable
+{
 
 	private JFrame frmBibliothek;
 	private JPanel buecherTab;
@@ -56,7 +57,8 @@ public class BuchMaster extends Observable {
 	/**
 	 * Create the application.
 	 */
-	public BuchMaster(Library library) {
+	public BuchMaster(Library library)
+	{
 		this.library = library;
 		initialize();
 		frmBibliothek.setVisible(true);
@@ -65,8 +67,8 @@ public class BuchMaster extends Observable {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
-
+	private void initialize()
+	{
 
 		frmBibliothek = new JFrame();
 		frmBibliothek.setBounds(100, 100, 644, 516);
@@ -80,9 +82,9 @@ public class BuchMaster extends Observable {
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		frmBibliothek.getContentPane().setLayout(gridBagLayout);
-		
+
 		books = library.getBooks();
-		
+
 		JTabbedPane buchMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_buchMasterTabs = new GridBagConstraints();
 		gbc_buchMasterTabs.gridheight = 2;
@@ -97,16 +99,13 @@ public class BuchMaster extends Observable {
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
 		gbl_buecherTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
 		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_buecherTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
-				Double.MIN_VALUE };
-		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0,
-				Double.MIN_VALUE };
+		gbl_buecherTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		buecherTab.setLayout(gbl_buecherTab);
 
 		JPanel inventarStatistikenPanel = new JPanel();
-		inventarStatistikenPanel.setBorder(new TitledBorder(null,
-				"Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
+		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
 		gbc_inventarStatistikenPanel.gridwidth = 5;
 		gbc_inventarStatistikenPanel.anchor = GridBagConstraints.NORTH;
@@ -115,18 +114,17 @@ public class BuchMaster extends Observable {
 		gbc_inventarStatistikenPanel.gridx = 0;
 		gbc_inventarStatistikenPanel.gridy = 0;
 		buecherTab.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
-		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 50,
-				5));
+		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 5));
 
 		lblAnzahlBuecher = new JLabel("Anzahl Bücher: " + library.getBooks().size());
 		inventarStatistikenPanel.add(lblAnzahlBuecher);
 
-		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: " + (library.getBooks().size() + library.getCopies().size()));
-		
+		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: "
+				+ (library.getBooks().size() + library.getCopies().size()));
+
 		inventarStatistikenPanel.add(lblAnzahlExemplare);
 
-		lblAlleBcherDer = new JLabel(
-				"Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
+		lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
 		GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
 		gbc_lblAlleBcherDer.anchor = GridBagConstraints.WEST;
 		gbc_lblAlleBcherDer.insets = new Insets(0, 20, 5, 5);
@@ -135,8 +133,8 @@ public class BuchMaster extends Observable {
 		buecherTab.add(lblAlleBcherDer, gbc_lblAlleBcherDer);
 
 		JPanel buchInventarPanel = new JPanel();
-		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
 		gbc_buchInventarPanel.insets = new Insets(0, 5, 5, 5);
 		gbc_buchInventarPanel.gridheight = 2;
@@ -146,31 +144,35 @@ public class BuchMaster extends Observable {
 		gbc_buchInventarPanel.gridy = 2;
 		buecherTab.add(buchInventarPanel, gbc_buchInventarPanel);
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
-		gbl_buchInventarPanel.columnWidths = new int[] { 69, 0, 131, 145, 0, 0,
-				0 };
+		gbl_buchInventarPanel.columnWidths = new int[] { 69, 0, 131, 145, 0, 0, 0 };
 		gbl_buchInventarPanel.rowHeights = new int[] { 23, 0, 0 };
-		gbl_buchInventarPanel.columnWeights = new double[] { 1.0, 1.0, 0.0,
-				0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 1.0,
-				Double.MIN_VALUE };
+		gbl_buchInventarPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 
 		txtSuche = new JTextField();
-		txtSuche.addFocusListener(new FocusAdapter() {
+		txtSuche.addFocusListener(new FocusAdapter()
+		{
 			@Override
-			public void focusGained(FocusEvent arg0) {
-				if(txtSuche.getText().contains("Suche")){
+			public void focusGained(FocusEvent arg0)
+			{
+				if (txtSuche.getText().contains("Suche"))
+				{
 					txtSuche.setText("");
 				}
 			}
 		});
 		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
-		txtSuche.addKeyListener(new KeyAdapter() {
+		txtSuche.addKeyListener(new KeyAdapter()
+		{
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if(txtSuche.getText().length() > 0){
+			public void keyReleased(KeyEvent arg0)
+			{
+				if (txtSuche.getText().length() > 0)
+				{
 					search(txtSuche.getText());
-				} else{
+				} else
+				{
 					addAllBooks();
 				}
 			}
@@ -187,27 +189,34 @@ public class BuchMaster extends Observable {
 
 		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		btnSelektierteAnzeigen.setEnabled(false);
-		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSelektierteAnzeigen.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				int selected[] = table.getSelectedRows();
-				for (int i : selected) {
-					Book book = library.findByBookTitle(table.getModel()
-							.getValueAt(i, 1).toString());
+				for (int i : selected)
+				{
+					Book book = library.findByBookTitle(table.getModel().getValueAt(i, 1).toString());
 					BuchDetail bookDetail = new BuchDetail(book, library);
 				}
 			}
 		});
 
 		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
-		chckbxNurVerfgbare.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		chckbxNurVerfgbare.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				// 1 = Selected, 2 = Not Selected
-				// remove all entries				
+				// remove all entries
 				deleteTableRows(table);
-				
-				if (arg0.getStateChange() == 1) { //If hook is set, add only entries with available Copies (Number of Copies - Number of Lent Copies)
+
+				if (arg0.getStateChange() == 1)
+				{ // If hook is set, add only entries with available Copies
+					// (Number of Copies - Number of Lent Copies)
 					addAvailableBooks();
-				} else { //if hook is not set, add all Books
+				} else
+				{ // if hook is not set, add all Books
 					addAllBooks();
 				}
 			}
@@ -223,8 +232,7 @@ public class BuchMaster extends Observable {
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSelektierteAnzeigen.gridx = 4;
 		gbc_btnSelektierteAnzeigen.gridy = 0;
-		buchInventarPanel.add(btnSelektierteAnzeigen,
-				gbc_btnSelektierteAnzeigen);
+		buchInventarPanel.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen");
 		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
@@ -243,13 +251,16 @@ public class BuchMaster extends Observable {
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if(table.getSelectedRows().length > 0){
+			public void mouseClicked(MouseEvent arg0)
+			{
+				if (table.getSelectedRows().length > 0)
+				{
 					btnSelektierteAnzeigen.setEnabled(true);
-				}
-				else{
+				} else
+				{
 					btnSelektierteAnzeigen.setEnabled(false);
 				}
 			}
@@ -258,29 +269,24 @@ public class BuchMaster extends Observable {
 		table.setCellSelectionEnabled(true);
 		table.setAutoCreateRowSorter(true);
 
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-					"Verf\u00FCgbar", "Name", "Autor", "Verlag"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				true, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" })
+		{
+			boolean[] columnEditables = new boolean[] { true, false, false, false, false };
+
+			public boolean isCellEditable(int row, int column)
+			{
 				return columnEditables[column];
 			}
 		});
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 
-		for (int i = 0; i < books.size(); i++) {
+		for (int i = 0; i < books.size(); i++)
+		{
 			String[] s = {
 					""
-							+ (library.getCopiesOfBook(books.get(i)).size() - library
-									.getLentCopiesOfBook(books.get(i)).size()),
-					books.get(i).getName(), books.get(i).getAuthor(),
+							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
+									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
 		}
@@ -290,84 +296,87 @@ public class BuchMaster extends Observable {
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
-	
+
 	/**
 	 * Deletes all rows from a Table
-	 * @param _table Table to delete the entries(rows) from
+	 * 
+	 * @param _table
+	 *            Table to delete the entries(rows) from
 	 */
-	private void deleteTableRows(JTable _table){
-		for (int i = _table.getRowCount() - 1; i >= 0; i--) {
+	private void deleteTableRows(JTable _table)
+	{
+		for (int i = _table.getRowCount() - 1; i >= 0; i--)
+		{
 			((DefaultTableModel) _table.getModel()).removeRow(i);
 		}
 	}
-	
+
 	/**
 	 * Adds all Books from the Library to the Inventary Table
 	 */
-	private void addAllBooks(){
-		for (int i = 0; i < books.size(); i++) {
+	private void addAllBooks()
+	{
+		for (int i = 0; i < books.size(); i++)
+		{
 			String[] s = {
 					""
-							+ (library
-									.getCopiesOfBook(books.get(i))
-									.size() - library
-									.getLentCopiesOfBook(
-											books.get(i)).size()),
-					books.get(i).getName(),
-					books.get(i).getAuthor(),
+							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
+									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
 
 		}
 	}
+
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
-	private void addAvailableBooks(){
-		for (int x = 0; x < books.size(); x++) {
-			if ((library.getCopiesOfBook(books.get(x)).size() - library
-					.getLentCopiesOfBook(books.get(x)).size()) > 0) {
+	private void addAvailableBooks()
+	{
+		for (int x = 0; x < books.size(); x++)
+		{
+			if ((library.getCopiesOfBook(books.get(x)).size() - library.getLentCopiesOfBook(books.get(x))
+					.size()) > 0)
+			{
 				String[] s = {
 						""
-								+ (library.getCopiesOfBook(
-										books.get(x)).size() - library
-										.getLentCopiesOfBook(
-												books.get(x))
-										.size()),
-						books.get(x).getName(),
-						books.get(x).getAuthor(),
-						books.get(x).getPublisher() };
+								+ (library.getCopiesOfBook(books.get(x)).size() - library
+										.getLentCopiesOfBook(books.get(x)).size()), books.get(x).getName(),
+						books.get(x).getAuthor(), books.get(x).getPublisher() };
 				((DefaultTableModel) table.getModel()).addRow(s);
 			}
 		}
 	}
-	private void addBooks(List<Book> l){
+
+	private void addBooks(List<Book> l)
+	{
 		deleteTableRows(table);
-		for(int i = 0; i < l.size(); i++){
+		for (int i = 0; i < l.size(); i++)
+		{
 			String[] s = {
 					""
-							+ (library
-									.getCopiesOfBook(l.get(i))
-									.size() - library
-									.getLentCopiesOfBook(
-											l.get(i)).size()),
-					l.get(i).getName(),
-					l.get(i).getAuthor(),
+							+ (library.getCopiesOfBook(l.get(i)).size() - library.getLentCopiesOfBook(
+									l.get(i)).size()), l.get(i).getName(), l.get(i).getAuthor(),
 					l.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
 		}
 	}
-	
-	private void search(String s){
+
+	private void search(String s)
+	{
 		List<Book> booksToDisplay = new ArrayList<Book>();
-		for(int i = 0; i < books.size(); i++){
-			if(books.get(i).getName().contains(s)){
+		for (int i = 0; i < books.size(); i++)
+		{
+			if (books.get(i).getName().contains(s))
+			{
 				booksToDisplay.add(books.get(i));
 			}
-			if(books.get(i).getAuthor().contains(s)){
+			if (books.get(i).getAuthor().contains(s))
+			{
 				booksToDisplay.add(books.get(i));
 			}
-			if(books.get(i).getPublisher().contains(s)){
+			if (books.get(i).getPublisher().contains(s))
+			{
 				booksToDisplay.add(books.get(i));
 			}
 		}

@@ -215,8 +215,12 @@ public class BuchDetail implements Observer
 		{
 			public void actionPerformed(ActionEvent e)
 			{
-//				table.getModel().
-//				table.getSelectedRows();
+				int selected[] = table.getSelectedRows();
+				for (int i : selected)
+				{
+					//TODO löschen der copy's
+					((DefaultTableModel) table.getModel()).removeRow(i);
+				}
 			}
 		});
 		btnAusgewaehlteEntfernen.setEnabled(false);
