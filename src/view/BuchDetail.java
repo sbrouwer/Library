@@ -161,7 +161,8 @@ public class BuchDetail implements Observer
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null,
+				null));
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -178,18 +179,19 @@ public class BuchDetail implements Observer
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
-		
+
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Inventar Nummer", "Verf\u00FCgbarkeit" })
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Inventar Nummer",
+				"Verf\u00FCgbarkeit" })
 		{
 			boolean[] columnEditables = new boolean[] { false, false };
-			
+
 			public boolean isCellEditable(int row, int column)
 			{
 				return columnEditables[column];
 			}
 		});
-		
+
 		table.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -204,7 +206,7 @@ public class BuchDetail implements Observer
 				}
 			}
 		});
-		
+
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
@@ -218,7 +220,17 @@ public class BuchDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected)
 				{
-					//TODO löschen der copy's
+					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table.getModel()).getValueAt(i, 0));
+					Copy copyToDelete = null;
+					List<Copy> copies = library.getCopies();
+					for (Copy copy : copies)
+					{
+						if (copy.getInventoryNumber() == inventoryNumberToDelete)
+						{
+							copyToDelete = copy;
+						}
+					}
+					library.removeCopy(copyToDelete);
 					((DefaultTableModel) table.getModel()).removeRow(i);
 				}
 			}
