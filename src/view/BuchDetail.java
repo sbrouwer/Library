@@ -18,6 +18,9 @@ import java.awt.Insets;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.border.LineBorder;
@@ -53,6 +56,8 @@ public class BuchDetail implements Observer {
 	private Shelf shelf;
 	JComboBox regalComboBox;
 	private JTable table;
+	JButton btnExemplarHinzufuegen;
+	JButton btnAusgewaehlteEntfernen;
 
 	/**
 	 * Create the application.
@@ -96,6 +101,7 @@ public class BuchDetail implements Observer {
 		panel.add(lblTitel, gbc_lblTitel);
 
 		txtTitel = new JTextField();
+		txtTitel.setEditable(false);
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
@@ -113,6 +119,7 @@ public class BuchDetail implements Observer {
 		panel.add(lblAutor, gbc_lblAutor);
 
 		txtAutor = new JTextField();
+		txtAutor.setEditable(false);
 		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
 		gbc_txtAutor.gridheight = 2;
 		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
@@ -132,6 +139,7 @@ public class BuchDetail implements Observer {
 		panel.add(lblVerlag, gbc_lblVerlag);
 
 		txtVerlag = new JTextField();
+		txtVerlag.setEditable(false);
 		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
 		gbc_txtVerlag.gridheight = 2;
 		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
@@ -151,6 +159,7 @@ public class BuchDetail implements Observer {
 		panel.add(lblRegal, gbc_lblRegal);
 		
 		regalComboBox = new JComboBox();
+		regalComboBox.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -182,10 +191,12 @@ public class BuchDetail implements Observer {
 		gbc_lblAnzahl.gridy = 0;
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
 
-		JButton btnAusgewaehlteEntfernen = new JButton(
+		btnAusgewaehlteEntfernen = new JButton(
 				"Ausgew\u00E4hlte Entfernen");
+		
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnAusgewaehlteEntfernen.setEnabled(false);
@@ -195,8 +206,15 @@ public class BuchDetail implements Observer {
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
-		JButton btnExemplarHinzufuegen = new JButton(
+		btnExemplarHinzufuegen = new JButton(
 				" Exemplar hinzuf\u00FCgen");
+		btnExemplarHinzufuegen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Copy c = library.createAndAddCopy(book);
+				String[] stringTableModel = {"" + c.getInventoryNumber(), "Verfügbar"};
+				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
+			}
+		});
 		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
 		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExemplarHinzufuegen.gridx = 7;
@@ -228,6 +246,19 @@ public class BuchDetail implements Observer {
 				return columnEditables[column];
 			}
 		});
+		
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(table.getSelectedRows().length > 0){
+					btnAusgewaehlteEntfernen.setEnabled(true);
+				}
+				else{
+					btnAusgewaehlteEntfernen.setEnabled(false);
+				}
+			}
+		});
+		
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);

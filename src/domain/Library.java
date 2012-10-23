@@ -136,5 +136,9 @@ public class Library {
 	public List<Customer> getCustomers() {
 		return customers;
 	}
+	
+	public void removeCopy(Copy c){
+		copies.remove(c);
+	}
 
 }
