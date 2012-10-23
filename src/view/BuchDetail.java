@@ -2,6 +2,7 @@ package view;
 
 import java.awt.EventQueue;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
@@ -25,6 +26,7 @@ import domain.Book;
 import domain.Copy;
 import domain.Library;
 import domain.Loan;
+import domain.Shelf;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
@@ -33,6 +35,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
 
 public class BuchDetail implements Observer {
 
@@ -40,12 +43,13 @@ public class BuchDetail implements Observer {
 	private JTextField txtTitel;
 	private JTextField txtAutor;
 	private JTextField txtVerlag;
-	private JTextField txtRegal;
 	private JLabel lblAnzahl;
 	private Book book;
 	private Library library;
 	private List<Copy> copies;
 	private List<Loan> lent;
+	private Shelf shelf;
+	JComboBox regalComboBox;
 
 	/**
 	 * Create the application.
@@ -142,15 +146,17 @@ public class BuchDetail implements Observer {
 		gbc_lblRegal.gridx = 0;
 		gbc_lblRegal.gridy = 5;
 		panel.add(lblRegal, gbc_lblRegal);
-
-		txtRegal = new JTextField();
-		GridBagConstraints gbc_txtRegal = new GridBagConstraints();
-		gbc_txtRegal.gridheight = 2;
-		gbc_txtRegal.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtRegal.gridx = 3;
-		gbc_txtRegal.gridy = 5;
-		panel.add(txtRegal, gbc_txtRegal);
-		txtRegal.setColumns(10);
+		
+		regalComboBox = new JComboBox();
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 3;
+		gbc_comboBox.gridy = 5;
+		panel.add(regalComboBox, gbc_comboBox);
+		Shelf[] s = shelf.values();
+		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
+		
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "\u00CBxemplare",
@@ -240,12 +246,13 @@ public class BuchDetail implements Observer {
 			txtTitel.setText("");
 			txtAutor.setText("");
 			txtVerlag.setText("");
-			txtRegal.setText("");
+			regalComboBox.setSelectedIndex(-1);
 		} else {
 			txtTitel.setText(book.getName());
 			txtAutor.setText(book.getAuthor());
 			txtVerlag.setText(book.getPublisher());
-			txtRegal.setText(book.getShelf().toString());
+			regalComboBox.setSelectedItem((book.getShelf().toString()));
+			System.out.println(book.getShelf().toString());
 		}
 	}
 
