@@ -36,6 +36,8 @@ import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JScrollPane;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class BuchDetail implements Observer {
 
@@ -50,6 +52,7 @@ public class BuchDetail implements Observer {
 	private List<Loan> lent;
 	private Shelf shelf;
 	JComboBox regalComboBox;
+	private JTable table;
 
 	/**
 	 * Create the application.
@@ -209,10 +212,26 @@ public class BuchDetail implements Observer {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
-
-		JList listBuchDetail = new JList();
-		scrollPane.setViewportView(listBuchDetail);
-		listBuchDetail.setBorder(new LineBorder(new Color(0, 0, 0)));
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Inventar Nummer", "Verf\u00FCgbarkeit"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setPreferredWidth(105);
+		table.getColumnModel().getColumn(0).setMinWidth(30);
+		table.getColumnModel().getColumn(0).setMaxWidth(105);
+		scrollPane.setViewportView(table);
 		copies = library.getCopiesOfBook(book); // Bücherliste holen
 		lent = library.getLentCopiesOfBook(book);
 		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
@@ -222,18 +241,17 @@ public class BuchDetail implements Observer {
 			if (library.isCopyLent(c)) {			
 				for (Loan l : lent) {
 					if (l.getCopy().equals(c)) { // TODO Datum muss noch formatiert werden!!!
-						listBuchDetailModel.addElement(l.getCopy().getInventoryNumber()
-								+ " : " + l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "." + l.getPickupDate().YEAR + " - "
-								+ l.getReturnDate().DAY_OF_MONTH + "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR);
+						String[] stringTableModel = {"" + l.getCopy().getInventoryNumber(),l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "." + l.getPickupDate().YEAR + " - "
+								+ l.getReturnDate().DAY_OF_MONTH + "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR};
+						((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 								
 					}
 				}
 			} else {
-				listBuchDetailModel.addElement("" + c.getInventoryNumber()
-						+ " : Verfügbar");
+				String[] stringTableModel = {"" + c.getInventoryNumber(), "Verfügbar"};
+				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 			}
 		}
-		listBuchDetail.setModel(listBuchDetailModel);
 	}
 
 	/**
