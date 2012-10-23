@@ -7,6 +7,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -220,7 +223,10 @@ public class BuchDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected)
 				{
-					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table.getModel()).getValueAt(i, 0)); //Thats why we should use our own TableModel
+					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table
+							.getModel()).getValueAt(i, 0)); // Thats why we
+															// should use our
+															// own TableModel
 					Copy copyToDelete = null;
 					List<Copy> copies = library.getCopies();
 					for (Copy copy : copies)
@@ -279,13 +285,33 @@ public class BuchDetail implements Observer
 			{
 				for (Loan l : lent)
 				{
-					if (l.getCopy().equals(c))
-					{ // TODO Datum muss noch formatiert werden!!!
+					if (l.getCopy().equals(c)) //TODO wirklich alles vergleichen oder nur nummer?
+					{ 
+						//TODO Datum muss noch formatiert werden!!!
+						//TODO NPE bei gettime auf returndate
+						DateFormat dateFormat = new SimpleDateFormat("dd-MM");
+						
+						Date pickupDate = l.getPickupDate().getTime();
+						String pickupDateStr = dateFormat.format(pickupDate);
+						
+						Date returnDate = l.getReturnDate().getTime();
+						String returnDateStr = dateFormat.format(returnDate);
+						
+						System.out.println(pickupDateStr + " - " + returnDateStr);
+
 						String[] stringTableModel = {
 								"" + l.getCopy().getInventoryNumber(),
-								l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "."
-										+ l.getPickupDate().YEAR + " - " + l.getReturnDate().DAY_OF_MONTH
-										+ "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR };
+								l.getPickupDate().DAY_OF_MONTH 
+								+ "." 
+								+ l.getPickupDate().MONTH 
+								+ "." 
+								+ l.getPickupDate().YEAR 
+								+ " - " 
+								+ l.getReturnDate().DAY_OF_MONTH 
+								+ "." 
+								+ l.getReturnDate().MONTH 
+								+ "." 
+								+ l.getReturnDate().YEAR };
 						((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 
 					}
