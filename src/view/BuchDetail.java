@@ -220,7 +220,7 @@ public class BuchDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected)
 				{
-					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table.getModel()).getValueAt(i, 0));
+					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table.getModel()).getValueAt(i, 0)); //Thats why we should use our own TableModel
 					Copy copyToDelete = null;
 					List<Copy> copies = library.getCopies();
 					for (Copy copy : copies)
