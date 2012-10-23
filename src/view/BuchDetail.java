@@ -1,29 +1,29 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import java.awt.FlowLayout;
-import javax.swing.border.TitledBorder;
-import java.awt.Component;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
-import javax.swing.JList;
-import javax.swing.AbstractListModel;
-import javax.swing.border.LineBorder;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import domain.Book;
 import domain.Copy;
@@ -31,18 +31,8 @@ import domain.Library;
 import domain.Loan;
 import domain.Shelf;
 
-import java.awt.Color;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import javax.swing.JScrollPane;
-import javax.swing.JComboBox;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-public class BuchDetail implements Observer {
+public class BuchDetail implements Observer
+{
 
 	private JFrame frame;
 	private JTextField txtTitel;
@@ -62,7 +52,8 @@ public class BuchDetail implements Observer {
 	/**
 	 * Create the application.
 	 */
-	public BuchDetail(Book book, Library library) {
+	public BuchDetail(Book book, Library library)
+	{
 		this.book = book;
 		this.library = library;
 		initialize();
@@ -73,7 +64,8 @@ public class BuchDetail implements Observer {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize()
+	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
 		// frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -81,15 +73,14 @@ public class BuchDetail implements Observer {
 		frame.setTitle("Buch Detail Ansicht");
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP,
+				null, null));
 		frame.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0,
-				Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0,
-				1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		JLabel lblTitel = new JLabel("Titel");
@@ -157,7 +148,7 @@ public class BuchDetail implements Observer {
 		gbc_lblRegal.gridx = 0;
 		gbc_lblRegal.gridy = 5;
 		panel.add(lblRegal, gbc_lblRegal);
-		
+
 		regalComboBox = new JComboBox();
 		regalComboBox.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -168,17 +159,14 @@ public class BuchDetail implements Observer {
 		panel.add(regalComboBox, gbc_comboBox);
 		Shelf[] s = shelf.values();
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
-		
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "\u00CBxemplare",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_panel_1.rowWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
@@ -190,13 +178,45 @@ public class BuchDetail implements Observer {
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
-
-		btnAusgewaehlteEntfernen = new JButton(
-				"Ausgew\u00E4hlte Entfernen");
 		
-		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		table = new JTable();
+		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Inventar Nummer", "Verf\u00FCgbarkeit" })
+		{
+			boolean[] columnEditables = new boolean[] { false, false };
+			
+			public boolean isCellEditable(int row, int column)
+			{
+				return columnEditables[column];
+			}
+		});
+		
+		table.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseClicked(MouseEvent arg0)
+			{
+				if (table.getSelectedRows().length > 0)
+				{
+					btnAusgewaehlteEntfernen.setEnabled(true);
+				} else
+				{
+					btnAusgewaehlteEntfernen.setEnabled(false);
+				}
+			}
+		});
+		
+		table.getColumnModel().getColumn(0).setPreferredWidth(105);
+		table.getColumnModel().getColumn(0).setMinWidth(30);
+		table.getColumnModel().getColumn(0).setMaxWidth(105);
+
+		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
+
+		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+//				table.getModel().
+//				table.getSelectedRows();
 			}
 		});
 		btnAusgewaehlteEntfernen.setEnabled(false);
@@ -206,12 +226,13 @@ public class BuchDetail implements Observer {
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
-		btnExemplarHinzufuegen = new JButton(
-				" Exemplar hinzuf\u00FCgen");
-		btnExemplarHinzufuegen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
+		btnExemplarHinzufuegen.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				Copy c = library.createAndAddCopy(book);
-				String[] stringTableModel = {"" + c.getInventoryNumber(), "Verfügbar"};
+				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
 				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 			}
 		});
@@ -222,6 +243,7 @@ public class BuchDetail implements Observer {
 		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(table);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridheight = 2;
 		gbc_scrollPane.gridwidth = 8;
@@ -230,56 +252,31 @@ public class BuchDetail implements Observer {
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
-		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Inventar Nummer", "Verf\u00FCgbarkeit"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		
-		table.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				if(table.getSelectedRows().length > 0){
-					btnAusgewaehlteEntfernen.setEnabled(true);
-				}
-				else{
-					btnAusgewaehlteEntfernen.setEnabled(false);
-				}
-			}
-		});
-		
-		table.getColumnModel().getColumn(0).setPreferredWidth(105);
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setMaxWidth(105);
-		scrollPane.setViewportView(table);
 		copies = library.getCopiesOfBook(book); // Bücherliste holen
 		lent = library.getLentCopiesOfBook(book);
 		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		// Liste füllen
 
-		for (Copy c : copies) {
-			if (library.isCopyLent(c)) {			
-				for (Loan l : lent) {
-					if (l.getCopy().equals(c)) { // TODO Datum muss noch formatiert werden!!!
-						String[] stringTableModel = {"" + l.getCopy().getInventoryNumber(),l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "." + l.getPickupDate().YEAR + " - "
-								+ l.getReturnDate().DAY_OF_MONTH + "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR};
+		for (Copy c : copies)
+		{
+			if (library.isCopyLent(c))
+			{
+				for (Loan l : lent)
+				{
+					if (l.getCopy().equals(c))
+					{ // TODO Datum muss noch formatiert werden!!!
+						String[] stringTableModel = {
+								"" + l.getCopy().getInventoryNumber(),
+								l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "."
+										+ l.getPickupDate().YEAR + " - " + l.getReturnDate().DAY_OF_MONTH
+										+ "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR };
 						((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-								
+
 					}
 				}
-			} else {
-				String[] stringTableModel = {"" + c.getInventoryNumber(), "Verfügbar"};
+			} else
+			{
+				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
 				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 			}
 		}
@@ -290,13 +287,16 @@ public class BuchDetail implements Observer {
 	 * @author Simon Brouwer, Adrian Rieser
 	 * @return void Updates the fields that have changed in another BuchDetail
 	 */
-	void updateFields() {
-		if (book == null) {
+	void updateFields()
+	{
+		if (book == null)
+		{
 			txtTitel.setText("");
 			txtAutor.setText("");
 			txtVerlag.setText("");
 			regalComboBox.setSelectedIndex(-1);
-		} else {
+		} else
+		{
 			txtTitel.setText(book.getName());
 			txtAutor.setText(book.getAuthor());
 			txtVerlag.setText(book.getPublisher());
@@ -306,7 +306,8 @@ public class BuchDetail implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object arg)
+	{
 		updateFields();
 	}
 
