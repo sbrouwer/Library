@@ -289,15 +289,15 @@ public class BuchDetail implements Observer
 					{ 
 						//TODO Datum muss noch formatiert werden!!!
 						//TODO NPE bei gettime auf returndate
-						DateFormat dateFormat = new SimpleDateFormat("dd-MM");
-						
-						Date pickupDate = l.getPickupDate().getTime();
-						String pickupDateStr = dateFormat.format(pickupDate);
-						
-						Date returnDate = l.getReturnDate().getTime();
-						String returnDateStr = dateFormat.format(returnDate);
-						
-						System.out.println(pickupDateStr + " - " + returnDateStr);
+//						DateFormat dateFormat = new SimpleDateFormat("dd-MM");
+//						
+//						Date pickupDate = l.getPickupDate().getTime();
+//						String pickupDateStr = dateFormat.format(pickupDate);
+//						
+//						Date returnDate = l.getReturnDate().getTime();
+//						String returnDateStr = dateFormat.format(returnDate);
+//						
+//						System.out.println(pickupDateStr + " - " + returnDateStr);
 
 						String[] stringTableModel = {
 								"" + l.getCopy().getInventoryNumber(),
