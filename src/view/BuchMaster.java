@@ -164,6 +164,7 @@ public class BuchMaster extends Observable {
 				}
 			}
 		});
+		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -316,6 +317,7 @@ public class BuchMaster extends Observable {
 					books.get(i).getAuthor(),
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
+
 		}
 	}
 	/**
