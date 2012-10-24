@@ -239,6 +239,7 @@ public class BuchDetail implements Observer
 					library.removeCopy(copyToDelete);
 					((DefaultTableModel) table.getModel()).removeRow(i);
 				}
+				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
 		});
 		btnAusgewaehlteEntfernen.setEnabled(false);
@@ -256,6 +257,7 @@ public class BuchDetail implements Observer
 				Copy c = library.createAndAddCopy(book);
 				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
 				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
+				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
 		});
 		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
