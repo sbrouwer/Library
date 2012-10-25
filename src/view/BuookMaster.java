@@ -37,7 +37,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class BuchMaster extends Observable
+public class BuookMaster extends Observable
 {
 
 	private JFrame frmBibliothek;
@@ -57,7 +57,7 @@ public class BuchMaster extends Observable
 	/**
 	 * Create the application.
 	 */
-	public BuchMaster(Library library)
+	public BuookMaster(Library library)
 	{
 		this.library = library;
 		initialize();
@@ -197,7 +197,7 @@ public class BuchMaster extends Observable
 				for (int i : selected)
 				{
 					Book book = library.findByBookTitle(table.getModel().getValueAt(i, 1).toString());
-					BuchDetail bookDetail = new BuchDetail(book, library);
+					BookDetail bookDetail = new BookDetail(book, library);
 				}
 			}
 		});

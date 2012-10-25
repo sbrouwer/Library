@@ -34,7 +34,7 @@ import domain.Library;
 import domain.Loan;
 import domain.Shelf;
 
-public class BuchDetail implements Observer
+public class BookDetail implements Observer
 {
 
 	private JFrame frame;
@@ -55,7 +55,7 @@ public class BuchDetail implements Observer
 	/**
 	 * Create the application.
 	 */
-	public BuchDetail(Book book, Library library)
+	public BookDetail(Book book, Library library)
 	{
 		this.book = book;
 		this.library = library;
