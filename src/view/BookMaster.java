@@ -37,7 +37,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class BuookMaster extends Observable
+public class BookMaster extends Observable
 {
 
 	private JFrame frmBibliothek;
@@ -57,7 +57,7 @@ public class BuookMaster extends Observable
 	/**
 	 * Create the application.
 	 */
-	public BuookMaster(Library library)
+	public BookMaster(Library library)
 	{
 		this.library = library;
 		initialize();
@@ -235,6 +235,11 @@ public class BuookMaster extends Observable
 		buchInventarPanel.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen");
+		btnNeuesBuch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BookAdd bookAdd = new BookAdd(library);
+			}
+		});
 		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
 		gbc_btnNeuesBuch.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNeuesBuch.insets = new Insets(0, 0, 5, 0);

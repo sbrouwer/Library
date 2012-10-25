@@ -1,6 +1,6 @@
 package application;
 
-import view.BuookMaster;
+import view.BookMaster;
 import domain.Library;
 
 public class Main {
@@ -8,6 +8,6 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		Library library = new Library();
 		LibraryApp libraryApp = new LibraryApp(library);		
-		BuookMaster buchMaster = new BuookMaster(library);
+		BookMaster buchMaster = new BookMaster(library);
 	}
 }
