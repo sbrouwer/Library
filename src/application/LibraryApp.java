@@ -24,13 +24,16 @@ import domain.Book;
 import domain.Shelf;
 
 public class LibraryApp {
-	public static void main(String[] args) throws Exception {
+	
+	/*public static void main(String[] args) throws Exception {
 		Library library = new Library();
+	}*/
+	
+	public LibraryApp(Library library) throws Exception {
 		initLibrary(library);
-		BuchMaster buchMaster = new BuchMaster(library);
 	}
 
-	private static void initLibrary(Library library)
+	public static void initLibrary(Library library)
 			throws ParserConfigurationException, SAXException, IOException,
 			IllegalLoanOperationException {
 		
