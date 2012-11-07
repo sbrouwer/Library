@@ -13,6 +13,7 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,7 +38,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class BookMaster extends Observable
+public class BookMaster implements Observer
 {
 
 	private JFrame frmBibliothek;
@@ -61,6 +62,7 @@ public class BookMaster extends Observable
 	{
 		this.library = library;
 		initialize();
+		library.addObserver(this);
 		frmBibliothek.setVisible(true);
 	}
 
@@ -388,4 +390,13 @@ public class BookMaster extends Observable
 		addBooks(booksToDisplay);
 	}
 
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		updateFields();
+	}
+	
+	private  void updateFields(){
+		System.out.println("update!");
+	}
 }

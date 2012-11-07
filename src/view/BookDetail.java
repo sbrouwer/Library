@@ -61,6 +61,7 @@ public class BookDetail implements Observer
 		this.library = library;
 		initialize();
 		updateFields();
+		book.addObserver(this); //TODO: Observer wieder abmelden!
 		frame.setVisible(true);
 	}
 

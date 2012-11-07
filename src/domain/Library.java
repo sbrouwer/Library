@@ -2,8 +2,9 @@ package domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-public class Library {
+public class Library extends Observable{
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -30,12 +31,14 @@ public class Library {
 	public Customer createAndAddCustomer(String name, String surname) {
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		libraryChanged();
 		return c;
 	}
 
 	public Book createAndAddBook(String name) {
 		Book b = new Book(name);
 		books.add(b);
+		libraryChanged();
 		return b;
 	}
 
@@ -139,6 +142,12 @@ public class Library {
 	
 	public void removeCopy(Copy c){
 		copies.remove(c);
+		libraryChanged();
+	}
+	
+	private void libraryChanged(){
+		setChanged();
+		notifyObservers();
 	}
 
 }
