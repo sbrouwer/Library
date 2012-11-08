@@ -33,6 +33,7 @@ import domain.Copy;
 import domain.Library;
 import domain.Loan;
 import domain.Shelf;
+import domain.TableModelBookDetail;
 
 public class BookDetail implements Observer
 {
@@ -195,7 +196,10 @@ public class BookDetail implements Observer
 				return columnEditables[column];
 			}
 		});
-
+		String[] header = {"Nummer","Verfügbarkeit"};
+		copies = library.getCopiesOfBook(book);
+		table.setModel(new TableModelBookDetail(library,copies,header));
+		
 		table.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -257,7 +261,10 @@ public class BookDetail implements Observer
 			{
 				Copy c = library.createAndAddCopy(book);
 				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
-				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
+				//((DefaultTableModel) table.getModel()).addRow(stringTableModel);
+				//((TableModelBookDetail) table.getModel()).addRow(copies); 		TODO Model zum laufe bringe! 
+				table.setModel(new TableModelBookDetail(library, copies, new String[] {"Inventar Nr.", "Verfügbarkeit"}));
+				table.repaint();
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
 		});
@@ -281,8 +288,9 @@ public class BookDetail implements Observer
 		lent = library.getLentCopiesOfBook(book);
 		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		// Liste füllen
-
-		for (Copy c : copies)
+		
+		
+		/*for (Copy c : copies)
 		{
 			if (library.isCopyLent(c))
 			{
@@ -324,7 +332,7 @@ public class BookDetail implements Observer
 				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
 				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 			}
-		}
+		} */
 	}
 
 	/**
