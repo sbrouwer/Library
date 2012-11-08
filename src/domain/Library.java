@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-public class Library extends Observable{
+public class Library extends Observable {
 
 	private List<Copy> copies;
 	private List<Customer> customers;
@@ -96,21 +96,35 @@ public class Library extends Observable{
 		}
 		return lentCopies;
 	}
-	
+
 	public List<Loan> getOverdueLoans() {
 		List<Loan> overdueLoans = new ArrayList<Loan>();
-		for ( Loan l : getLoans() ) {
+		for (Loan l : getLoans()) {
 			if (l.isOverdue())
 				overdueLoans.add(l);
 		}
 		return overdueLoans;
 	}
-	
-	public List<Copy> getAvailableCopies(){
+
+	public Loan getCopyLoan(Copy copy, Book book) {
+		List<Loan> lent = this.getLentCopiesOfBook(book);
+		if (this.isCopyLent(copy)) {
+			for (Loan l : lent) {
+				if (l.getCopy().equals(this)) // TODO wirklich alles vergleichen
+												// // oder nur nummer?
+				{
+					return l;
+				}
+			}
+		}
+		return null;
+	}
+
+	public List<Copy> getAvailableCopies() {
 		return getCopies(false);
 	}
-	
-	public List<Copy> getLentOutBooks(){
+
+	public List<Copy> getLentOutBooks() {
 		return getCopies(true);
 	}
 
@@ -139,13 +153,13 @@ public class Library extends Observable{
 	public List<Customer> getCustomers() {
 		return customers;
 	}
-	
-	public void removeCopy(Copy c){
+
+	public void removeCopy(Copy c) {
 		copies.remove(c);
 		libraryChanged();
 	}
-	
-	private void libraryChanged(){
+
+	private void libraryChanged() {
 		setChanged();
 		notifyObservers();
 	}
