@@ -106,8 +106,8 @@ public class Library extends Observable {
 		return overdueLoans;
 	}
 
-	public Loan getCopyLoan(Copy copy, Book book) {
-		List<Loan> lent = this.getLentCopiesOfBook(book);
+	public Loan getLoanOfCopy(Copy copy) {
+		List<Loan> lent = this.getLentCopiesOfBook(copy.getBook());
 		if (this.isCopyLent(copy)) {
 			for (Loan l : lent) {
 				if (l.getCopy().equals(this)) // TODO wirklich alles vergleichen

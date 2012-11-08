@@ -9,9 +9,9 @@ public class Copy {
 	}
 
 	public static long nextInventoryNumber = 1;
-
 	private final long inventoryNumber;
 	private final Book book;
+
 	private Condition condition;
 
 	public Copy(Book title) {
@@ -34,5 +34,13 @@ public class Copy {
 
 	public long getInventoryNumber() {
 		return inventoryNumber;
+	}
+	
+	/**
+	 * @return the book
+	 */
+	public Book getBook()
+	{
+		return book;
 	}
 }
