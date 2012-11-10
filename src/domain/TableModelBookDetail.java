@@ -14,6 +14,7 @@ public class TableModelBookDetail extends AbstractTableModel {
 		this.library = library;
 		this.copies = copies;
 		this.header = header;
+		
 		fireTableDataChanged();
 	}
 
@@ -23,8 +24,9 @@ public class TableModelBookDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
+			System.out.println(library.getLoanOfCopy(copy));
 			if(library.getLoanOfCopy(copy) != null){
-				return library.getLoanOfCopy(copy).getDaysOfLoanDuration();
+				return "Ausgeliehen, noch " + library.getLoanOfCopy(copy).getDaysOfLoanDuration() + " Tage bis zur Rückgabe";				
 			}
 			else{
 				return "Verfügbar";

@@ -7,9 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -27,6 +24,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import domain.Book;
 import domain.Copy;
@@ -196,9 +194,13 @@ public class BookDetail implements Observer
 				return columnEditables[column];
 			}
 		});
+		
 		String[] header = {"Nummer","Verfügbarkeit"};
 		copies = library.getCopiesOfBook(book);
+		
 		table.setModel(new TableModelBookDetail(library,copies,header));
+		table.getColumnModel().getColumn(0).setHeaderValue("Inventar Nummer");
+		table.getColumnModel().getColumn(1).setHeaderValue("Verfügbarkeit");
 		
 		table.addMouseListener(new MouseAdapter()
 		{
@@ -263,7 +265,9 @@ public class BookDetail implements Observer
 				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
 				//((DefaultTableModel) table.getModel()).addRow(stringTableModel);
 				//((TableModelBookDetail) table.getModel()).addRow(copies); 		TODO Model zum laufe bringe! 
-				table.setModel(new TableModelBookDetail(library, copies, new String[] {"Inventar Nr.", "Verfügbarkeit"}));
+				String[] header = new String[] {"Inventar Nr.", "Verfügbarkeit"};
+				table.setModel(new TableModelBookDetail(library, copies, header));
+				((TableModelBookDetail) table.getModel()).fireTableDataChanged();
 				table.repaint();
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
