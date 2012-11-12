@@ -25,10 +25,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import domain.Book;
 import domain.Library;
@@ -57,6 +59,8 @@ public class BookMaster implements Observer
 	private JTextField txtSuche;
 	private JCheckBox chckbxNurVerfgbare;
 	private JLabel lblAlleBcherDer;
+	private TableRowSorter<TableModelBookMaster> sorter;
+	private TableModelBookMaster tableModel;
 
 	/**
 	 * Create the application.
@@ -173,13 +177,17 @@ public class BookMaster implements Observer
 			@Override
 			public void keyReleased(KeyEvent arg0)
 			{
-				if (txtSuche.getText().length() > 0)
+				search();
+				/*if (txtSuche.getText().length() > 0)
 				{
-					search(txtSuche.getText());
+					search();
 				} else
 				{
-					addAllBooks();
-				}
+					//addAllBooks();
+					table.setRowSorter(null);
+					tableModel.fireTableDataChanged();
+					
+				}*/
 			}
 		});
 		txtSuche.setText("Suche");
@@ -279,17 +287,8 @@ public class BookMaster implements Observer
 		table.setCellSelectionEnabled(true);
 		table.setAutoCreateRowSorter(true);
 
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" })
-		{
-			boolean[] columnEditables = new boolean[] { true, false, false, false, false };
-
-			public boolean isCellEditable(int row, int column)
-			{
-				return columnEditables[column];
-			}
-		});
 		
-		final TableModelBookMaster tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 		
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -308,9 +307,24 @@ public class BookMaster implements Observer
 		
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
+		
+		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+		table.setRowSorter(sorter);
+
 
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
+	}
+	
+	private void search() {
+	    RowFilter<TableModelBookMaster, Object> rf = null;
+	    //If current expression doesn't parse, don't update.
+	    try {
+	        rf = RowFilter.regexFilter(txtSuche.getText(), 0);
+	    } catch (java.util.regex.PatternSyntaxException e) {
+	        return;
+	    }
+	    sorter.setRowFilter(rf);
 	}
 
 	/**
