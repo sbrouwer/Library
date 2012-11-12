@@ -43,7 +43,7 @@ public class TableModelBookMaster extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 4;
 	}
 
 	@Override

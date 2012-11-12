@@ -24,7 +24,6 @@ public class TableModelBookDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
-			System.out.println(library.getLoanOfCopy(copy));
 			if(library.getLoanOfCopy(copy) != null){
 				return "Ausgeliehen, noch " + library.getLoanOfCopy(copy).getDaysOfLoanDuration() + " Tage bis zur Rückgabe";				
 			}
@@ -54,6 +53,7 @@ public class TableModelBookDetail extends AbstractTableModel {
 	public void addRow(Copy copyToAdd){
 		this.copies.add(copyToAdd);
 		fireTableDataChanged();
+		fireTableRowsInserted(0, getRowCount());
 	}
 	
 	public void removeRow(Copy copyToDelet){

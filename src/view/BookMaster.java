@@ -28,9 +28,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import domain.Book;
 import domain.Library;
+import domain.TableModelBookMaster;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyAdapter;
@@ -285,18 +288,27 @@ public class BookMaster implements Observer
 				return columnEditables[column];
 			}
 		});
+		
+		final TableModelBookMaster tableModel = new TableModelBookMaster(library, books, null);
+		table.setModel(tableModel);
+		
+		table.getColumnModel().getColumn(0).setHeaderValue("Verfügbar");
+		table.getColumnModel().getColumn(1).setHeaderValue("Name");
+		table.getColumnModel().getColumn(2).setHeaderValue("Autor");
+		table.getColumnModel().getColumn(3).setHeaderValue("Verlag");
+		
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 
-		for (int i = 0; i < books.size(); i++)
+		/*for (int i = 0; i < books.size(); i++)
 		{
-			String[] s = {
+			/*String[] s = {
 					""
 							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
 									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
-		}
+		}*/
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
 

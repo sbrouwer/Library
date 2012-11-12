@@ -181,21 +181,11 @@ public class BookDetail implements Observer
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Inventar Nummer",
-				"Verf\u00FCgbarkeit" })
-		{
-			boolean[] columnEditables = new boolean[] { false, false };
-
-			public boolean isCellEditable(int row, int column)
-			{
-				return columnEditables[column];
-			}
-		});
 		
 		String[] header = {"Nummer","Verfügbarkeit"};
 		copies = library.getCopiesOfBook(book);
-		
-		table.setModel(new TableModelBookDetail(library,copies,header));
+		final TableModelBookDetail tableModel = new TableModelBookDetail(library, copies, header);
+		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setHeaderValue("Inventar Nummer");
 		table.getColumnModel().getColumn(1).setHeaderValue("Verfügbarkeit");
 		
@@ -227,8 +217,8 @@ public class BookDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
 				{
-					Copy copyToDelet = ((TableModelBookDetail) table.getModel()).getCopyAtRow(selected[i]);
-					((TableModelBookDetail) table.getModel()).removeRow(copyToDelet);
+					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
+					tableModel.removeRow(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
@@ -246,8 +236,8 @@ public class BookDetail implements Observer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				Copy c = library.createAndAddCopy(book);
-				((TableModelBookDetail) table.getModel()).addRow(c);
-				((TableModelBookDetail) table.getModel()).fireTableDataChanged();
+				tableModel.addRow(c);
+				tableModel.fireTableDataChanged();
 				table.repaint();
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
