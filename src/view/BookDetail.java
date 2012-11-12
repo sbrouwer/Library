@@ -150,7 +150,6 @@ public class BookDetail implements Observer
 		panel.add(lblRegal, gbc_lblRegal);
 
 		regalComboBox = new JComboBox();
-		regalComboBox.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;

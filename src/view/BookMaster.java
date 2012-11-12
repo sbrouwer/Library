@@ -177,17 +177,17 @@ public class BookMaster implements Observer
 			@Override
 			public void keyReleased(KeyEvent arg0)
 			{
-				search();
-				/*if (txtSuche.getText().length() > 0)
+				//search();
+				if (txtSuche.getText().length() > 0)
 				{
-					search();
+					search(txtSuche.getText());
 				} else
 				{
 					//addAllBooks();
-					table.setRowSorter(null);
-					tableModel.fireTableDataChanged();
-					
-				}*/
+					tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" } );
+					table.setModel(tableModel);
+					tableModel.fireTableDataChanged();					
+				}
 			}
 		});
 		txtSuche.setText("Suche");
@@ -410,7 +410,10 @@ public class BookMaster implements Observer
 				booksToDisplay.add(books.get(i));
 			}
 		}
-		addBooks(booksToDisplay);
+		//addBooks(booksToDisplay);
+		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" } );
+		table.setModel(tableModel);
+		tableModel.fireTableDataChanged();
 	}
 
 	@Override
