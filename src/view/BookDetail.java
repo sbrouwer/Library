@@ -228,9 +228,9 @@ public class BookDetail implements Observer
 			public void actionPerformed(ActionEvent e)
 			{
 				int selected[] = table.getSelectedRows();
-				for (int i : selected)
+				for (int i = selected.length - 1; i >= 0; i--)
 				{
-					Copy copyToDelet = ((TableModelBookDetail) table.getModel()).getCopyAtRow(i);
+					Copy copyToDelet = ((TableModelBookDetail) table.getModel()).getCopyAtRow(selected[i]);
 					((TableModelBookDetail) table.getModel()).removeRow(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
