@@ -289,16 +289,12 @@ public class BookMaster implements Observer
 			}
 		});
 		
-		final TableModelBookMaster tableModel = new TableModelBookMaster(library, books, null);
+		final TableModelBookMaster tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
-		
-		table.getColumnModel().getColumn(0).setHeaderValue("Verfügbar");
-		table.getColumnModel().getColumn(1).setHeaderValue("Name");
-		table.getColumnModel().getColumn(2).setHeaderValue("Autor");
-		table.getColumnModel().getColumn(3).setHeaderValue("Verlag");
 		
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		
 
 		/*for (int i = 0; i < books.size(); i++)
 		{
@@ -309,6 +305,7 @@ public class BookMaster implements Observer
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
 		}*/
+		
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
 

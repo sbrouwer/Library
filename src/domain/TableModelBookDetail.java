@@ -50,6 +50,12 @@ public class TableModelBookDetail extends AbstractTableModel {
 		return copies.size();
 	}
 	
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return header[column];
+	}
+	
 	public void addRow(Copy copyToAdd){
 		this.copies.add(copyToAdd);
 		fireTableDataChanged();

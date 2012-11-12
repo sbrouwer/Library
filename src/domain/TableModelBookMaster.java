@@ -6,6 +6,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableModelBookMaster extends AbstractTableModel {
 
+
+
 	Library library;
 	List<Book> books;
 	String[] header;
@@ -45,7 +47,13 @@ public class TableModelBookMaster extends AbstractTableModel {
 	public int getColumnCount() {
 		return 4;
 	}
-
+	
+	@Override
+	public String getColumnName(int column) {
+		// TODO Auto-generated method stub
+		return header[column];
+	}
+	
 	@Override
 	public int getRowCount() {
 		return books.size();
