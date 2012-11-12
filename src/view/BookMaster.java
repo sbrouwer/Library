@@ -43,8 +43,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 
-public class BookMaster implements Observer
-{
+public class BookMaster implements Observer {
 
 	private JFrame frmBibliothek;
 	private JPanel buecherTab;
@@ -65,8 +64,7 @@ public class BookMaster implements Observer
 	/**
 	 * Create the application.
 	 */
-	public BookMaster(Library library)
-	{
+	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
 		library.addObserver(this);
@@ -76,8 +74,7 @@ public class BookMaster implements Observer
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize()
-	{
+	private void initialize() {
 
 		frmBibliothek = new JFrame();
 		frmBibliothek.setBounds(100, 100, 644, 516);
@@ -160,33 +157,23 @@ public class BookMaster implements Observer
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 
 		txtSuche = new JTextField();
-		txtSuche.addFocusListener(new FocusAdapter()
-		{
+		txtSuche.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusGained(FocusEvent arg0)
-			{
-				if (txtSuche.getText().contains("Suche"))
-				{
+			public void focusGained(FocusEvent arg0) {
+				if (txtSuche.getText().contains("Suche")) {
 					txtSuche.setText("");
 				}
 			}
 		});
 		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
-		txtSuche.addKeyListener(new KeyAdapter()
-		{
+		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent arg0)
-			{
-				//search();
-				if (txtSuche.getText().length() > 0)
-				{
+			public void keyReleased(KeyEvent arg0) {
+				// search();
+				if (txtSuche.getText().length() > 0) {
 					search(txtSuche.getText());
-				} else
-				{
-					//addAllBooks();
-					tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" } );
-					table.setModel(tableModel);
-					tableModel.fireTableDataChanged();					
+				} else {
+					addAllBooks();
 				}
 			}
 		});
@@ -202,13 +189,10 @@ public class BookMaster implements Observer
 
 		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
 		btnSelektierteAnzeigen.setEnabled(false);
-		btnSelektierteAnzeigen.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
+		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				int selected[] = table.getSelectedRows();
-				for (int i : selected)
-				{
+				for (int i : selected) {
 					Book book = library.findByBookTitle(table.getModel().getValueAt(i, 1).toString());
 					BookDetail bookDetail = new BookDetail(book, library);
 				}
@@ -216,20 +200,19 @@ public class BookMaster implements Observer
 		});
 
 		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
-		chckbxNurVerfgbare.addItemListener(new ItemListener()
-		{
-			public void itemStateChanged(ItemEvent arg0)
-			{
+		chckbxNurVerfgbare.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries
-				deleteTableRows(table);
+				//deleteTableRows(table);
 
-				if (arg0.getStateChange() == 1)
-				{ // If hook is set, add only entries with available Copies
-					// (Number of Copies - Number of Lent Copies)
+				if (arg0.getStateChange() == 1) { // If hook is set, add only
+													// entries with available
+													// Copies
+													// (Number of Copies -
+													// Number of Lent Copies)
 					addAvailableBooks();
-				} else
-				{ // if hook is not set, add all Books
+				} else { // if hook is not set, add all Books
 					addAllBooks();
 				}
 			}
@@ -269,16 +252,12 @@ public class BookMaster implements Observer
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter()
-		{
+		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0)
-			{
-				if (table.getSelectedRows().length > 0)
-				{
+			public void mouseClicked(MouseEvent arg0) {
+				if (table.getSelectedRows().length > 0) {
 					btnSelektierteAnzeigen.setEnabled(true);
-				} else
-				{
+				} else {
 					btnSelektierteAnzeigen.setEnabled(false);
 				}
 			}
@@ -287,44 +266,41 @@ public class BookMaster implements Observer
 		table.setCellSelectionEnabled(true);
 		table.setAutoCreateRowSorter(true);
 
-		
-		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name",
+				"Autor", "Verlag" });
 		table.setModel(tableModel);
-		
+
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
-		
 
-		/*for (int i = 0; i < books.size(); i++)
-		{
-			/*String[] s = {
-					""
-							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
-									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
-					books.get(i).getPublisher() };
-			((DefaultTableModel) table.getModel()).addRow(s);
-		}*/
-		
+		/*
+		 * for (int i = 0; i < books.size(); i++) { /*String[] s = { "" +
+		 * (library.getCopiesOfBook(books.get(i)).size() -
+		 * library.getLentCopiesOfBook( books.get(i)).size()),
+		 * books.get(i).getName(), books.get(i).getAuthor(),
+		 * books.get(i).getPublisher() }; ((DefaultTableModel)
+		 * table.getModel()).addRow(s); }
+		 */
+
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
-		
+
 		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
 		table.setRowSorter(sorter);
-
 
 		JPanel ausleiheTab = new JPanel();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
-	
+
 	private void search() {
-	    RowFilter<TableModelBookMaster, Object> rf = null;
-	    //If current expression doesn't parse, don't update.
-	    try {
-	        rf = RowFilter.regexFilter(txtSuche.getText(), 0);
-	    } catch (java.util.regex.PatternSyntaxException e) {
-	        return;
-	    }
-	    sorter.setRowFilter(rf);
+		RowFilter<TableModelBookMaster, Object> rf = null;
+		// If current expression doesn't parse, don't update.
+		try {
+			rf = RowFilter.regexFilter(txtSuche.getText(), 0);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
 	}
 
 	/**
@@ -333,10 +309,8 @@ public class BookMaster implements Observer
 	 * @param _table
 	 *            Table to delete the entries(rows) from
 	 */
-	private void deleteTableRows(JTable _table)
-	{
-		for (int i = _table.getRowCount() - 1; i >= 0; i--)
-		{
+	private void deleteTableRows(JTable _table) {
+		for (int i = _table.getRowCount() - 1; i >= 0; i--) {
 			((DefaultTableModel) _table.getModel()).removeRow(i);
 		}
 	}
@@ -344,10 +318,12 @@ public class BookMaster implements Observer
 	/**
 	 * Adds all Books from the Library to the Inventary Table
 	 */
-	private void addAllBooks()
-	{
-		for (int i = 0; i < books.size(); i++)
-		{
+	private void addAllBooks() {
+		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar",
+				"Name", "Autor", "Verlag" });
+		table.setModel(tableModel);
+		tableModel.fireTableDataChanged();
+		/*for (int i = 0; i < books.size(); i++) {
 			String[] s = {
 					""
 							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
@@ -355,34 +331,38 @@ public class BookMaster implements Observer
 					books.get(i).getPublisher() };
 			((DefaultTableModel) table.getModel()).addRow(s);
 
-		}
+		}*/
 	}
 
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
-	private void addAvailableBooks()
-	{
-		for (int x = 0; x < books.size(); x++)
-		{
+	private void addAvailableBooks() {
+		List<Book> booksToDisplay = new ArrayList<Book>();
+		for (int x = 0; x < books.size(); x++) {
 			if ((library.getCopiesOfBook(books.get(x)).size() - library.getLentCopiesOfBook(books.get(x))
-					.size()) > 0)
-			{
-				String[] s = {
-						""
-								+ (library.getCopiesOfBook(books.get(x)).size() - library
-										.getLentCopiesOfBook(books.get(x)).size()), books.get(x).getName(),
-						books.get(x).getAuthor(), books.get(x).getPublisher() };
-				((DefaultTableModel) table.getModel()).addRow(s);
+					.size()) > 0) {
+				booksToDisplay.add(books.get(x));
+				/*
+				 * String[] s = { "" +
+				 * (library.getCopiesOfBook(books.get(x)).size() - library
+				 * .getLentCopiesOfBook(books.get(x)).size()),
+				 * books.get(x).getName(), books.get(x).getAuthor(),
+				 * books.get(x).getPublisher() }; ((DefaultTableModel)
+				 * table.getModel()).addRow(s);
+				 */
+
 			}
 		}
+		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar",
+				"Name", "Autor", "Verlag" });
+		table.setModel(tableModel);
+		tableModel.fireTableDataChanged();
 	}
 
-	private void addBooks(List<Book> l)
-	{
+	private void addBooks(List<Book> l) {
 		deleteTableRows(table);
-		for (int i = 0; i < l.size(); i++)
-		{
+		for (int i = 0; i < l.size(); i++) {
 			String[] s = {
 					""
 							+ (library.getCopiesOfBook(l.get(i)).size() - library.getLentCopiesOfBook(
@@ -392,26 +372,22 @@ public class BookMaster implements Observer
 		}
 	}
 
-	private void search(String s)
-	{
+	private void search(String s) {
 		List<Book> booksToDisplay = new ArrayList<Book>();
-		for (int i = 0; i < books.size(); i++)
-		{
-			if (books.get(i).getName().contains(s))
-			{
+		for (int i = 0; i < books.size(); i++) {
+			if (books.get(i).getName().contains(s)) {
 				booksToDisplay.add(books.get(i));
 			}
-			if (books.get(i).getAuthor().contains(s))
-			{
+			if (books.get(i).getAuthor().contains(s)) {
 				booksToDisplay.add(books.get(i));
 			}
-			if (books.get(i).getPublisher().contains(s))
-			{
+			if (books.get(i).getPublisher().contains(s)) {
 				booksToDisplay.add(books.get(i));
 			}
 		}
-		//addBooks(booksToDisplay);
-		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" } );
+		// addBooks(booksToDisplay);
+		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar",
+				"Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 	}
@@ -421,8 +397,8 @@ public class BookMaster implements Observer
 		// TODO Auto-generated method stub
 		updateFields();
 	}
-	
-	private  void updateFields(){
+
+	private void updateFields() {
 		System.out.println("update!");
 	}
 }
