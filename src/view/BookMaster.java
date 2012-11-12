@@ -391,6 +391,12 @@ public class BookMaster implements Observer {
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 	}
+	
+	private void updateStats(){
+		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
+		lblAnzahlExemplare.setText("Anzahl Exemplare: "
+				+ (library.getBooks().size() + library.getCopies().size()));
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -399,6 +405,8 @@ public class BookMaster implements Observer {
 	}
 
 	private void updateFields() {
-		System.out.println("update!");
+		this.books = library.getBooks();
+		addAllBooks();
+		updateStats();
 	}
 }
