@@ -1,11 +1,66 @@
 package domain;
 
-import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
-public class TableModelBookMaster extends DefaultTableModel {
+import javax.swing.table.AbstractTableModel;
 
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		
-		return null;
+public class TableModelBookMaster extends AbstractTableModel {
+
+	Library library;
+	List<Book> books;
+	String[] header;
+
+	public TableModelBookMaster(Library library, List<Book> books, String[] header) {
+		this.library = library;
+		this.books = books;
+		this.header = header;
+
+		fireTableDataChanged();
 	}
+
+	public Object getValueAt(int row, int colum) {
+		Book book = books.get(row);
+
+		switch (colum) {
+		case 0:
+			return library.getCopiesOfBook(book).size() - library.getLentCopiesOfBook(
+					book).size();
+		case 1:
+			return book.getName();
+		case 2:
+			return book.getAuthor();
+		case 3:
+			return book.getPublisher();
+		default:
+			return null;
+		}
+	}
+	
+	public Book getCopyAtRow(int row){
+		return books.get(row);
+	}
+	
+
+	@Override
+	public int getColumnCount() {
+		return 2;
+	}
+
+	@Override
+	public int getRowCount() {
+		return books.size();
+	}
+	
+	public void addRow(Book bookToAdd){
+		this.books.add(bookToAdd);
+		fireTableDataChanged();
+	}
+	
+	public void removeRow(Book bookToDelet){
+		/*this.books.remove(bookToDelet);
+		library.removeBook(bookToDelet);
+		library.
+		fireTableDataChanged();*/
+	}
+
 }

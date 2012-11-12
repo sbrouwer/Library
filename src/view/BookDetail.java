@@ -13,7 +13,6 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 
 import domain.Book;
 import domain.Copy;
@@ -71,7 +69,6 @@ public class BookDetail implements Observer
 	{
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
-		// frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buch Detail Ansicht");
 
@@ -228,7 +225,7 @@ public class BookDetail implements Observer
 			public void actionPerformed(ActionEvent e)
 			{
 				int selected[] = table.getSelectedRows();
-				for (int i = selected.length - 1; i >= 0; i--)
+				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
 				{
 					Copy copyToDelet = ((TableModelBookDetail) table.getModel()).getCopyAtRow(selected[i]);
 					((TableModelBookDetail) table.getModel()).removeRow(copyToDelet);

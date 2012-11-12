@@ -54,7 +54,6 @@ public class TableModelBookDetail extends AbstractTableModel {
 	public void addRow(Copy copyToAdd){
 		this.copies.add(copyToAdd);
 		fireTableDataChanged();
-		fireTableRowsInserted(0, getRowCount());
 	}
 	
 	public void removeRow(Copy copyToDelet){
