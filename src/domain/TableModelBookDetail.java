@@ -14,7 +14,7 @@ public class TableModelBookDetail extends AbstractTableModel {
 		this.library = library;
 		this.copies = copies;
 		this.header = header;
-		
+
 		fireTableDataChanged();
 	}
 
@@ -36,6 +36,10 @@ public class TableModelBookDetail extends AbstractTableModel {
 		}
 	}
 	
+	public Copy getCopyAtRow(int row){
+		return copies.get(row);
+	}
+	
 
 	@Override
 	public int getColumnCount() {
@@ -47,10 +51,16 @@ public class TableModelBookDetail extends AbstractTableModel {
 		return copies.size();
 	}
 	
-	public void addRow(List<Copy> copies){
-		this.copies = copies;
+	public void addRow(Copy copyToAdd){
+		this.copies.add(copyToAdd);
 		fireTableDataChanged();
 		fireTableRowsInserted(0, getRowCount());
+	}
+	
+	public void removeRow(Copy copyToDelet){
+		this.copies.remove(copyToDelet);
+		library.removeCopy(copyToDelet);
+		fireTableDataChanged();
 	}
 
 }

@@ -230,21 +230,8 @@ public class BookDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected)
 				{
-					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table
-							.getModel()).getValueAt(i, 0)); // Thats why we
-															// should use our
-															// own TableModel
-					Copy copyToDelete = null;
-					List<Copy> copies = library.getCopies();
-					for (Copy copy : copies)
-					{
-						if (copy.getInventoryNumber() == inventoryNumberToDelete)
-						{
-							copyToDelete = copy;
-						}
-					}
-					library.removeCopy(copyToDelete);
-					((DefaultTableModel) table.getModel()).removeRow(i);
+					Copy copyToDelet = ((TableModelBookDetail) table.getModel()).getCopyAtRow(i);
+					((TableModelBookDetail) table.getModel()).removeRow(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
@@ -262,11 +249,7 @@ public class BookDetail implements Observer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				Copy c = library.createAndAddCopy(book);
-				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
-				//((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-				//((TableModelBookDetail) table.getModel()).addRow(copies); 		TODO Model zum laufe bringe! 
-				String[] header = new String[] {"Inventar Nr.", "Verfügbarkeit"};
-				table.setModel(new TableModelBookDetail(library, copies, header));
+				((TableModelBookDetail) table.getModel()).addRow(c);
 				((TableModelBookDetail) table.getModel()).fireTableDataChanged();
 				table.repaint();
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
@@ -290,7 +273,8 @@ public class BookDetail implements Observer
 		panel_1.add(scrollPane, gbc_scrollPane);
 		copies = library.getCopiesOfBook(book); // Bücherliste holen
 		lent = library.getLentCopiesOfBook(book);
-		DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
+		
+		//DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		// Liste füllen
 		
 		
