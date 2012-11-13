@@ -22,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import domain.Book;
 import domain.Copy;
@@ -33,7 +32,6 @@ import domain.TableModelBookDetail;
 
 public class BookDetail implements Observer
 {
-
 	private JFrame frame;
 	private JTextField txtTitel;
 	private JTextField txtAutor;
@@ -73,8 +71,7 @@ public class BookDetail implements Observer
 		frame.setTitle("Buch Detail Ansicht");
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
+		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
@@ -155,13 +152,11 @@ public class BookDetail implements Observer
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 3;
 		gbc_comboBox.gridy = 5;
+		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));		
 		panel.add(regalComboBox, gbc_comboBox);
-		Shelf[] s = shelf.values();
-		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null,
-				null));
+		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -178,9 +173,9 @@ public class BookDetail implements Observer
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
-
-		table = new JTable();
 		
+		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
 		String[] header = {"Inventar Nummer","Verfügbarkeit"};
 		copies = library.getCopiesOfBook(book);
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, copies, header);
@@ -206,7 +201,6 @@ public class BookDetail implements Observer
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
 		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
-
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -257,54 +251,6 @@ public class BookDetail implements Observer
 		panel_1.add(scrollPane, gbc_scrollPane);
 		copies = library.getCopiesOfBook(book); // Bücherliste holen
 		lent = library.getLentCopiesOfBook(book);
-		
-		//DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
-		// Liste füllen
-		
-		
-		/*for (Copy c : copies)
-		{
-			if (library.isCopyLent(c))
-			{
-				for (Loan l : lent)
-				{
-					if (l.getCopy().equals(c)) //TODO wirklich alles vergleichen oder nur nummer?
-					{ 
-						//TODO Datum muss noch formatiert werden!!!
-						//TODO NPE bei gettime auf returndate
-//						DateFormat dateFormat = new SimpleDateFormat("dd-MM");
-//						
-//						Date pickupDate = l.getPickupDate().getTime();
-//						String pickupDateStr = dateFormat.format(pickupDate);
-//						
-//						Date returnDate = l.getReturnDate().getTime();
-//						String returnDateStr = dateFormat.format(returnDate);
-//						
-//						System.out.println(pickupDateStr + " - " + returnDateStr);
-
-						String[] stringTableModel = {
-								"" + l.getCopy().getInventoryNumber(),
-								l.getPickupDate().DAY_OF_MONTH 
-								+ "." 
-								+ l.getPickupDate().MONTH 
-								+ "." 
-								+ l.getPickupDate().YEAR 
-								+ " - " 
-								+ l.getReturnDate().DAY_OF_MONTH 
-								+ "." 
-								+ l.getReturnDate().MONTH 
-								+ "." 
-								+ l.getReturnDate().YEAR };
-						((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-
-					}
-				}
-			} else
-			{
-				String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
-				((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-			}
-		} */
 	}
 
 	/**

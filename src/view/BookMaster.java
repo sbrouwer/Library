@@ -14,8 +14,6 @@ import domain.Library;
 public class BookMaster {
 
 	private JFrame frmBibliothek;
-	private JPanel buecherTab;
-
 	private Library library;
 
 	/**
@@ -53,13 +51,11 @@ public class BookMaster {
 		gbc_buchMasterTabs.gridx = 0;
 		gbc_buchMasterTabs.gridy = 0;
 		frmBibliothek.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
-		
-		
+			
 		JPanel buecherTab = new BookMasterBooksTab(library);
 		buchMasterTabs.addTab("B\u00FCcher", null, buecherTab, null);
 		
-		JPanel ausleiheTab = new JPanel();
+		JPanel ausleiheTab = new BookMasterLoanTab();
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
-
 }

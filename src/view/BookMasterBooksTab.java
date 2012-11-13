@@ -216,6 +216,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		
 		//Ab hier JTable
 		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {

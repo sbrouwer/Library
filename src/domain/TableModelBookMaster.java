@@ -6,8 +6,6 @@ import javax.swing.table.AbstractTableModel;
 
 public class TableModelBookMaster extends AbstractTableModel {
 
-
-
 	Library library;
 	List<Book> books;
 	String[] header;
@@ -22,11 +20,9 @@ public class TableModelBookMaster extends AbstractTableModel {
 
 	public Object getValueAt(int row, int colum) {
 		Book book = books.get(row);
-
 		switch (colum) {
 		case 0:
-			return library.getCopiesOfBook(book).size() - library.getLentCopiesOfBook(
-					book).size();
+			return library.getCopiesOfBook(book).size() - library.getLentCopiesOfBook(book).size();
 		case 1:
 			return book.getName();
 		case 2:
@@ -38,7 +34,7 @@ public class TableModelBookMaster extends AbstractTableModel {
 		}
 	}
 	
-	public Book getCopyAtRow(int row){
+	public Book getBookAtRow(int row){
 		return books.get(row);
 	}
 	
@@ -50,7 +46,6 @@ public class TableModelBookMaster extends AbstractTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
 		return header[column];
 	}
 	
@@ -70,5 +65,4 @@ public class TableModelBookMaster extends AbstractTableModel {
 		library.
 		fireTableDataChanged();*/
 	}
-
 }
