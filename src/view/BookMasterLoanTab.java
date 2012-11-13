@@ -134,11 +134,10 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				if (txtSuche.getText().length() > 0) {
 					search(txtSuche.getText());
 				} else {
-					addAllBooks();
+					addAllLoans();
 				}
 			}
 		});
-		
 				lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
 				GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
 				gbc_lblAlleBcherDer.gridwidth = 2;
@@ -178,15 +177,16 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				//deleteTableRows(table);
 
 				if (arg0.getStateChange() == 1) { // If hook is set, add only
-													// entries with available
+						addOverdueLoans();							// entries with available
 													// Copies
 													// (Number of Copies -
 													// Number of Lent Copies)
 					
 				} else { // if hook is not set, add all Books
-					addAllBooks();
+					addAllLoans();
 				}
 			}
+
 		});
 
 		GridBagConstraints gbc_chckbxNurUeberfaellige = new GridBagConstraints();
@@ -279,7 +279,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	/**
 	 * Adds all Books from the Library to the Inventary Table
 	 */
-	private void addAllBooks() {
+	private void addAllLoans() {
 		tableModel = new TableModelLoanMaster(library, loans, header);
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
@@ -350,6 +350,13 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		lblAktuellAusgeliehen.setText("Anzahl Exemplare: "
 				+ (library.getBooks().size() + library.getCopies().size()));
 	}
+	
+	private void addOverdueLoans() {
+		List<Loan> overdueLoans = library.getOverdueLoans();
+		tableModel = new TableModelLoanMaster(library, overdueLoans, header);
+		table.setModel(tableModel);
+		tableModel.fireTableDataChanged();
+	}
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -359,7 +366,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 	private void updateFields() {
 		this.books = library.getBooks();
-		addAllBooks();
+		addAllLoans();
 		updateStats();
 	}
 
