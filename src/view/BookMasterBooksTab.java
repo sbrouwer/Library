@@ -216,7 +216,6 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		
 		//Ab hier JTable
 		table = new JTable();
-		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -227,8 +226,8 @@ public class BookMasterBooksTab extends JPanel implements Observer
 				}
 			}
 		});
+		//table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.setCellSelectionEnabled(true);
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();

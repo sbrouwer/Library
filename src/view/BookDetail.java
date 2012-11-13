@@ -176,6 +176,7 @@ public class BookDetail implements Observer
 		
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
+
 		String[] header = {"Inventar Nummer","Verfügbarkeit"};
 		copies = library.getCopiesOfBook(book);
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, copies, header);
@@ -249,8 +250,6 @@ public class BookDetail implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
-		copies = library.getCopiesOfBook(book); // Bücherliste holen
-		lent = library.getLentCopiesOfBook(book);
 	}
 
 	/**
