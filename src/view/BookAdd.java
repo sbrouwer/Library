@@ -59,7 +59,7 @@ public class BookAdd implements Observer {
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
 	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
-	private JLabel lblError;
+	private JLabel lblStatus;
 
 	/**
 	 * Create the application.
@@ -171,55 +171,11 @@ public class BookAdd implements Observer {
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
 		btnAddBook.addActionListener(new ActionListener() {
-			Color red = new Color(255, 0, 0);
-			Color black = new Color(0, 0, 0);
+			
 
 			public void actionPerformed(ActionEvent arg0) {
-				boolean error = false;
-				if (txtTitel.getText().equals("")) {
-					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
-					lblError.setForeground(red);
-					lblTitel.setText("Titel*");
-					lblTitel.setForeground(red);
-					error = true;
-				} else if (lblTitel.getForeground().equals(red)) {
-					lblTitel.setForeground(black);
-					lblTitel.setText("Titel");
-				}
-				if (txtAutor.getText().equals("")) {
-					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
-					lblError.setForeground(red);
-					lblAutor.setText("Autor*");
-					lblAutor.setForeground(red);
-					error = true;
-				}
-				else if (lblAutor.getForeground().equals(red)) {
-					lblAutor.setForeground(black);
-					lblAutor.setText("Autor");
-				}
-				if (txtVerlag.getText().equals("")) {
-					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
-					lblError.setForeground(red);
-					lblVerlag.setText("Verlag*");
-					lblVerlag.setForeground(red);
-					error = true;
-				}
-				else if (lblVerlag.getForeground().equals(red)) {
-					lblVerlag.setForeground(black);
-					lblVerlag.setText("Verlag");
-				}
-				if (regalComboBox.getSelectedIndex() == -1) {
-					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
-					lblError.setForeground(red);
-					lblRegal.setText("Regal*");
-					lblRegal.setForeground(red);
-					error = true;
-				}
-				else if (lblRegal.getForeground().equals(red)) {
-					lblRegal.setForeground(black);
-					lblRegal.setText("Regal");
-				}
-				if (!error) {
+				boolean ok = verifyFields();
+				if (ok) {
 					book = library.createAndAddBook(txtTitel.getText());
 					book.setAuthor(txtAutor.getText());
 					book.setPublisher(txtVerlag.getText());
@@ -228,17 +184,18 @@ public class BookAdd implements Observer {
 					tableModel = new TableModelBookDetail(library, copies, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
+					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
 				}
 			}
 		});
 
-		lblError = new JLabel("");
+		lblStatus = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.gridwidth = 7;
 		gbc_lblError.insets = new Insets(0, 0, 5, 0);
 		gbc_lblError.gridx = 3;
 		gbc_lblError.gridy = 6;
-		panel.add(lblError, gbc_lblError);
+		panel.add(lblStatus, gbc_lblError);
 		GridBagConstraints gbc_btnAddBook = new GridBagConstraints();
 		gbc_btnAddBook.gridheight = 2;
 		gbc_btnAddBook.gridx = 10;
@@ -355,6 +312,60 @@ public class BookAdd implements Observer {
 			lent = library.getLentCopiesOfBook(book);
 			DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		}
+	}
+	
+	private boolean verifyFields(){
+		boolean ok = true;
+		Color red = new Color(255, 0, 0);
+		Color black = new Color(0, 0, 0);
+		
+		if (txtTitel.getText().equals("")) {
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setForeground(red);
+			lblTitel.setText("Titel*");
+			lblTitel.setForeground(red);
+			ok = false;
+		} else if (lblTitel.getForeground().equals(red)) {
+			lblTitel.setForeground(black);
+			lblTitel.setText("Titel");
+		}
+		if (txtAutor.getText().equals("")) {
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setForeground(red);
+			lblAutor.setText("Autor*");
+			lblAutor.setForeground(red);
+			ok = false;
+		}
+		else if (lblAutor.getForeground().equals(red)) {
+			lblAutor.setForeground(black);
+			lblAutor.setText("Autor");
+		}
+		if (txtVerlag.getText().equals("")) {
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setForeground(red);
+			lblVerlag.setText("Verlag*");
+			lblVerlag.setForeground(red);
+			ok = false;
+		}
+		else if (lblVerlag.getForeground().equals(red)) {
+			lblVerlag.setForeground(black);
+			lblVerlag.setText("Verlag");
+		}
+		if (regalComboBox.getSelectedIndex() == -1) {
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setForeground(red);
+			lblRegal.setText("Regal*");
+			lblRegal.setForeground(red);
+			ok = false;
+		}
+		else if (lblRegal.getForeground().equals(red)) {
+			lblRegal.setForeground(black);
+			lblRegal.setText("Regal");
+		}
+		if(ok){
+			lblStatus.setText("");
+		}
+		return ok;
 	}
 
 	/**
