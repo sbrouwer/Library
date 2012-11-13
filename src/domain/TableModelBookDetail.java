@@ -56,7 +56,6 @@ public class TableModelBookDetail extends AbstractTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
 		return header[column];
 	}
 

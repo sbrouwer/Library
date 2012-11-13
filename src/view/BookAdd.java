@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -54,6 +55,7 @@ public class BookAdd implements Observer {
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
 	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
+	private JLabel lblError;
 
 	/**
 	 * Create the application.
@@ -81,9 +83,9 @@ public class BookAdd implements Observer {
 				null, null));
 		frmBuchHinzufgen.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
@@ -97,6 +99,7 @@ public class BookAdd implements Observer {
 
 		txtTitel = new JTextField();
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
+		gbc_txtTitel.gridwidth = 8;
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitel.gridx = 3;
@@ -114,6 +117,7 @@ public class BookAdd implements Observer {
 
 		txtAutor = new JTextField();
 		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
+		gbc_txtAutor.gridwidth = 8;
 		gbc_txtAutor.gridheight = 2;
 		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
@@ -133,6 +137,7 @@ public class BookAdd implements Observer {
 
 		txtVerlag = new JTextField();
 		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
+		gbc_txtVerlag.gridwidth = 8;
 		gbc_txtVerlag.gridheight = 2;
 		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
 		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
@@ -151,6 +156,7 @@ public class BookAdd implements Observer {
 
 		regalComboBox = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 8;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 3;
@@ -158,18 +164,32 @@ public class BookAdd implements Observer {
 		panel.add(regalComboBox, gbc_comboBox);
 		Shelf[] s = shelf.values();
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
-
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
 		btnAddBook.addActionListener(new ActionListener() {
+			Color red = new Color(255,0,0);
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtTitel.getText() == "") {
+					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
+					lblError.setForeground(red);
+					txtAutor.setText("Titel*");
+					txtAutor.setForeground(red);
 					System.out.println("Kein Titel angegeben!");
 				} else if (txtAutor.getText() == "") {
+					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
+					lblError.setForeground(red);
+					txtAutor.setText("Autor*");
+					txtAutor.setForeground(red);
 					System.out.println("Kein Autor angegeben!");
 				} else if (txtVerlag.getText() == "") {
+					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
+					lblError.setForeground(red);
+					txtVerlag.setText("Verlag*");
+					txtVerlag.setForeground(red);
 					System.out.println("Kein Verlag angegeben!");
-				}
-				if (regalComboBox.getSelectedIndex() == -1) {
+				} else if (regalComboBox.getSelectedIndex() == -1) {
+					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
+					lblError.setForeground(red);
+					
 					System.out.println("Kein Regal ausgewählt!");
 				} else {
 					book = library.createAndAddBook(txtTitel.getText());
@@ -183,10 +203,17 @@ public class BookAdd implements Observer {
 				}
 			}
 		});
+		
+		lblError = new JLabel("");
+		GridBagConstraints gbc_lblError = new GridBagConstraints();
+		gbc_lblError.gridwidth = 7;
+		gbc_lblError.insets = new Insets(0, 0, 5, 0);
+		gbc_lblError.gridx = 3;
+		gbc_lblError.gridy = 6;
+		panel.add(lblError, gbc_lblError);
 		GridBagConstraints gbc_btnAddBook = new GridBagConstraints();
-		gbc_btnAddBook.gridwidth = 4;
 		gbc_btnAddBook.gridheight = 2;
-		gbc_btnAddBook.gridx = 0;
+		gbc_btnAddBook.gridx = 10;
 		gbc_btnAddBook.gridy = 6;
 		panel.add(btnAddBook, gbc_btnAddBook);
 
