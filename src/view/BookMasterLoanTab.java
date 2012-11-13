@@ -34,24 +34,28 @@ import javax.swing.table.TableRowSorter;
 
 import domain.Book;
 import domain.Library;
+import domain.Loan;
 import domain.TableModelBookMaster;
+import domain.TableModelLoanMaster;
 
 public class BookMasterLoanTab extends JPanel implements Observer
 {
 	private JTable table;
 	private JTextField txtSuche;
 	private List<Book> books;
-	private TableRowSorter<TableModelBookMaster> sorter;
-	private TableModelBookMaster tableModel;
+	private List<Loan> loans;
+	private TableRowSorter<TableModelLoanMaster> sorter;
+	private TableModelLoanMaster tableModel;
 	private Library library;
-	private JCheckBox chckbxNurVerfgbare;
+	private JCheckBox chckbxNurUeberfaellige;
 	private JLabel lblAlleBcherDer;
 	private JScrollPane scrollPane;
-	private JLabel lblAnzahlBuecher;
-	private JLabel lblAnzahlExemplare;
+	private JLabel lblAnzahlAusleihen;
+	private JLabel lblAktuellAusgeliehen;
 	private JButton btnSelektierteAnzeigen;
-	private JButton btnNeuesBuch;
-	private JLabel lblberflligeAusleihen;
+	private JButton btnNeueAusleihe;
+	private JLabel lblUeberfaelligeAusleihen;
+	private final String[] header =  new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
 	
 	public BookMasterLoanTab(Library library)
 	{
@@ -83,14 +87,16 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		this.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
 		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
 
-		lblAnzahlBuecher = new JLabel("Anzahl Ausleihen: 0");
-		inventarStatistikenPanel.add(lblAnzahlBuecher);
-
-		lblAnzahlExemplare = new JLabel("Aktuell Ausgeliehen: 0");
-		inventarStatistikenPanel.add(lblAnzahlExemplare);
+		loans = library.getLoans();
 		
-		lblberflligeAusleihen = new JLabel("\u00DCberf\u00E4llige Ausleihen: 0");
-		inventarStatistikenPanel.add(lblberflligeAusleihen);
+		lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen: " + loans.size());
+		inventarStatistikenPanel.add(lblAnzahlAusleihen);
+
+		lblAktuellAusgeliehen = new JLabel("Aktuell Ausgeliehen: " + library.getLentOutBooks().size());
+		inventarStatistikenPanel.add(lblAktuellAusgeliehen);
+		
+		lblUeberfaelligeAusleihen = new JLabel("\u00DCberf\u00E4llige Ausleihen: " + library.getOverdueLoans().size());
+		inventarStatistikenPanel.add(lblUeberfaelligeAusleihen);
 
 		JPanel buchInventarPanel = new JPanel();
 		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -164,8 +170,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		});
 
 		//Ab hier "Nur Verfügbare"
-		chckbxNurVerfgbare = new JCheckBox("Nur Nur \u00DCberf\u00E4llige");
-		chckbxNurVerfgbare.addItemListener(new ItemListener() {
+		chckbxNurUeberfaellige = new JCheckBox("Nur Nur \u00DCberf\u00E4llige");
+		chckbxNurUeberfaellige.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries
@@ -176,18 +182,18 @@ public class BookMasterLoanTab extends JPanel implements Observer
 													// Copies
 													// (Number of Copies -
 													// Number of Lent Copies)
-					addAvailableBooks();
+					
 				} else { // if hook is not set, add all Books
 					addAllBooks();
 				}
 			}
 		});
 
-		GridBagConstraints gbc_chckbxNurVerfgbare = new GridBagConstraints();
-		gbc_chckbxNurVerfgbare.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxNurVerfgbare.gridx = 3;
-		gbc_chckbxNurVerfgbare.gridy = 1;
-		buchInventarPanel.add(chckbxNurVerfgbare, gbc_chckbxNurVerfgbare);
+		GridBagConstraints gbc_chckbxNurUeberfaellige = new GridBagConstraints();
+		gbc_chckbxNurUeberfaellige.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxNurUeberfaellige.gridx = 3;
+		gbc_chckbxNurUeberfaellige.gridy = 1;
+		buchInventarPanel.add(chckbxNurUeberfaellige, gbc_chckbxNurUeberfaellige);
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAnzeigen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
@@ -196,18 +202,18 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		buchInventarPanel.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		//Ab hier "Neues Buch hinzufügen"
-		btnNeuesBuch = new JButton("Neues Ausleihe erfassen");
-		btnNeuesBuch.addActionListener(new ActionListener() {
+		btnNeueAusleihe = new JButton("Neues Ausleihe erfassen");
+		btnNeueAusleihe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);
 			}
 		});		
-		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
-		gbc_btnNeuesBuch.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnNeuesBuch.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNeuesBuch.gridx = 5;
-		gbc_btnNeuesBuch.gridy = 1;
-		buchInventarPanel.add(btnNeuesBuch, gbc_btnNeuesBuch);
+		GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
+		gbc_btnNeueAusleihe.anchor = GridBagConstraints.NORTHWEST;
+		gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNeueAusleihe.gridx = 5;
+		gbc_btnNeueAusleihe.gridy = 1;
+		buchInventarPanel.add(btnNeueAusleihe, gbc_btnNeueAusleihe);
 
 		scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -234,7 +240,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();
-		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelLoanMaster(library, loans, header);
 		table.setModel(tableModel);
 
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -243,7 +249,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
 
-		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
 		table.setRowSorter(sorter);		
 	}
 	
@@ -274,7 +280,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	 * Adds all Books from the Library to the Inventary Table
 	 */
 	private void addAllBooks() {
-		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelLoanMaster(library, loans, header);
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 		/*for (int i = 0; i < books.size(); i++) {
@@ -290,12 +296,12 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
-	 */
+	 
 	private void addAvailableBooks() {
-		List<Book> booksToDisplay = new ArrayList<Book>();
-		for (int x = 0; x < books.size(); x++) {
-			if ((library.getCopiesOfBook(books.get(x)).size() - library.getLentCopiesOfBook(books.get(x)).size()) > 0) {
-				booksToDisplay.add(books.get(x));
+		List<Loan> loansToDisplay = new ArrayList<Loan>();
+		for (int x = 0; x < loans.size(); x++) {
+			if ((library.getCopiesOfBook(loans.get(x)).size() - library.getLentCopiesOfBook(books.get(x)).size()) > 0) {
+				loansToDisplay.add(loans.get(x));
 				/*
 				 * String[] s = { "" +
 				 * (library.getCopiesOfBook(books.get(x)).size() - library
@@ -303,14 +309,14 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				 * books.get(x).getName(), books.get(x).getAuthor(),
 				 * books.get(x).getPublisher() }; ((DefaultTableModel)
 				 * table.getModel()).addRow(s);
-				 */
+				 
 
 			}
 		}
-		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelLoanMaster(library, loansToDisplay, header);
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
-	}
+	}*/
 
 //	private void addBooks(List<Book> l) {
 //		deleteTableRows(table);
@@ -321,27 +327,27 @@ public class BookMasterLoanTab extends JPanel implements Observer
 //	}
 
 	private void search(String s) {
-		List<Book> booksToDisplay = new ArrayList<Book>();
+		List<Loan> loansToDisplay = new ArrayList<Loan>();
 		for (int i = 0; i < books.size(); i++) {
 			if (books.get(i).getName().contains(s)) {
-				booksToDisplay.add(books.get(i));
+				loansToDisplay.add(loans.get(i));
 			}
 			if (books.get(i).getAuthor().contains(s)) {
-				booksToDisplay.add(books.get(i));
+				loansToDisplay.add(loans.get(i));
 			}
 			if (books.get(i).getPublisher().contains(s)) {
-				booksToDisplay.add(books.get(i));
+				loansToDisplay.add(loans.get(i));
 			}
 		}
 		// addBooks(booksToDisplay);
-		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelLoanMaster(library, loansToDisplay, header);
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 	}
 	
 	private void updateStats(){
-		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
-		lblAnzahlExemplare.setText("Anzahl Exemplare: "
+		lblAnzahlAusleihen.setText("Anzahl Bücher: " + books.size());
+		lblAktuellAusgeliehen.setText("Anzahl Exemplare: "
 				+ (library.getBooks().size() + library.getCopies().size()));
 	}
 
