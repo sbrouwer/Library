@@ -58,7 +58,7 @@ public class BookMaster {
 		JPanel buecherTab = new BookMasterBooksTab(library);
 		buchMasterTabs.addTab("B\u00FCcher", null, buecherTab, null);
 		
-		JPanel ausleiheTab = new JPanel();
+		JPanel ausleiheTab = new BookMasterLoanTab(library);
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
 
