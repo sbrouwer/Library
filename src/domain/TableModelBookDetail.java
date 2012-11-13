@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -24,21 +25,20 @@ public class TableModelBookDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
-			if(library.getLoanOfCopy(copy) != null){
-				return "Ausgeliehen, noch " + library.getLoanOfCopy(copy).getDaysOfLoanDuration() + " Tage bis zur Rückgabe";				
-			}
-			else{
+			if (library.getLoanOfCopy(copy) != null) {
+				return "Ausgeliehen, noch " + library.getLoanOfCopy(copy).getDaysOfLoanDuration()
+						+ " Tage bis zur Rückgabe";
+			} else {
 				return "Verfügbar";
 			}
 		default:
 			return null;
 		}
 	}
-	
-	public Copy getCopyAtRow(int row){
+
+	public Copy getCopyAtRow(int row) {
 		return copies.get(row);
 	}
-	
 
 	@Override
 	public int getColumnCount() {
@@ -47,22 +47,29 @@ public class TableModelBookDetail extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		return copies.size();
+		if (copies != null) {
+			return copies.size();
+		} else {
+			return 0;
+		}
 	}
-	
+
 	@Override
 	public String getColumnName(int column) {
 		// TODO Auto-generated method stub
 		return header[column];
 	}
-	
-	public void addRow(Copy copyToAdd){
+
+	public void addRow(Copy copyToAdd) {
+		if(copies == null){
+			this.copies = library.getCopiesOfBook(copyToAdd.getBook());
+		}
 		this.copies.add(copyToAdd);
 		fireTableDataChanged();
 		fireTableRowsInserted(0, getRowCount());
 	}
-	
-	public void removeRow(Copy copyToDelet){
+
+	public void removeRow(Copy copyToDelet) {
 		this.copies.remove(copyToDelet);
 		library.removeCopy(copyToDelet);
 		fireTableDataChanged();

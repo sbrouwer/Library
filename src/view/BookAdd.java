@@ -33,6 +33,7 @@ import domain.Copy;
 import domain.Library;
 import domain.Loan;
 import domain.Shelf;
+import domain.TableModelBookDetail;
 
 public class BookAdd implements Observer {
 
@@ -51,6 +52,8 @@ public class BookAdd implements Observer {
 	JButton btnExemplarHinzufuegen;
 	JButton btnAusgewaehlteEntfernen;
 	private JButton btnAddBook;
+	private TableModelBookDetail tableModel;
+	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
 
 	/**
 	 * Create the application.
@@ -165,13 +168,18 @@ public class BookAdd implements Observer {
 					System.out.println("Kein Autor angegeben!");
 				} else if (txtVerlag.getText() == "") {
 					System.out.println("Kein Verlag angegeben!");
-				}if(regalComboBox.getSelectedIndex() == -1){
+				}
+				if (regalComboBox.getSelectedIndex() == -1) {
 					System.out.println("Kein Regal ausgewählt!");
 				} else {
 					book = library.createAndAddBook(txtTitel.getText());
 					book.setAuthor(txtAutor.getText());
 					book.setPublisher(txtVerlag.getText());
-					//book.setShelf(regalComboBox.getSelectedItem());
+					book.setShelf((Shelf) regalComboBox.getSelectedItem());
+					copies = library.getCopiesOfBook(book);
+					tableModel = new TableModelBookDetail(library, copies, header);
+					table.setModel(tableModel);
+					tableModel.fireTableDataChanged();
 				}
 			}
 		});
@@ -205,14 +213,9 @@ public class BookAdd implements Observer {
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Inventar Nummer",
-				"Verf\u00FCgbarkeit" }) {
-			boolean[] columnEditables = new boolean[] { false, false };
 
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
+		tableModel = new TableModelBookDetail(library, copies, header);
+		table.setModel(tableModel);
 
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -234,23 +237,17 @@ public class BookAdd implements Observer {
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selected[] = table.getSelectedRows();
-				for (int i : selected) {
-					long inventoryNumberToDelete = Long.valueOf((String) ((DefaultTableModel) table
-							.getModel()).getValueAt(i, 0)); // Thats why
-															// we
-															// should
-															// use our
-															// own
-															// TableModel
-					Copy copyToDelete = null;
-					List<Copy> copies = library.getCopies();
-					for (Copy copy : copies) {
-						if (copy.getInventoryNumber() == inventoryNumberToDelete) {
-							copyToDelete = copy;
-						}
-					}
-					library.removeCopy(copyToDelete);
-					((DefaultTableModel) table.getModel()).removeRow(i);
+				for (int i = selected.length - 1; i >= 0; i--) // Von hinten
+																// nach vorne
+																// die Elemente
+																// entfernen,
+																// ansosnten
+																// index out of
+																// bounds
+																// exeception!
+				{
+					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
+					tableModel.removeRow(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
 																						// Anzahl
@@ -268,14 +265,18 @@ public class BookAdd implements Observer {
 		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
 		btnExemplarHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (book != null) {
+				if (book == null) {
+					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufügen");
+				} else {
 					Copy c = library.createAndAddCopy(book);
-					String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
-					((DefaultTableModel) table.getModel()).addRow(stringTableModel);
+					tableModel.addRow(c);
+					tableModel.fireTableDataChanged();
+					table.repaint();
 					lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
-				} // Anzahl
-					// Kopien
-					// updaten
+																							// Anzahl
+																							// Kopien
+																							// updaten
+				}
 			}
 		});
 		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
@@ -298,45 +299,6 @@ public class BookAdd implements Observer {
 			copies = library.getCopiesOfBook(book); // Bücherliste holen
 			lent = library.getLentCopiesOfBook(book);
 			DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
-			// Liste füllen
-
-			for (Copy c : copies) {
-				if (library.isCopyLent(c)) {
-					for (Loan l : lent) {
-						if (l.getCopy().equals(c)) // TODO wirklich alles
-													// vergleichen oder nur
-													// nummer?
-						{
-							// TODO Datum muss noch formatiert werden!!!
-							// TODO NPE bei gettime auf returndate
-							// DateFormat dateFormat = new
-							// SimpleDateFormat("dd-MM");
-							//
-							// Date pickupDate = l.getPickupDate().getTime();
-							// String pickupDateStr =
-							// dateFormat.format(pickupDate);
-							//
-							// Date returnDate = l.getReturnDate().getTime();
-							// String returnDateStr =
-							// dateFormat.format(returnDate);
-							//
-							// System.out.println(pickupDateStr + " - " +
-							// returnDateStr);
-
-							String[] stringTableModel = {
-									"" + l.getCopy().getInventoryNumber(),
-									l.getPickupDate().DAY_OF_MONTH + "." + l.getPickupDate().MONTH + "."
-											+ l.getPickupDate().YEAR + " - " + l.getReturnDate().DAY_OF_MONTH
-											+ "." + l.getReturnDate().MONTH + "." + l.getReturnDate().YEAR };
-							((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-
-						}
-					}
-				} else {
-					String[] stringTableModel = { "" + c.getInventoryNumber(), "Verfügbar" };
-					((DefaultTableModel) table.getModel()).addRow(stringTableModel);
-				}
-			}
 		}
 	}
 
@@ -355,7 +317,7 @@ public class BookAdd implements Observer {
 			txtTitel.setText(book.getName());
 			txtAutor.setText(book.getAuthor());
 			txtVerlag.setText(book.getPublisher());
-			regalComboBox.setSelectedItem((book.getShelf().toString()));
+			regalComboBox.setSelectedItem((book.getShelf()));
 			System.out.println(book.getShelf().toString());
 		}
 	}
