@@ -1,6 +1,10 @@
 package view;
 
-public class BookMasterLoanTab
+import java.util.Observer;
+
+import javax.swing.JPanel;
+
+public class BookMasterLoanTab extends JPanel // implements Observer
 {
 
 }
