@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Observable;
@@ -52,10 +53,10 @@ public class BookAdd implements Observer {
 	private List<Loan> lent;
 	private Shelf shelf;
 	private JLabel lblRegal;
-	JComboBox regalComboBox;
+	private JComboBox regalComboBox;
 	private JTable table;
-	JButton btnExemplarHinzufuegen;
-	JButton btnAusgewaehlteEntfernen;
+	private JButton btnExemplarHinzufuegen;
+	private JButton btnAusgewaehlteEntfernen;
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
 	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
@@ -171,7 +172,6 @@ public class BookAdd implements Observer {
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
 		btnAddBook.addActionListener(new ActionListener() {
-			
 
 			public void actionPerformed(ActionEvent arg0) {
 				boolean ok = verifyFields();
@@ -185,11 +185,12 @@ public class BookAdd implements Observer {
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
 					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
+					lblStatus.setForeground(new Color(0, 0, 0));
 				}
 			}
 		});
 
-		lblStatus = new JLabel("");
+		lblStatus = new JLabel(" ");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.gridwidth = 7;
 		gbc_lblError.insets = new Insets(0, 0, 5, 0);
@@ -310,17 +311,19 @@ public class BookAdd implements Observer {
 		if (book != null) {
 			copies = library.getCopiesOfBook(book); // Bücherliste holen
 			lent = library.getLentCopiesOfBook(book);
-			DefaultListModel<String> listBuchDetailModel = new DefaultListModel<String>();
 		}
 	}
-	
-	private boolean verifyFields(){
+
+	private boolean verifyFields() {
 		boolean ok = true;
 		Color red = new Color(255, 0, 0);
 		Color black = new Color(0, 0, 0);
-		
+		if (bookExists()) {
+			lblStatus.setText("Buch Existiert bereits!");
+			lblStatus.setForeground(red);
+			return false;
+		}
 		if (txtTitel.getText().equals("")) {
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
 			lblStatus.setForeground(red);
 			lblTitel.setText("Titel*");
 			lblTitel.setForeground(red);
@@ -330,42 +333,46 @@ public class BookAdd implements Observer {
 			lblTitel.setText("Titel");
 		}
 		if (txtAutor.getText().equals("")) {
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
-			lblStatus.setForeground(red);
 			lblAutor.setText("Autor*");
 			lblAutor.setForeground(red);
 			ok = false;
-		}
-		else if (lblAutor.getForeground().equals(red)) {
+		} else if (lblAutor.getForeground().equals(red)) {
 			lblAutor.setForeground(black);
 			lblAutor.setText("Autor");
 		}
 		if (txtVerlag.getText().equals("")) {
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
-			lblStatus.setForeground(red);
 			lblVerlag.setText("Verlag*");
 			lblVerlag.setForeground(red);
 			ok = false;
-		}
-		else if (lblVerlag.getForeground().equals(red)) {
+		} else if (lblVerlag.getForeground().equals(red)) {
 			lblVerlag.setForeground(black);
 			lblVerlag.setText("Verlag");
 		}
 		if (regalComboBox.getSelectedIndex() == -1) {
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
-			lblStatus.setForeground(red);
 			lblRegal.setText("Regal*");
 			lblRegal.setForeground(red);
 			ok = false;
-		}
-		else if (lblRegal.getForeground().equals(red)) {
+		} else if (lblRegal.getForeground().equals(red)) {
 			lblRegal.setForeground(black);
 			lblRegal.setText("Regal");
 		}
-		if(ok){
-			lblStatus.setText("");
+		if (ok) {
+			lblStatus.setText(" ");
+		} else {
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setForeground(red);
 		}
 		return ok;
+	}
+
+	private boolean bookExists() {
+		List<Book> books = library.getBooks();
+		for (Book b : books) {
+			if (b.getName().equals(txtTitel.getText())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
