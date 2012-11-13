@@ -39,8 +39,11 @@ import domain.TableModelBookDetail;
 public class BookAdd implements Observer {
 
 	private JFrame frmBuchHinzufgen;
+	private JLabel lblTitel;
 	private JTextField txtTitel;
+	private JLabel lblAutor;
 	private JTextField txtAutor;
+	private JLabel lblVerlag;
 	private JTextField txtVerlag;
 	private JLabel lblAnzahl;
 	private Book book = null;
@@ -48,6 +51,7 @@ public class BookAdd implements Observer {
 	private List<Copy> copies;
 	private List<Loan> lent;
 	private Shelf shelf;
+	private JLabel lblRegal;
 	JComboBox regalComboBox;
 	private JTable table;
 	JButton btnExemplarHinzufuegen;
@@ -85,11 +89,12 @@ public class BookAdd implements Observer {
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+				Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		JLabel lblTitel = new JLabel("Titel");
+		lblTitel = new JLabel("Titel");
 		GridBagConstraints gbc_lblTitel = new GridBagConstraints();
 		gbc_lblTitel.gridwidth = 2;
 		gbc_lblTitel.insets = new Insets(0, 0, 5, 5);
@@ -107,7 +112,7 @@ public class BookAdd implements Observer {
 		panel.add(txtTitel, gbc_txtTitel);
 		txtTitel.setColumns(10);
 
-		JLabel lblAutor = new JLabel("Autor");
+		lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
 		gbc_lblAutor.gridwidth = 2;
 		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
@@ -126,7 +131,7 @@ public class BookAdd implements Observer {
 		panel.add(txtAutor, gbc_txtAutor);
 		txtAutor.setColumns(10);
 
-		JLabel lblVerlag = new JLabel("Verlag");
+		lblVerlag = new JLabel("Verlag");
 		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
 		gbc_lblVerlag.gridheight = 2;
 		gbc_lblVerlag.gridwidth = 2;
@@ -146,7 +151,7 @@ public class BookAdd implements Observer {
 		panel.add(txtVerlag, gbc_txtVerlag);
 		txtVerlag.setColumns(10);
 
-		JLabel lblRegal = new JLabel("Regal");
+		lblRegal = new JLabel("Regal");
 		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
 		gbc_lblRegal.gridwidth = 2;
 		gbc_lblRegal.insets = new Insets(0, 0, 5, 5);
@@ -166,32 +171,55 @@ public class BookAdd implements Observer {
 		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
 		btnAddBook.addActionListener(new ActionListener() {
-			Color red = new Color(255,0,0);
+			Color red = new Color(255, 0, 0);
+			Color black = new Color(0, 0, 0);
+
 			public void actionPerformed(ActionEvent arg0) {
-				if (txtTitel.getText() == "") {
+				boolean error = false;
+				if (txtTitel.getText().equals("")) {
 					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
 					lblError.setForeground(red);
-					txtAutor.setText("Titel*");
-					txtAutor.setForeground(red);
-					System.out.println("Kein Titel angegeben!");
-				} else if (txtAutor.getText() == "") {
+					lblTitel.setText("Titel*");
+					lblTitel.setForeground(red);
+					error = true;
+				} else if (lblTitel.getForeground().equals(red)) {
+					lblTitel.setForeground(black);
+					lblTitel.setText("Titel");
+				}
+				if (txtAutor.getText().equals("")) {
 					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
 					lblError.setForeground(red);
-					txtAutor.setText("Autor*");
-					txtAutor.setForeground(red);
-					System.out.println("Kein Autor angegeben!");
-				} else if (txtVerlag.getText() == "") {
+					lblAutor.setText("Autor*");
+					lblAutor.setForeground(red);
+					error = true;
+				}
+				else if (lblAutor.getForeground().equals(red)) {
+					lblAutor.setForeground(black);
+					lblAutor.setText("Autor");
+				}
+				if (txtVerlag.getText().equals("")) {
 					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
 					lblError.setForeground(red);
-					txtVerlag.setText("Verlag*");
-					txtVerlag.setForeground(red);
-					System.out.println("Kein Verlag angegeben!");
-				} else if (regalComboBox.getSelectedIndex() == -1) {
+					lblVerlag.setText("Verlag*");
+					lblVerlag.setForeground(red);
+					error = true;
+				}
+				else if (lblVerlag.getForeground().equals(red)) {
+					lblVerlag.setForeground(black);
+					lblVerlag.setText("Verlag");
+				}
+				if (regalComboBox.getSelectedIndex() == -1) {
 					lblError.setText("Bitte füllen Sie die Markierten Felder aus");
 					lblError.setForeground(red);
-					
-					System.out.println("Kein Regal ausgewählt!");
-				} else {
+					lblRegal.setText("Regal*");
+					lblRegal.setForeground(red);
+					error = true;
+				}
+				else if (lblRegal.getForeground().equals(red)) {
+					lblRegal.setForeground(black);
+					lblRegal.setText("Regal");
+				}
+				if (!error) {
 					book = library.createAndAddBook(txtTitel.getText());
 					book.setAuthor(txtAutor.getText());
 					book.setPublisher(txtVerlag.getText());
@@ -203,7 +231,7 @@ public class BookAdd implements Observer {
 				}
 			}
 		});
-		
+
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.gridwidth = 7;
