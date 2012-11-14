@@ -218,7 +218,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
 					btnSelektierteAnzeigen.setEnabled(true);
 				} else {
