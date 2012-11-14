@@ -33,7 +33,7 @@ public class TableModelLoanMaster extends AbstractTableModel {
 		case 2:
 			return loan.getCopy().getTitle();
 		case 3:
-			return loan.getReturnDate();
+			return loan.getDueDate();
 		case 4:
 			return loan.getCustomer().getName();
 		default:

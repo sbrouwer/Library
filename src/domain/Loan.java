@@ -99,6 +99,12 @@ public class Loan {
 				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
 	}
 	
+	public String getDueDate(){
+		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
+		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
+		return getFormattedDate(dueDate);
+	}
+	
 	public boolean isOverdue() {
 		if ( !isLent() )
 			return false;
