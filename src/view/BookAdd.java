@@ -84,8 +84,7 @@ public class BookAdd implements Observer {
 		frmBuchHinzufgen.setTitle("Buch Hinzuf\u00FCgen");
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
+		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmBuchHinzufgen.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };

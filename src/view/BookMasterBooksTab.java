@@ -226,7 +226,6 @@ public class BookMasterBooksTab extends JPanel implements Observer
 				}
 			}
 		});
-		//table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		

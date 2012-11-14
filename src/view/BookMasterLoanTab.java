@@ -236,7 +236,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.setCellSelectionEnabled(true);
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();
