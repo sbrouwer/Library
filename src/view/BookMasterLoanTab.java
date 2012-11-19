@@ -346,8 +346,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	
 	private void updateStats(){
 		lblAnzahlAusleihen.setText("Anzahl Bücher: " + books.size());
-		lblAktuellAusgeliehen.setText("Anzahl Exemplare: "
-				+ (library.getBooks().size() + library.getCopies().size()));
+		lblAktuellAusgeliehen.setText("Anzahl Exemplare: " + library.getCopies().size());
 	}
 	
 	private void addOverdueLoans() {

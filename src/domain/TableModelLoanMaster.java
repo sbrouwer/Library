@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
@@ -13,9 +14,16 @@ public class TableModelLoanMaster extends AbstractTableModel {
 
 	public TableModelLoanMaster(Library library, List<Loan> loans, String[] header) {
 		this.library = library;
-		this.loans = loans;
 		this.header = header;
 		this.copies = library.getCopies();
+		this.loans = new ArrayList<Loan>();
+		List<Loan> lent = loans;
+		for(Loan l : lent){
+			if(l.isLent()){
+				this.loans.add(l);
+			}
+		}
+		
 
 		fireTableDataChanged();
 	}
@@ -31,14 +39,11 @@ public class TableModelLoanMaster extends AbstractTableModel {
 		case 2:
 			return loan.getCopy().getTitle();
 		case 3:
-			if (loan.isLent()) {
 				if (!loan.isOverdue()) {
 					return loan.getDueDateString() + " (Noch " + loan.getDaysTilDue() + " Tage)";
 				} else {
 					return loan.getDueDateString() + " (Fällig!)";
 				}
-			}
-			return "Verfügbar";
 
 		case 4:
 			return loan.getCustomer().getName();
@@ -81,9 +86,9 @@ public class TableModelLoanMaster extends AbstractTableModel {
 
 	private String getLoanStatus(Loan l) {
 		if (l.isOverdue()) {
-			return "Fällig";
+			return "\u26A0 Fällig";
 		} else {
-			return "Ok";
+			return "\u2713 Ok";
 		}
 	}
 
