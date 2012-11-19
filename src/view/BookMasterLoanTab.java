@@ -202,12 +202,12 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		//Ab hier "Neues Buch hinzufügen"
-		btnNeueAusleihe = new JButton("Neues Ausleihe erfassen");
+		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen");
 		btnNeueAusleihe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);
 			}
-		});		
+		});	
 		GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
 		gbc_btnNeueAusleihe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);

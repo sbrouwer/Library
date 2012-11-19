@@ -24,9 +24,18 @@ public class TableModelBookDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
-			if (library.getLoanOfCopy(copy) != null) {
-				return "Ausgeliehen, noch " + library.getLoanOfCopy(copy).getDaysOfLoanDuration()
-						+ " Tage bis zur Rückgabe";
+			Loan l = library.getLoanOfCopy(copy);
+			if (l != null) {
+				if (l.isLent()) { //Damit keine schon zurückgegebene Loans angezeigt werden
+					if (!l.isOverdue()) {
+						return l.getDueDateString() + " (Noch " + l.getDaysTilDue()
+								+ " Tage bis zur Rückgabe)";
+					} else {
+						return l.getDueDateString() + " (Fällig!)";
+					}
+				} else {
+					return "Verfügbar";
+				}
 			} else {
 				return "Verfügbar";
 			}
@@ -59,7 +68,7 @@ public class TableModelBookDetail extends AbstractTableModel {
 	}
 
 	public void addRow(Copy copyToAdd) {
-		if(copies == null){
+		if (copies == null) {
 			this.copies = library.getCopiesOfBook(copyToAdd.getBook());
 		}
 		this.copies.add(copyToAdd);
