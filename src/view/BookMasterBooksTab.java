@@ -49,7 +49,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 	private JScrollPane scrollPane;
 	private JLabel lblAnzahlBuecher;
 	private JLabel lblAnzahlExemplare;
-	private JButton btnSelektierteAnzeigen;
+	private JButton btnSelektiertesAnzeigen;
 	private JButton btnNeuesBuch;
 	
 	public BookMasterBooksTab(Library library)
@@ -147,10 +147,10 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		buchInventarPanel.add(txtSuche, gbc_txtSuche);
 		txtSuche.setColumns(10);
 
-		//Ab hier "Selektierte Anzeigen"
-		btnSelektierteAnzeigen = new JButton("Selektierte Anzeigen");
-		btnSelektierteAnzeigen.setEnabled(false);
-		btnSelektierteAnzeigen.addActionListener(new ActionListener() {
+		//Ab hier "Selektiertes Anzeigen"
+		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen");
+		btnSelektiertesAnzeigen.setEnabled(false);
+		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int selected[] = table.getSelectedRows();
 				for (int i : selected) {
@@ -190,7 +190,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSelektierteAnzeigen.gridx = 4;
 		gbc_btnSelektierteAnzeigen.gridy = 0;
-		buchInventarPanel.add(btnSelektierteAnzeigen, gbc_btnSelektierteAnzeigen);
+		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		//Ab hier "Neues Buch hinzufügen"
 		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen");
@@ -220,13 +220,13 @@ public class BookMasterBooksTab extends JPanel implements Observer
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
-					btnSelektierteAnzeigen.setEnabled(true);
+					btnSelektiertesAnzeigen.setEnabled(true);
 				} else {
-					btnSelektierteAnzeigen.setEnabled(false);
+					btnSelektiertesAnzeigen.setEnabled(false);
 				}
 			}
 		});
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();
