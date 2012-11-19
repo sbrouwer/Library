@@ -201,7 +201,7 @@ public class BookDetail implements Observer
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
-		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
+		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte entfernen");
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)

@@ -18,7 +18,8 @@ public class TableModelBookMaster extends AbstractTableModel {
 		fireTableDataChanged();
 	}
 
-	public Object getValueAt(int row, int colum) {
+	public Object getValueAt(int row, int colum) {	
+		
 		Book book = books.get(row);
 		switch (colum) {
 		case 0:
@@ -33,12 +34,11 @@ public class TableModelBookMaster extends AbstractTableModel {
 			return null;
 		}
 	}
-	
+
 	public Book getBookAtRow(int row){
 		return books.get(row);
 	}
 	
-
 	@Override
 	public int getColumnCount() {
 		return 4;
@@ -57,12 +57,13 @@ public class TableModelBookMaster extends AbstractTableModel {
 	public void addRow(Book bookToAdd){
 		this.books.add(bookToAdd);
 		fireTableDataChanged();
-	}
+	}	
 	
-	public void removeRow(Book bookToDelet){
-		/*this.books.remove(bookToDelet);
-		library.removeBook(bookToDelet);
-		library.
-		fireTableDataChanged();*/
-	}
+	
+//	public void removeRow(Book bookToDelet){
+//		/*this.books.remove(bookToDelet);
+//		library.removeBook(bookToDelet);
+//		library.
+//		fireTableDataChanged();*/
+//	}
 }
