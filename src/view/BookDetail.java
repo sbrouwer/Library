@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -69,6 +70,8 @@ public class BookDetail implements Observer
 		frame.setBounds(100, 100, 450, 360);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buch Detail Ansicht");
+		Dimension d = new Dimension(450, 360);
+		frame.setMinimumSize(d);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
