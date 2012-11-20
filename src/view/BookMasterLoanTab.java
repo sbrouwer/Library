@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
@@ -130,9 +131,10 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// search();
+				 
 				if (txtSuche.getText().length() > 0) {
-					search(txtSuche.getText());
+					//search(txtSuche.getText());
+					search();
 				} else {
 					addAllLoans();
 				}
@@ -247,21 +249,28 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
-
-		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
-		table.setRowSorter(sorter);		
+		
 	}
 	
-//	private void search() {
-//		RowFilter<TableModelBookMaster, Object> rf = null;
-//		// If current expression doesn't parse, don't update.
-//		try {
-//			rf = RowFilter.regexFilter(txtSuche.getText(), 0);
-//		} catch (java.util.regex.PatternSyntaxException e) {
-//			return;
-//		}
-//		sorter.setRowFilter(rf);
-//	}
+	private void search() {
+		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
+		table.setRowSorter(sorter);
+		RowFilter<TableModelLoanMaster, Object> rf = null;
+		List<RowFilter<TableModelLoanMaster,Object>> filters = new ArrayList<RowFilter<TableModelLoanMaster,Object>>();
+		// If current expression doesn't parse, don't update.
+		try {
+			RowFilter<TableModelLoanMaster, Object> rfID =RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
+			RowFilter<TableModelLoanMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 2);
+			RowFilter<TableModelLoanMaster, Object> rfKunde = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 4);
+			filters.add(rfID);
+			filters.add(rfTitel);
+			filters.add(rfKunde);
+			rf = RowFilter.orFilter(filters);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
+	}
 
 //	/**
 //	 * Deletes all rows from a Table
