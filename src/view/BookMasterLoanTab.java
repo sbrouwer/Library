@@ -34,6 +34,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import domain.Book;
+import domain.Copy;
 import domain.Library;
 import domain.Loan;
 import domain.TableModelBookMaster;
@@ -164,8 +165,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 			public void actionPerformed(ActionEvent arg0) {
 				int selected[] = table.getSelectedRows();
 				for (int i : selected) {
-					Book book = library.findByBookTitle(table.getModel().getValueAt(table.convertRowIndexToModel(i), 1).toString());
-					BookDetail bookDetail = new BookDetail(book, library);
+					Copy copy = library.getCopyByInventoryNumber((Long)(table.getModel().getValueAt(table.convertRowIndexToModel(i), 1)));
+					LoanDetail loanDetail = new LoanDetail(copy);
 				}
 			}
 		});

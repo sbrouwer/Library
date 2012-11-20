@@ -1,27 +1,28 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import java.awt.GridBagLayout;
-import javax.swing.JPanel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
+
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import domain.Copy;
 
 public class LoanDetail
 {
 
 	private JFrame frmAusleiheDetail;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField txtAsdasd;
+	private JTextField txtCustomerIdentifier;
+	private JTextField txtCopyInventoryNumber;
+	private JTextField txtReturnDate;
 	private JTable table;
 
 //	/**
@@ -44,13 +45,25 @@ public class LoanDetail
 //			}
 //		});
 //	}
-
+	
 	/**
 	 * Create the application.
 	 */
 	public LoanDetail()
 	{
 		initialize();
+		frmAusleiheDetail.setVisible(true);
+
+	}
+	
+	/**
+	 * Create the application.
+	 */
+	public LoanDetail(Copy copy)
+	{
+		initialize();
+		frmAusleiheDetail.setVisible(true);
+		System.out.println(copy.getTitle().getName() + ", " + copy.getInventoryNumber());
 	}
 
 	/**
@@ -92,15 +105,15 @@ public class LoanDetail
 		gbc_lblNewLabel.gridy = 0;
 		customerPanel.add(lblKennung, gbc_lblNewLabel);
 		
-		textField = new JTextField();
-		textField.setText("1882");
+		txtCustomerIdentifier = new JTextField();
+		txtCustomerIdentifier.setText("1882");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 1;
 		gbc_textField.gridy = 0;
-		customerPanel.add(textField, gbc_textField);
-		textField.setColumns(10);
+		customerPanel.add(txtCustomerIdentifier, gbc_textField);
+		txtCustomerIdentifier.setColumns(10);
 		
 		JLabel lblKunde = new JLabel("Kunde:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -140,15 +153,15 @@ public class LoanDetail
 		gbc_lblNewLabel_2.gridy = 0;
 		newCopyPanel.add(lblExemplarID, gbc_lblNewLabel_2);
 		
-		textField_1 = new JTextField();
-		textField_1.setText("123123");
+		txtCopyInventoryNumber = new JTextField();
+		txtCopyInventoryNumber.setText("123123");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_1.gridx = 1;
 		gbc_textField_1.gridy = 0;
-		newCopyPanel.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		newCopyPanel.add(txtCopyInventoryNumber, gbc_textField_1);
+		txtCopyInventoryNumber.setColumns(10);
 		
 		JLabel lblX = new JLabel("X");
 		GridBagConstraints gbc_lblX = new GridBagConstraints();
@@ -173,16 +186,16 @@ public class LoanDetail
 		gbc_lblZurckAm.gridy = 1;
 		newCopyPanel.add(lblZurueckAm, gbc_lblZurckAm);
 		
-		txtAsdasd = new JTextField();
-		txtAsdasd.setText("asdasd");
+		txtReturnDate = new JTextField();
+		txtReturnDate.setText("asdasd");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
 		gbc_txtAsdasd.gridwidth = 3;
 		gbc_txtAsdasd.insets = new Insets(0, 0, 0, 5);
 		gbc_txtAsdasd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAsdasd.gridx = 1;
 		gbc_txtAsdasd.gridy = 1;
-		newCopyPanel.add(txtAsdasd, gbc_txtAsdasd);
-		txtAsdasd.setColumns(10);
+		newCopyPanel.add(txtReturnDate, gbc_txtAsdasd);
+		txtReturnDate.setColumns(10);
 		
 		JPanel loanByCustomerTablePanel = new JPanel();
 		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von VAR", TitledBorder.LEADING, TitledBorder.TOP, null, null));

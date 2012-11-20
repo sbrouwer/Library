@@ -157,6 +157,16 @@ public class Library extends Observable {
 		copies.remove(c);
 		libraryChanged();
 	}
+	
+	public Copy getCopyByInventoryNumber(long inventoryNumber){
+		Copy copy = null;
+		for (Copy c : copies) {
+			if (c.getInventoryNumber()==inventoryNumber){
+				copy = c;
+			}
+		}
+		return copy;
+	}
 
 	private void libraryChanged() {
 		setChanged();

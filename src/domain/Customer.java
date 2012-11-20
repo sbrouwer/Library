@@ -4,10 +4,13 @@ public class Customer {
 	
 	private String name, surname, street, city;
 	private int zip;
+	public static long nextIdentifier = 1;
+	private final long identifier;
 
 	public Customer(String name, String surname) {
 		this.name = name;
 		this.surname = surname;
+		identifier = nextIdentifier++;
 	}
 	
 	public void setAdress(String street, int zip, String city) {
@@ -59,6 +62,11 @@ public class Customer {
 	@Override
 	public String toString() {
 		return name + " " + surname + " , " + street + " , " + zip + " " + city;
+	}
+
+	public long getIdentifier()
+	{
+		return identifier;
 	}
 
 }
