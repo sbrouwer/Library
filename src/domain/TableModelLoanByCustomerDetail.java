@@ -24,7 +24,7 @@ public class TableModelLoanByCustomerDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
-			return copy.getTitle();
+			return copy.getTitle().getName();
 		case 2:
 			return copy.getTitle().getAuthor();
 		default:
@@ -38,7 +38,7 @@ public class TableModelLoanByCustomerDetail extends AbstractTableModel {
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return 3;
 	}
 
 	@Override
