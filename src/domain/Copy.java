@@ -14,8 +14,8 @@ public class Copy {
 
 	private Condition condition;
 
-	public Copy(Book title) {
-		this.book = title;
+	public Copy(Book book) {
+		this.book = book;
 		inventoryNumber = nextInventoryNumber++;
 		condition = Condition.NEW;
 	}
@@ -36,11 +36,4 @@ public class Copy {
 		return inventoryNumber;
 	}
 	
-	/**
-	 * @return the book
-	 */
-	public Book getBook()
-	{
-		return book;
-	}
 }

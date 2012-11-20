@@ -107,7 +107,7 @@ public class Library extends Observable {
 	}
 
 	public Loan getLoanOfCopy(Copy copy) {
-		List<Loan> lent = this.getLentCopiesOfBook(copy.getBook());
+		List<Loan> lent = this.getLentCopiesOfBook(copy.getTitle());
 		if (this.isCopyLent(copy)) {
 			for (Loan l : lent) {
 				if (l.getCopy() == copy) // TODO wirklich alles vergleichen												// // oder nur nummer?

@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public class TableModelBookDetail extends AbstractTableModel {
+public class TableModelLoanByCustomerDetail extends AbstractTableModel {
 
 	Library library;
 	List<Copy> copies;
 	String[] header;
 
-	public TableModelBookDetail(Library library, List<Copy> copies, String[] header) {
+	public TableModelLoanByCustomerDetail(Library library, List<Copy> copies, String[] header) {
 		this.library = library;
 		this.copies = copies;
 		this.header = header;
@@ -24,21 +24,9 @@ public class TableModelBookDetail extends AbstractTableModel {
 		case 0:
 			return copy.getInventoryNumber();
 		case 1:
-			Loan l = library.getLoanOfCopy(copy);
-			if (l != null) {
-				if (l.isLent()) { //Damit keine schon zurückgegebene Loans angezeigt werden
-					if (!l.isOverdue()) {
-						return l.getDueDateString() + " (Noch " + l.getDaysTilDue()
-								+ " Tage bis zur Rückgabe)";
-					} else {
-						return l.getDueDateString() + " (Fällig!)";
-					}
-				} else {
-					return "Verfügbar";
-				}
-			} else {
-				return "Verfügbar";
-			}
+			return copy.getTitle();
+		case 2:
+			return copy.getTitle().getAuthor();
 		default:
 			return null;
 		}
