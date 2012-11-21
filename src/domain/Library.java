@@ -175,9 +175,9 @@ public class Library extends Observable {
 //				c.
 //			}
 //		}
+//		return copy;
 //	}
-//	return copy;
-//	}
+
 
 	private void libraryChanged() {
 		setChanged();

@@ -165,8 +165,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 			public void actionPerformed(ActionEvent arg0) {
 				int selected[] = table.getSelectedRows();
 				for (int i : selected) {
-					Copy copy = library.getCopyByInventoryNumber((Long)(table.getModel().getValueAt(table.convertRowIndexToModel(i), 1)));
-					LoanDetail loanDetail = new LoanDetail(copy, library);
+					Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
+					LoanDetail loanDetail = new LoanDetail(loan, library);
 				}
 			}
 		});
@@ -208,7 +208,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen");
 		btnNeueAusleihe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				BookAdd bookAdd = new BookAdd(library);
+				LoanDetail loanDetail = new LoanDetail(library);
 			}
 		});	
 		GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
@@ -230,7 +230,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
 					btnSelektiertesAnzeigen.setEnabled(true);
 				} else {

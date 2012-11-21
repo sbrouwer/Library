@@ -52,7 +52,7 @@ public class TableModelLoanMaster extends AbstractTableModel {
 		}
 	}
 
-	public Loan getCopyAtRow(int row) {
+	public Loan getLoanAtRow(int row) {
 		return loans.get(row);
 	}
 
