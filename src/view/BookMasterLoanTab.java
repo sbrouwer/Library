@@ -166,7 +166,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected) {
 					Copy copy = library.getCopyByInventoryNumber((Long)(table.getModel().getValueAt(table.convertRowIndexToModel(i), 1)));
-					LoanDetail loanDetail = new LoanDetail(copy);
+					LoanDetail loanDetail = new LoanDetail(copy, library);
 				}
 			}
 		});

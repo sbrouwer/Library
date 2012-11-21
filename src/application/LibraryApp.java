@@ -25,12 +25,12 @@ import domain.Shelf;
 
 public class LibraryApp {
 	
-	/*public static void main(String[] args) throws Exception {
-		Library library = new Library();
-	}*/
-	
-	public LibraryApp(Library library) throws Exception {
-		initLibrary(library);
+	public static Library lib;
+
+	public static void main(String[] args) throws Exception {
+		lib = new Library();
+		initLibrary(lib);
+		BookMaster bookMaster = new BookMaster(lib);
 	}
 
 	public static void initLibrary(Library library)

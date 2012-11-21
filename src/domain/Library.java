@@ -167,6 +167,17 @@ public class Library extends Observable {
 		}
 		return copy;
 	}
+	
+//	public Customer getCustomerByLentCopy(Copy lentCopy){
+//		Customer customer = null;
+//		for (Copy c : copies){
+//			if (c.equals(lentCopy)){
+//				c.
+//			}
+//		}
+//	}
+//	return copy;
+//	}
 
 	private void libraryChanged() {
 		setChanged();

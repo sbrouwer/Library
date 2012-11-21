@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import domain.Copy;
+import domain.Library;
 
 public class LoanDetail
 {
@@ -24,6 +25,8 @@ public class LoanDetail
 	private JTextField txtCopyInventoryNumber;
 	private JTextField txtReturnDate;
 	private JTable table;
+	private Library library;
+	private Copy copy;
 
 //	/**
 //	 * Launch the application.
@@ -59,11 +62,14 @@ public class LoanDetail
 	/**
 	 * Create the application.
 	 */
-	public LoanDetail(Copy copy)
+	public LoanDetail(Copy copy, Library library)
 	{
 		initialize();
-		frmAusleiheDetail.setVisible(true);
+		frmAusleiheDetail.setVisible(true);		
 		System.out.println(copy.getTitle().getName() + ", " + copy.getInventoryNumber());
+		this.library = library;
+		this.copy = copy;
+		
 	}
 
 	/**
