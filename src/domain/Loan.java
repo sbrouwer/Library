@@ -88,8 +88,7 @@ public class Loan {
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
 
-		return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 / 60 / 60
-				/ 24;
+		return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 / 60 / 60 / 24;
 	}
 
 	public String getDueDateString() {
@@ -109,9 +108,7 @@ public class Loan {
 			return 0;
 		} else {
 			GregorianCalendar dueDate = getDueDateDate();
-
-			return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 / 60
-					/ 60 / 24;
+			return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 / 60 / 60 / 24;
 		}
 	}
 
@@ -127,4 +124,6 @@ public class Loan {
 
 		return (new GregorianCalendar().after(dueDate));
 	}
+	
+	
 }

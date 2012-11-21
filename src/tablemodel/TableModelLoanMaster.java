@@ -29,7 +29,6 @@ public class TableModelLoanMaster extends AbstractTableModel {
 			}
 		}
 		
-
 		fireTableDataChanged();
 	}
 	
@@ -68,7 +67,6 @@ public class TableModelLoanMaster extends AbstractTableModel {
 				} else {
 					return loan.getDueDateString() + " (Fällig!)";
 				}
-
 		case 4:
 			return loan.getCustomer().getName();
 		default:

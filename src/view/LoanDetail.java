@@ -90,7 +90,7 @@ public class LoanDetail
 		txtCopyInventoryNumber.setText("");
 		
 		GregorianCalendar returnDate = new GregorianCalendar();
-		returnDate.add(Calendar.MONTH, 1);
+		returnDate.add(GregorianCalendar.MONTH, 1);
 		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
 			
@@ -103,7 +103,7 @@ public class LoanDetail
 		txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
 		
 		GregorianCalendar returnDate = (GregorianCalendar) loan.getPickupDate().clone();
-		returnDate.add(Calendar.DATE, loan.getDaysOfLoanDuration());		
+		returnDate.add(GregorianCalendar.DAY_OF_YEAR, loan.getDaysOfLoanDuration());		
 		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
 		
