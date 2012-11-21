@@ -32,6 +32,25 @@ public class TableModelLoanMaster extends AbstractTableModel {
 
 		fireTableDataChanged();
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		switch (columnIndex) {
+		case 0:
+			return String.class;
+		case 1:
+			return Long.class;
+		case 2:
+			return String.class;
+		case 3:
+			return String.class;
+		case 4:
+			return String.class;
+		default:
+			return null;
+		}
+	}
 
 	public Object getValueAt(int row, int colum) {
 		Loan loan = loans.get(row);
@@ -42,7 +61,7 @@ public class TableModelLoanMaster extends AbstractTableModel {
 		case 1:
 			return loan.getCopy().getInventoryNumber();
 		case 2:
-			return loan.getCopy().getTitle();
+			return loan.getCopy().getTitle().getName();
 		case 3:
 				if (!loan.isOverdue()) {
 					return loan.getDueDateString() + " (Noch " + loan.getDaysTilDue() + " Tage)";

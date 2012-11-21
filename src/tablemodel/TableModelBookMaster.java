@@ -20,6 +20,23 @@ public class TableModelBookMaster extends AbstractTableModel {
 
 		fireTableDataChanged();
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		switch (columnIndex) {
+		case 0:
+			return Integer.class;
+		case 1:
+			return String.class;
+		case 2:
+			return String.class;
+		case 3:
+			return String.class;
+		default:
+			return null;
+		}
+	}
 
 	public Object getValueAt(int row, int colum) {	
 		

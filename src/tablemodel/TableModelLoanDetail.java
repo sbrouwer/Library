@@ -19,6 +19,21 @@ public class TableModelLoanDetail extends AbstractTableModel {
 
 		fireTableDataChanged();
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		switch (columnIndex) {
+		case 0:
+			return Long.class;
+		case 1:
+			return String.class;
+		case 2:
+			return String.class;
+		default:
+			return null;
+		}
+	}
 
 	@Override
 	public Object getValueAt(int row, int colum) {

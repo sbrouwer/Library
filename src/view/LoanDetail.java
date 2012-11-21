@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -86,10 +88,12 @@ public class LoanDetail
 	{
 		txtCustomerIdentifier.setText("");
 		txtCopyInventoryNumber.setText("");
-
-		txtReturnDate.setText("");
-		txtReturnDate.setEditable(false);
 		
+		GregorianCalendar returnDate = new GregorianCalendar();
+		returnDate.add(Calendar.MONTH, 1);
+		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
+		txtReturnDate.setEditable(false);
+			
 		lblAnzahlAusleihenAmount.setText("0");
 	}
 	
@@ -98,10 +102,12 @@ public class LoanDetail
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
 		txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
 		
-		txtReturnDate.setText("");
+		GregorianCalendar returnDate = (GregorianCalendar) loan.getPickupDate().clone();
+		returnDate.add(Calendar.DATE, loan.getDaysOfLoanDuration());		
+		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
 		
-		List<Loan> loans = new ArrayList<Loan>(library.getCustomerLoans(loan.getCustomer()));
+		List<Loan> loans = library.getCustomerLoans(loan.getCustomer());
 		tableModel.setLoans(loans);
 		
 		lblAnzahlAusleihenAmount.setText(String.valueOf(loans.size()));

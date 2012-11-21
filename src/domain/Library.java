@@ -90,7 +90,7 @@ public class Library extends Observable {
 	public List<Loan> getCustomerLoans(Customer customer) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
 		for (Loan l : loans) {
-			if (l.getCustomer().equals(customer)) {
+			if (l.getCustomer().getIdentifier()==customer.getIdentifier()) {
 				lentCopies.add(l);
 			}
 		}

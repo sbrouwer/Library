@@ -21,6 +21,19 @@ public class TableModelBookDetail extends AbstractTableModel {
 
 		fireTableDataChanged();
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex)
+	{
+		switch (columnIndex) {
+		case 0:
+			return Long.class;
+		case 1:
+			return String.class;
+		default:
+			return null;
+		}
+	}
 
 	public Object getValueAt(int row, int colum) {
 		Copy copy = copies.get(row);

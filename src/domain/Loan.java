@@ -67,7 +67,7 @@ public class Loan {
 				+ getFormattedDate(returnDate) + "\tDays: " + getDaysOfLoanDuration();
 	}
 
-	private String getFormattedDate(GregorianCalendar date) {
+	static public String getFormattedDate(GregorianCalendar date) {
 		if (date != null) {
 			DateFormat f = SimpleDateFormat.getDateInstance();
 			return f.format(date.getTime());
