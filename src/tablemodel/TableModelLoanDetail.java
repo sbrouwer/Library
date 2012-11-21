@@ -1,8 +1,11 @@
-package domain;
+package tablemodel;
 
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import domain.Copy;
+import domain.Library;
 
 public class TableModelLoanDetail extends AbstractTableModel {
 

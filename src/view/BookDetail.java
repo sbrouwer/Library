@@ -24,12 +24,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import tablemodel.TableModelBookDetail;
+
 import domain.Book;
 import domain.Copy;
 import domain.Library;
 import domain.Loan;
 import domain.Shelf;
-import domain.TableModelBookDetail;
 
 public class BookDetail implements Observer
 {

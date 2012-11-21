@@ -33,12 +33,13 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
+import tablemodel.TableModelBookMaster;
+import tablemodel.TableModelLoanMaster;
+
 import domain.Book;
 import domain.Copy;
 import domain.Library;
 import domain.Loan;
-import domain.TableModelBookMaster;
-import domain.TableModelLoanMaster;
 
 public class BookMasterLoanTab extends JPanel implements Observer
 {

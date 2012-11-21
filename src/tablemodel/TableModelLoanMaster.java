@@ -1,9 +1,14 @@
-package domain;
+package tablemodel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
+
+import domain.Book;
+import domain.Copy;
+import domain.Library;
+import domain.Loan;
 
 public class TableModelLoanMaster extends AbstractTableModel {
 

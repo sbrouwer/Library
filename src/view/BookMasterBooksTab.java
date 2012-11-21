@@ -32,9 +32,10 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
+import tablemodel.TableModelBookMaster;
+
 import domain.Book;
 import domain.Library;
-import domain.TableModelBookMaster;
 
 public class BookMasterBooksTab extends JPanel implements Observer
 {
