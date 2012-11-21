@@ -41,8 +41,6 @@ public class BookDetail implements Observer
 	private Book book;
 	private Library library;
 	private List<Copy> copies;
-	private List<Loan> lent;
-	private Shelf shelf;
 	JComboBox regalComboBox;
 	private JTable table;
 	JButton btnExemplarHinzufuegen;
@@ -155,7 +153,7 @@ public class BookDetail implements Observer
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 3;
 		gbc_comboBox.gridy = 5;
-		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));		
+		regalComboBox.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));		
 		panel.add(regalComboBox, gbc_comboBox);
 
 		JPanel panel_1 = new JPanel();
@@ -188,7 +186,7 @@ public class BookDetail implements Observer
 		table.addMouseListener(new MouseAdapter()
 		{
 			@Override
-			public void mouseClicked(MouseEvent arg0)
+			public void mouseReleased(MouseEvent arg0)
 			{
 				if (table.getSelectedRows().length > 0)
 				{
@@ -212,7 +210,7 @@ public class BookDetail implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
 				{
-					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
+					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
 					tableModel.removeRow(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten

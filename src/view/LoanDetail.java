@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -15,7 +16,10 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import domain.Copy;
+import domain.Customer;
 import domain.Library;
+import domain.Loan;
+import domain.Shelf;
 
 public class LoanDetail
 {
@@ -26,50 +30,70 @@ public class LoanDetail
 	private JTextField txtReturnDate;
 	private JTable table;
 	private Library library;
-	private Copy copy;
+	private JComboBox customersComboBox;
 
-//	/**
-//	 * Launch the application.
-//	 */
-//	public static void main(String[] args)
-//	{
-//		EventQueue.invokeLater(new Runnable()
-//		{
-//			public void run()
-//			{
-//				try
-//				{
-//					LoanDetail window = new LoanDetail();
-//					window.frmAusleiheDetail.setVisible(true);
-//				} catch (Exception e)
-//				{
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-	
+	// /**
+	// * Launch the application.
+	// */
+	// public static void main(String[] args)
+	// {
+	// EventQueue.invokeLater(new Runnable()
+	// {
+	// public void run()
+	// {
+	// try
+	// {
+	// LoanDetail window = new LoanDetail();
+	// window.frmAusleiheDetail.setVisible(true);
+	// } catch (Exception e)
+	// {
+	// e.printStackTrace();
+	// }
+	// }
+	// });
+	// }
+
 	/**
 	 * Create the application.
 	 */
-	public LoanDetail()
+	public LoanDetail(Library library)
 	{
+		this.library = library;
 		initialize();
 		frmAusleiheDetail.setVisible(true);
-
+		updateForNewLoan();
 	}
-	
+
 	/**
 	 * Create the application.
 	 */
-	public LoanDetail(Copy copy, Library library)
+	public LoanDetail(Loan loan, Library library)
 	{
-		initialize();
-		frmAusleiheDetail.setVisible(true);		
-		System.out.println(copy.getTitle().getName() + ", " + copy.getInventoryNumber());
 		this.library = library;
-		this.copy = copy;
+		initialize();
+		updateWithExistingLoan(loan);
+
+		frmAusleiheDetail.setVisible(true);
+		System.out.println(loan.getCopy().getTitle().getName() + ", " + loan.getCopy().getInventoryNumber());
+	}
+
+	private void updateForNewLoan()
+	{
+		txtCustomerIdentifier.setText("");
+		txtCopyInventoryNumber.setText("");
+
+		txtReturnDate.setText("");
+		txtReturnDate.setEditable(false);
+	}
+	
+	private void updateWithExistingLoan(Loan loan)
+	{
+		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
+		txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
 		
+		//txtReturnDate.setText(loan.getDueDateString());
+		txtReturnDate.setText("");
+		txtReturnDate.setEditable(false);
 	}
 
 	/**
@@ -80,14 +104,13 @@ public class LoanDetail
 		frmAusleiheDetail = new JFrame();
 		frmAusleiheDetail.setTitle("Ausleihe Detail");
 		frmAusleiheDetail.setBounds(100, 100, 450, 300);
-		frmAusleiheDetail.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		frmAusleiheDetail.getContentPane().setLayout(gridBagLayout);
-		
+
 		JPanel customerPanel = new JPanel();
 		customerPanel.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_customerPanel = new GridBagConstraints();
@@ -97,12 +120,12 @@ public class LoanDetail
 		gbc_customerPanel.gridy = 0;
 		frmAusleiheDetail.getContentPane().add(customerPanel, gbc_customerPanel);
 		GridBagLayout gbl_customerPanel = new GridBagLayout();
-		gbl_customerPanel.columnWidths = new int[]{100, 0, 0};
-		gbl_customerPanel.rowHeights = new int[]{0, 0, 0};
-		gbl_customerPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_customerPanel.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_customerPanel.columnWidths = new int[] { 100, 0, 0 };
+		gbl_customerPanel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_customerPanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_customerPanel.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		customerPanel.setLayout(gbl_customerPanel);
-		
+
 		JLabel lblKennung = new JLabel("Kennung:");
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
@@ -110,7 +133,7 @@ public class LoanDetail
 		gbc_lblNewLabel.gridx = 0;
 		gbc_lblNewLabel.gridy = 0;
 		customerPanel.add(lblKennung, gbc_lblNewLabel);
-		
+
 		txtCustomerIdentifier = new JTextField();
 		txtCustomerIdentifier.setText("1882");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -120,7 +143,7 @@ public class LoanDetail
 		gbc_textField.gridy = 0;
 		customerPanel.add(txtCustomerIdentifier, gbc_textField);
 		txtCustomerIdentifier.setColumns(10);
-		
+
 		JLabel lblKunde = new JLabel("Kunde:");
 		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
 		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
@@ -128,14 +151,18 @@ public class LoanDetail
 		gbc_lblNewLabel_1.gridx = 0;
 		gbc_lblNewLabel_1.gridy = 1;
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
-		
-		JComboBox comboBox = new JComboBox();
+
+		customersComboBox = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
-		customerPanel.add(comboBox, gbc_comboBox);
 		
+		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
+//		customersComboBox.
+		
+		customerPanel.add(customersComboBox, gbc_comboBox);
+
 		JPanel newCopyPanel = new JPanel();
 		newCopyPanel.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_newCopyPanel = new GridBagConstraints();
@@ -145,12 +172,12 @@ public class LoanDetail
 		gbc_newCopyPanel.gridy = 1;
 		frmAusleiheDetail.getContentPane().add(newCopyPanel, gbc_newCopyPanel);
 		GridBagLayout gbl_newCopyPanel = new GridBagLayout();
-		gbl_newCopyPanel.columnWidths = new int[]{100, 0, 0, 0, 0};
-		gbl_newCopyPanel.rowHeights = new int[]{0, 0, 0};
-		gbl_newCopyPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_newCopyPanel.rowWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gbl_newCopyPanel.columnWidths = new int[] { 100, 0, 0, 0, 0 };
+		gbl_newCopyPanel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_newCopyPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_newCopyPanel.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		newCopyPanel.setLayout(gbl_newCopyPanel);
-		
+
 		JLabel lblExemplarID = new JLabel("Exemplar-ID:");
 		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
 		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
@@ -158,7 +185,7 @@ public class LoanDetail
 		gbc_lblNewLabel_2.gridx = 0;
 		gbc_lblNewLabel_2.gridy = 0;
 		newCopyPanel.add(lblExemplarID, gbc_lblNewLabel_2);
-		
+
 		txtCopyInventoryNumber = new JTextField();
 		txtCopyInventoryNumber.setText("123123");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
@@ -168,14 +195,14 @@ public class LoanDetail
 		gbc_textField_1.gridy = 0;
 		newCopyPanel.add(txtCopyInventoryNumber, gbc_textField_1);
 		txtCopyInventoryNumber.setColumns(10);
-		
+
 		JLabel lblX = new JLabel("X");
 		GridBagConstraints gbc_lblX = new GridBagConstraints();
 		gbc_lblX.insets = new Insets(0, 0, 5, 5);
 		gbc_lblX.gridx = 2;
 		gbc_lblX.gridy = 0;
 		newCopyPanel.add(lblX, gbc_lblX);
-		
+
 		JButton btnExemplarAusleihen = new JButton("Exemplar ausleihen");
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
@@ -183,7 +210,7 @@ public class LoanDetail
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 0;
 		newCopyPanel.add(btnExemplarAusleihen, gbc_btnNewButton);
-		
+
 		JLabel lblZurueckAm = new JLabel("Zur\u00FCck am:");
 		GridBagConstraints gbc_lblZurckAm = new GridBagConstraints();
 		gbc_lblZurckAm.anchor = GridBagConstraints.WEST;
@@ -191,7 +218,7 @@ public class LoanDetail
 		gbc_lblZurckAm.gridx = 0;
 		gbc_lblZurckAm.gridy = 1;
 		newCopyPanel.add(lblZurueckAm, gbc_lblZurckAm);
-		
+
 		txtReturnDate = new JTextField();
 		txtReturnDate.setText("asdasd");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
@@ -202,28 +229,28 @@ public class LoanDetail
 		gbc_txtAsdasd.gridy = 1;
 		newCopyPanel.add(txtReturnDate, gbc_txtAsdasd);
 		txtReturnDate.setColumns(10);
-		
+
 		JPanel loanByCustomerTablePanel = new JPanel();
-		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von VAR", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_loanByCustomerTablePanel = new GridBagConstraints();
 		gbc_loanByCustomerTablePanel.fill = GridBagConstraints.BOTH;
 		gbc_loanByCustomerTablePanel.gridx = 0;
 		gbc_loanByCustomerTablePanel.gridy = 2;
 		frmAusleiheDetail.getContentPane().add(loanByCustomerTablePanel, gbc_loanByCustomerTablePanel);
 		GridBagLayout gbl_loanByCustomerTablePanel = new GridBagLayout();
-		gbl_loanByCustomerTablePanel.columnWidths = new int[]{0, 0, 0};
-		gbl_loanByCustomerTablePanel.rowHeights = new int[]{0, 0, 0};
-		gbl_loanByCustomerTablePanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_loanByCustomerTablePanel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_loanByCustomerTablePanel.columnWidths = new int[] { 0, 0, 0 };
+		gbl_loanByCustomerTablePanel.rowHeights = new int[] { 0, 0, 0 };
+		gbl_loanByCustomerTablePanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_loanByCustomerTablePanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		loanByCustomerTablePanel.setLayout(gbl_loanByCustomerTablePanel);
-		
+
 		JLabel lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen:");
 		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
 		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNewLabel_3.gridx = 0;
 		gbc_lblNewLabel_3.gridy = 0;
 		loanByCustomerTablePanel.add(lblAnzahlAusleihen, gbc_lblNewLabel_3);
-		
+
 		JLabel lblAnzahlAusleihenAmount = new JLabel("2");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.anchor = GridBagConstraints.WEST;
@@ -231,7 +258,7 @@ public class LoanDetail
 		gbc_label.gridx = 1;
 		gbc_label.gridy = 0;
 		loanByCustomerTablePanel.add(lblAnzahlAusleihenAmount, gbc_label);
-		
+
 		table = new JTable();
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
@@ -239,7 +266,7 @@ public class LoanDetail
 		gbc_table.gridx = 0;
 		gbc_table.gridy = 2;
 		loanByCustomerTablePanel.add(table, gbc_table);
-		
+
 		JScrollPane scrollPane = new JScrollPane(table);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 2;
@@ -247,7 +274,6 @@ public class LoanDetail
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		loanByCustomerTablePanel.add(scrollPane, gbc_scrollPane);
-		
 
 	}
 
