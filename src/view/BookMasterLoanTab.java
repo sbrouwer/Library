@@ -128,7 +128,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				}
 			}
 		});
-		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
+		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes  ein, nach dem Sie suchen m\u00F6chten");
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -273,17 +273,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		sorter.setRowFilter(rf);
 	}
 
-//	/**
-//	 * Deletes all rows from a Table
-//	 * 
-//	 * @param _table
-//	 *            Table to delete the entries(rows) from
-//	 */
-//	private void deleteTableRows(JTable _table) {
-//		for (int i = _table.getRowCount() - 1; i >= 0; i--) {
-//			((DefaultTableModel) _table.getModel()).removeRow(i);
-//		}
-//	}
 
 	/**
 	 * Adds all Books from the Library to the Inventary Table
@@ -292,15 +281,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		tableModel = new TableModelLoanMaster(library, loans, header);
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
-		/*for (int i = 0; i < books.size(); i++) {
-			String[] s = {
-					""
-							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
-									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
-					books.get(i).getPublisher() };
-			((DefaultTableModel) table.getModel()).addRow(s);
-
-		}*/
 	}
 
 	/**
@@ -326,14 +306,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 	}*/
-
-//	private void addBooks(List<Book> l) {
-//		deleteTableRows(table);
-//		for (int i = 0; i < l.size(); i++) {
-//			String[] s = {"" + (library.getCopiesOfBook(l.get(i)).size() - library.getLentCopiesOfBook(l.get(i)).size()), l.get(i).getName(), l.get(i).getAuthor(), l.get(i).getPublisher() };
-//			((DefaultTableModel) table.getModel()).addRow(s);
-//		}
-//	}
 
 	private void search(String s) {
 		List<Loan> loansToDisplay = new ArrayList<Loan>();
