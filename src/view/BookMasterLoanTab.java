@@ -172,7 +172,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		});
 
 		//Ab hier "Nur Verfügbare"
-		chckbxNurUeberfaellige = new JCheckBox("Nur Nur \u00DCberf\u00E4llige");
+		chckbxNurUeberfaellige = new JCheckBox("Nur \u00DCberf\u00E4llige");
 		chckbxNurUeberfaellige.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
