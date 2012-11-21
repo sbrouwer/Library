@@ -4,13 +4,13 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public class TableModelLoanByCustomerDetail extends AbstractTableModel {
+public class TableModelLoanDetail extends AbstractTableModel {
 
 	Library library;
 	List<Copy> copies;
 	String[] header;
 
-	public TableModelLoanByCustomerDetail(Library library, List<Copy> copies, String[] header) {
+	public TableModelLoanDetail(Library library, List<Copy> copies, String[] header) {
 		this.library = library;
 		this.copies = copies;
 		this.header = header;
