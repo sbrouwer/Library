@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
@@ -129,9 +130,9 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// search();
 				if (txtSuche.getText().length() > 0) {
-					search(txtSuche.getText());
+					//search(txtSuche.getText());
+					search();
 				} else {
 					addAllBooks();
 				}
@@ -243,16 +244,25 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		table.setRowSorter(sorter);		
 	}
 	
-//	private void search() {
-//		RowFilter<TableModelBookMaster, Object> rf = null;
-//		// If current expression doesn't parse, don't update.
-//		try {
-//			rf = RowFilter.regexFilter(txtSuche.getText(), 0);
-//		} catch (java.util.regex.PatternSyntaxException e) {
-//			return;
-//		}
-//		sorter.setRowFilter(rf);
-//	}
+	private void search() {
+	sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+	table.setRowSorter(sorter);
+	RowFilter<TableModelBookMaster, Object> rf = null;
+	List<RowFilter<TableModelBookMaster,Object>> filters = new ArrayList<RowFilter<TableModelBookMaster,Object>>();
+	// If current expression doesn't parse, don't update.
+	try {
+		RowFilter<TableModelBookMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
+		RowFilter<TableModelBookMaster, Object> rfAutor =RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 2);		
+		RowFilter<TableModelBookMaster, Object> rfVerlag = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 3);
+		filters.add(rfAutor);
+		filters.add(rfTitel);
+		filters.add(rfVerlag);
+		rf = RowFilter.orFilter(filters);
+	} catch (java.util.regex.PatternSyntaxException e) {
+		return;
+	}
+	sorter.setRowFilter(rf);
+}
 
 //	/**
 //	 * Deletes all rows from a Table
