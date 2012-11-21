@@ -3,6 +3,8 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -14,12 +16,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableColumn;
 
-import domain.Copy;
-import domain.Customer;
+import tablemodel.TableModelLoanDetail;
 import domain.Library;
 import domain.Loan;
-import domain.Shelf;
 
 public class LoanDetail
 {
@@ -31,6 +32,8 @@ public class LoanDetail
 	private JTable table;
 	private Library library;
 	private JComboBox customersComboBox;
+	private JLabel lblAnzahlAusleihenAmount;
+	private TableModelLoanDetail tableModel;
 
 	// /**
 	// * Launch the application.
@@ -60,8 +63,10 @@ public class LoanDetail
 	{
 		this.library = library;
 		initialize();
-		frmAusleiheDetail.setVisible(true);
+
 		updateForNewLoan();
+		
+		frmAusleiheDetail.setVisible(true);
 	}
 
 	/**
@@ -71,10 +76,10 @@ public class LoanDetail
 	{
 		this.library = library;
 		initialize();
+		
 		updateWithExistingLoan(loan);
 
 		frmAusleiheDetail.setVisible(true);
-		System.out.println(loan.getCopy().getTitle().getName() + ", " + loan.getCopy().getInventoryNumber());
 	}
 
 	private void updateForNewLoan()
@@ -84,6 +89,8 @@ public class LoanDetail
 
 		txtReturnDate.setText("");
 		txtReturnDate.setEditable(false);
+		
+		lblAnzahlAusleihenAmount.setText("0");
 	}
 	
 	private void updateWithExistingLoan(Loan loan)
@@ -91,9 +98,13 @@ public class LoanDetail
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
 		txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
 		
-		//txtReturnDate.setText(loan.getDueDateString());
 		txtReturnDate.setText("");
 		txtReturnDate.setEditable(false);
+		
+		List<Loan> loans = new ArrayList<Loan>(library.getCustomerLoans(loan.getCustomer()));
+		tableModel.setLoans(loans);
+		
+		lblAnzahlAusleihenAmount.setText(String.valueOf(loans.size()));
 	}
 
 	/**
@@ -251,7 +262,7 @@ public class LoanDetail
 		gbc_lblNewLabel_3.gridy = 0;
 		loanByCustomerTablePanel.add(lblAnzahlAusleihen, gbc_lblNewLabel_3);
 
-		JLabel lblAnzahlAusleihenAmount = new JLabel("2");
+		lblAnzahlAusleihenAmount = new JLabel("2");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.anchor = GridBagConstraints.WEST;
 		gbc_label.insets = new Insets(0, 0, 5, 0);
@@ -260,6 +271,16 @@ public class LoanDetail
 		loanByCustomerTablePanel.add(lblAnzahlAusleihenAmount, gbc_label);
 
 		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
+		
+		String[] headers = {"Exemplar-ID", "Titel", "Autor"};
+		tableModel = new TableModelLoanDetail(library, headers);
+		table.setModel(tableModel);
+		
+//		TableColumn tableColumnCopyInventoryNumber = this.table.getColumn(headers[0]);
+//		tableColumnCopyInventoryNumber.setMinWidth(100);
+//		tableColumnCopyInventoryNumber.setMaxWidth(100);
+		
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;

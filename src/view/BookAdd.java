@@ -229,6 +229,7 @@ public class BookAdd implements Observer {
 		panel_1.add(lblAnzahl, gbc_lblAnzahl);
 
 		table = new JTable();
+		table.getTableHeader().setReorderingAllowed(false);
 
 		tableModel = new TableModelBookDetail(library, copies, header);
 		table.setModel(tableModel);
