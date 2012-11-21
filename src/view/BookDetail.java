@@ -80,7 +80,7 @@ public class BookDetail implements Observer
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		JLabel lblTitel = new JLabel("Titel");
@@ -103,10 +103,11 @@ public class BookDetail implements Observer
 
 		JLabel lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
+		gbc_lblAutor.gridheight = 2;
 		gbc_lblAutor.gridwidth = 2;
 		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAutor.gridx = 0;
-		gbc_lblAutor.gridy = 2;
+		gbc_lblAutor.gridy = 1;
 		panel.add(lblAutor, gbc_lblAutor);
 
 		txtAutor = new JTextField();
@@ -165,12 +166,13 @@ public class BookDetail implements Observer
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0 };
 		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
 		lblAnzahl = new JLabel("Anzahl: 1");
 		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
+		gbc_lblAnzahl.anchor = GridBagConstraints.WEST;
 		gbc_lblAnzahl.gridwidth = 4;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnzahl.gridx = 0;
