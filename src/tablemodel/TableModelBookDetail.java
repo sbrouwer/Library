@@ -103,7 +103,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		this.copies = library.getCopiesOfBook(book);
-		this.fireTableDataChanged();
+		
+		fireTableDataChanged();
 	}
 }
