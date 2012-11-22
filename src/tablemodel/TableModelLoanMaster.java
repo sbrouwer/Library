@@ -23,6 +23,12 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 		this.library = library;
 		this.headers = headers;
 		this.copies = library.getCopies();
+		addOnlyLent(loans);
+		this.library.addObserver(this);
+	}
+
+	private void addOnlyLent(List<Loan> loans)
+	{
 		this.loans = new ArrayList<Loan>();
 		List<Loan> lent = loans;
 		for(Loan l : lent){
@@ -30,7 +36,6 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 				this.loans.add(l);
 			}
 		}
-		this.library.addObserver(this);
 	}
 	
 	@Override

@@ -77,7 +77,7 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		this.fireTableDataChanged();
+		fireTableDataChanged();
 	}
 
 }
