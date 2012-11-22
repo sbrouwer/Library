@@ -232,7 +232,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();
-		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -272,13 +272,14 @@ public class BookMasterBooksTab extends JPanel implements Observer
 	 * Adds all Books from the Library to the Inventary Table
 	 */
 	private void addAllBooks() {
-		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 	}
 
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
+	//TODO
 	private void addAvailableBooks() {
 		List<Book> booksToDisplay = new ArrayList<Book>();
 		for (int x = 0; x < books.size(); x++) {
@@ -295,7 +296,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 
 			}
 		}
-		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 	}
 
@@ -307,6 +308,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 //		}
 //	}
 
+	//TODO
 	private void search(String s) {
 		List<Book> booksToDisplay = new ArrayList<Book>();
 		for (int i = 0; i < books.size(); i++) {
@@ -321,7 +323,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 			}
 		}
 		// addBooks(booksToDisplay);
-		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 		tableModel.fireTableDataChanged();
 	}

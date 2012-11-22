@@ -71,7 +71,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public int getColumnCount() {
-		return 2;
+		return header.length;
 	}
 
 	@Override
@@ -88,25 +88,10 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 		return header[column];
 	}
 
-//	public void addRow(Copy copyToAdd) {
-//		if (copies == null) {
-//			this.copies = library.getCopiesOfBook(copyToAdd.getTitle());
-//		}
-//		this.copies.add(copyToAdd);
-//		fireTableDataChanged();
-//		fireTableRowsInserted(0, getRowCount());
-//	}
-//
-//	public void removeRow(Copy copyToDelet) {
-//		this.copies.remove(copyToDelet);
-//		library.removeCopy(copyToDelet);
-//		fireTableDataChanged();
-//	}
-
 	@Override
 	public void update(Observable o, Object arg)
-	{
-		
+	{	
+		this.copies = library.getCopiesOfBook(book);
 		fireTableDataChanged();
 	}
 }

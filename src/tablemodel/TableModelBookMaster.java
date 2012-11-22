@@ -15,9 +15,9 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 	List<Book> books;
 	String[] header;
 
-	public TableModelBookMaster(Library library, List<Book> books, String[] header) {
+	public TableModelBookMaster(Library library, String[] header) {
 		this.library = library;
-		this.books = books;
+		this.books = library.getBooks();
 		this.header = header;
 		this.library.addObserver(this);
 	}
@@ -78,7 +78,8 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		this.fireTableDataChanged();
+		books = library.getBooks();
+		fireTableDataChanged();
 	}
 	
 }
