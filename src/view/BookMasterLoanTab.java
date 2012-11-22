@@ -161,7 +161,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				int selected[] = table.getSelectedRows();
 				for (int i : selected) {
 					Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
-					LoanDetail loanDetail = new LoanDetail(loan, library);
+					LoanDetail loanDetail = new LoanDetail(library, loan);
 				}
 			}
 		});

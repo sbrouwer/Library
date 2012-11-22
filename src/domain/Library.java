@@ -108,13 +108,11 @@ public class Library extends Observable
 		return lentCopies;
 	}
 
-	public List<Loan> getCustomerLoans(Customer customer)
-	{
+
+	public List<Loan> getCustomerLoans(Customer customer) {
 		List<Loan> lentCopies = new ArrayList<Loan>();
-		for (Loan l : loans)
-		{
-			if (l.getCustomer().getIdentifier() == customer.getIdentifier())
-			{
+		for (Loan l : loans) {
+			if (l.getCustomer().equals(customer)) {
 				lentCopies.add(l);
 			}
 		}
@@ -139,8 +137,7 @@ public class Library extends Observable
 		{
 			for (Loan l : lent)
 			{
-				if (l.getCopy() == copy) // TODO wirklich alles vergleichen //
-											// // oder nur nummer?
+				if (l.getCopy().equals(copy))
 				{
 					return l;
 				}

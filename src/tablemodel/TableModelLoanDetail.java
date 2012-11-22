@@ -1,22 +1,23 @@
 package tablemodel;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
+import domain.Customer;
 import domain.Library;
 import domain.Loan;
 
 public class TableModelLoanDetail extends AbstractTableModel implements Observer {
 
 	Library library;
-	List<Loan> loans;
+	Customer customer;
 	String[] headers;
 
-	public TableModelLoanDetail(Library library, String[] headers) {
+	public TableModelLoanDetail(Library library, Customer customer, String[] headers) {
 		this.library = library;
+		this.customer = customer;
 		this.headers = headers;
 		this.library.addObserver(this);
 	}
@@ -38,7 +39,7 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public Object getValueAt(int row, int colum) {
-		Loan loan = loans.get(row);
+		Loan loan = library.getCustomerLoans(customer).get(row);
 		switch (colum) {
 		case 0:
 			return loan.getCopy().getInventoryNumber();
@@ -58,8 +59,8 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public int getRowCount() {
-		if (loans != null) {
-			return loans.size();
+		if (library.getCustomerLoans(customer) != null) {
+			return library.getCustomerLoans(customer).size();
 		} else {
 			return 0;
 		}
@@ -68,10 +69,6 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 	@Override
 	public String getColumnName(int column) {
 		return headers[column];
-	}
-	
-	public void setLoans(List<Loan> loans){
-		this.loans = loans;
 	}
 	
 	@Override

@@ -35,6 +35,7 @@ public class LoanDetail
 	private JTextField txtReturnDate;
 	private JTable table;
 	private Library library;
+	private Customer customer;
 	private JComboBox customersComboBox;
 	private JLabel lblAnzahlAusleihenAmount;
 	private TableModelLoanDetail tableModel;
@@ -76,9 +77,10 @@ public class LoanDetail
 	/**
 	 * Create the application.
 	 */
-	public LoanDetail(Loan loan, Library library)
+	public LoanDetail(Library library, Loan loan)
 	{
 		this.library = library;
+		this.customer = loan.getCustomer();
 		initialize();
 		
 		updateWithExistingLoan(loan);
@@ -115,10 +117,8 @@ public class LoanDetail
 		txtReturnDate.setText("");
 		txtReturnDate.setEditable(false);
 		
-		List<Loan> loans = library.getCustomerLoans(loan.getCustomer());
-		tableModel.setLoans(loans);
-		
-		lblAnzahlAusleihenAmount.setText(String.valueOf(loans.size()));
+
+		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 	}
 
 	/**
@@ -295,7 +295,7 @@ public class LoanDetail
 		table.getTableHeader().setReorderingAllowed(false);
 		
 		String[] headers = {"Exemplar-ID", "Titel", "Autor"};
-		tableModel = new TableModelLoanDetail(library, headers);
+		tableModel = new TableModelLoanDetail(library, null, headers);
 		table.setModel(tableModel);
 		
 //		TableColumn tableColumnCopyInventoryNumber = this.table.getColumn(headers[0]);
