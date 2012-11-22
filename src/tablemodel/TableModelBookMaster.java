@@ -12,12 +12,10 @@ import domain.Library;
 public class TableModelBookMaster extends AbstractTableModel implements Observer {
 
 	Library library;
-	List<Book> books;
 	String[] headers;
 
 	public TableModelBookMaster(Library library, String[] headers) {
 		this.library = library;
-		this.books = library.getBooks();
 		this.headers = headers;
 		this.library.addObserver(this);
 	}
@@ -41,7 +39,7 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 
 	public Object getValueAt(int row, int colum) {	
 		
-		Book book = books.get(row);
+		Book book = library.getBooks().get(row);
 		switch (colum) {
 		case 0:
 			return library.getCopiesOfBook(book).size() - library.getLentCopiesOfBook(book).size();
@@ -57,7 +55,7 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 	}
 
 	public Book getBookAtRow(int row){
-		return books.get(row);
+		return library.getBooks().get(row);
 	}
 	
 	@Override
@@ -72,13 +70,12 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 	
 	@Override
 	public int getRowCount() {
-		return books.size();
+		return library.getBooks().size();
 	}
 
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		books = library.getBooks();
 		fireTableDataChanged();
 	}
 	
