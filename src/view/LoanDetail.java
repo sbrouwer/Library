@@ -88,6 +88,7 @@ public class LoanDetail
 	private void updateForNewLoan()
 	{
 		txtCustomerIdentifier.setText("");
+		txtCustomerIdentifier.setEditable(false);
 		
 		txtCopyInventoryNumber.setText("");		
 		GregorianCalendar returnDate = new GregorianCalendar();
@@ -101,6 +102,7 @@ public class LoanDetail
 	private void updateWithExistingLoan(Loan loan)
 	{
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
+		txtCustomerIdentifier.setEditable(false);
 		
 		txtCopyInventoryNumber.setText("");
 		txtReturnDate.setText("");
