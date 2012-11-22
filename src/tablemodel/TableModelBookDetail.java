@@ -1,6 +1,5 @@
 package tablemodel;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,14 +13,12 @@ import domain.Loan;
 public class TableModelBookDetail extends AbstractTableModel implements Observer {
 
 	Library library;
-	List<Copy> copies;
 	String[] headers;
 	Book book;
 
 	public TableModelBookDetail(Library library, Book book, String[] headers) {
 		this.library = library;
 		this.book = book;
-		this.copies = library.getCopiesOfBook(book);
 		this.headers = headers;
 		this.library.addObserver(this);
 	}
@@ -40,7 +37,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 	}
 
 	public Object getValueAt(int row, int colum) {
-		Copy copy = copies.get(row);
+		Copy copy = library.getCopiesOfBook(book).get(row);
 		switch (colum) {
 		case 0:
 			return copy.getInventoryNumber();
@@ -66,7 +63,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 	}
 
 	public Copy getCopyAtRow(int row) {
-		return copies.get(row);
+		return library.getCopiesOfBook(book).get(row);
 	}
 
 	@Override
@@ -76,8 +73,8 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public int getRowCount() {
-		if (copies != null) {
-			return copies.size();
+		if (library.getCopiesOfBook(book) != null) {
+			return library.getCopiesOfBook(book).size();
 		} else {
 			return 0;
 		}
@@ -91,7 +88,6 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{	
-		this.copies = library.getCopiesOfBook(book);
 		fireTableDataChanged();
 	}
 }

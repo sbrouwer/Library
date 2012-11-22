@@ -131,7 +131,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-					search();
+				search();
 			}
 		});
 		

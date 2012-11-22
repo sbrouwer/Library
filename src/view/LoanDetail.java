@@ -3,8 +3,10 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -18,15 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.TableColumn;
 
 import tablemodel.TableModelLoanDetail;
 import domain.Library;
 import domain.Loan;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class LoanDetail
 {
