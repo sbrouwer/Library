@@ -133,13 +133,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				 
-				if (txtSuche.getText().length() > 0) {
-					//search(txtSuche.getText());
 					search();
-				} else {
-					addAllLoans();
-				}
 			}
 		});
 				lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
@@ -172,7 +166,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 			}
 		});
 
-		//Ab hier "Nur Verfügbare"
+		//Ab hier "Nur Überfällige"
 		chckbxNurUeberfaellige = new JCheckBox("Nur \u00DCberf\u00E4llige");
 		chckbxNurUeberfaellige.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
@@ -187,7 +181,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 													// Number of Lent Copies)
 					
 				} else { // if hook is not set, add all Books
-					addAllLoans();
+					sorter.setRowFilter(null);
 				}
 			}
 
@@ -244,7 +238,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setAutoCreateRowSorter(true);
 		
 		books = library.getBooks();
-		tableModel = new TableModelLoanMaster(library, loans, header);
+		tableModel = new TableModelLoanMaster(library, header);
 		table.setModel(tableModel);
 
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -275,16 +269,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		sorter.setRowFilter(rf);
 	}
 
-
-	/**
-	 * Adds all Books from the Library to the Inventary Table
-	 */
-	private void addAllLoans() {
-		tableModel = new TableModelLoanMaster(library, loans, header);
-		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
-	}
-
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 
@@ -309,24 +293,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		tableModel.fireTableDataChanged();
 	}*/
 
-	private void search(String s) {
-		List<Loan> loansToDisplay = new ArrayList<Loan>();
-		for (int i = 0; i < books.size(); i++) {
-			if (books.get(i).getName().contains(s)) {
-				loansToDisplay.add(loans.get(i));
-			}
-			if (books.get(i).getAuthor().contains(s)) {
-				loansToDisplay.add(loans.get(i));
-			}
-			if (books.get(i).getPublisher().contains(s)) {
-				loansToDisplay.add(loans.get(i));
-			}
-		}
-		// addBooks(booksToDisplay);
-		tableModel = new TableModelLoanMaster(library, loansToDisplay, header);
-		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
-	}
 	
 	private void updateStats(){
 		lblAnzahlAusleihen.setText("Anzahl Bücher: " + books.size());
@@ -334,10 +300,17 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	}
 	
 	private void addOverdueLoans() {
-		List<Loan> overdueLoans = library.getOverdueLoans();
-		tableModel = new TableModelLoanMaster(library, overdueLoans, header);
-		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
+		
+		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
+		table.setRowSorter(sorter);
+		RowFilter<TableModelLoanMaster, Object> rf = null;
+		// If current expression doesn't parse, don't update.
+		try {
+			rf =  RowFilter.regexFilter("(?i)^.*Fällig.*", 0);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
 	}
 
 	@Override
@@ -348,7 +321,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 	private void updateFields() {
 		this.books = library.getBooks();
-		addAllLoans();
 		updateStats();
 	}
 

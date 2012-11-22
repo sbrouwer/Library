@@ -19,11 +19,11 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	String[] headers;
 	List<Copy> copies;
 
-	public TableModelLoanMaster(Library library, List<Loan> loans, String[] headers) {
+	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
 		this.headers = headers;
 		this.copies = library.getCopies();
-		addOnlyLent(loans);
+		addOnlyLent(library.getLoans());
 		this.library.addObserver(this);
 	}
 
@@ -123,6 +123,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		addOnlyLent(library.getLoans());
 		this.fireTableDataChanged();
 	}
 
