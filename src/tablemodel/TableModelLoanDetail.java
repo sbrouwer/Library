@@ -13,11 +13,11 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	Library library;
 	List<Loan> loans;
-	String[] header;
+	String[] headers;
 
-	public TableModelLoanDetail(Library library, String[] header) {
+	public TableModelLoanDetail(Library library, String[] headers) {
 		this.library = library;
-		this.header = header;
+		this.headers = headers;
 		this.library.addObserver(this);
 	}
 	
@@ -53,7 +53,7 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public int getColumnCount() {
-		return 3;
+		return headers.length;
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public String getColumnName(int column) {
-		return header[column];
+		return headers[column];
 	}
 	
 	public void setLoans(List<Loan> loans){

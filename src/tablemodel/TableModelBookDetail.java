@@ -15,14 +15,14 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 
 	Library library;
 	List<Copy> copies;
-	String[] header;
+	String[] headers;
 	Book book;
 
-	public TableModelBookDetail(Library library, Book book, String[] header) {
+	public TableModelBookDetail(Library library, Book book, String[] headers) {
 		this.library = library;
 		this.book = book;
 		this.copies = library.getCopiesOfBook(book);
-		this.header = header;
+		this.headers = headers;
 		this.library.addObserver(this);
 	}
 	
@@ -71,7 +71,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public int getColumnCount() {
-		return header.length;
+		return headers.length;
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 
 	@Override
 	public String getColumnName(int column) {
-		return header[column];
+		return headers[column];
 	}
 
 	@Override

@@ -13,12 +13,12 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 
 	Library library;
 	List<Book> books;
-	String[] header;
+	String[] headers;
 
-	public TableModelBookMaster(Library library, String[] header) {
+	public TableModelBookMaster(Library library, String[] headers) {
 		this.library = library;
 		this.books = library.getBooks();
-		this.header = header;
+		this.headers = headers;
 		this.library.addObserver(this);
 	}
 	
@@ -62,12 +62,12 @@ public class TableModelBookMaster extends AbstractTableModel implements Observer
 	
 	@Override
 	public int getColumnCount() {
-		return header.length;
+		return headers.length;
 	}
 	
 	@Override
 	public String getColumnName(int column) {
-		return header[column];
+		return headers[column];
 	}
 	
 	@Override
