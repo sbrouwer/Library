@@ -117,10 +117,11 @@ public class BookAdd implements Observer {
 
 		lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
+		gbc_lblAutor.gridheight = 2;
 		gbc_lblAutor.gridwidth = 2;
 		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAutor.gridx = 0;
-		gbc_lblAutor.gridy = 2;
+		gbc_lblAutor.gridy = 1;
 		panel.add(lblAutor, gbc_lblAutor);
 
 		txtAutor = new JTextField();
