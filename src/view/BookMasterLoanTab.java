@@ -269,30 +269,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		sorter.setRowFilter(rf);
 	}
 
-	/**
-	 * Adds only Available Books from the Library to the Inventary Table
-	 
-	private void addAvailableBooks() {
-		List<Loan> loansToDisplay = new ArrayList<Loan>();
-		for (int x = 0; x < loans.size(); x++) {
-			if ((library.getCopiesOfBook(loans.get(x)).size() - library.getLentCopiesOfBook(books.get(x)).size()) > 0) {
-				loansToDisplay.add(loans.get(x));
-				/*
-				 * String[] s = { "" +
-				 * (library.getCopiesOfBook(books.get(x)).size() - library
-				 * .getLentCopiesOfBook(books.get(x)).size()),
-				 * books.get(x).getName(), books.get(x).getAuthor(),
-				 * books.get(x).getPublisher() }; ((DefaultTableModel)
-				 * table.getModel()).addRow(s);
-				 
-
-			}
-		}
-		tableModel = new TableModelLoanMaster(library, loansToDisplay, header);
-		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
-	}*/
-
 	
 	private void updateStats(){
 		lblAnzahlAusleihen.setText("Anzahl Bücher: " + books.size());
