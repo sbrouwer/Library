@@ -185,7 +185,7 @@ public class BookAdd implements Observer {
 					book.setPublisher(txtVerlag.getText());
 					book.setShelf((Shelf) regalComboBox.getSelectedItem());
 					copies = library.getCopiesOfBook(book);
-					tableModel = new TableModelBookDetail(library, copies, header);
+					tableModel = new TableModelBookDetail(library, book, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
 					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
@@ -232,7 +232,7 @@ public class BookAdd implements Observer {
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 
-		tableModel = new TableModelBookDetail(library, copies, header);
+		tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);
 
 		table.addMouseListener(new MouseAdapter() {

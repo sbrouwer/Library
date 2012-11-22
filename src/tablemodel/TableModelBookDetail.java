@@ -6,6 +6,7 @@ import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
+import domain.Book;
 import domain.Copy;
 import domain.Library;
 import domain.Loan;
@@ -15,10 +16,12 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 	Library library;
 	List<Copy> copies;
 	String[] header;
+	Book book;
 
-	public TableModelBookDetail(Library library, List<Copy> copies, String[] header) {
+	public TableModelBookDetail(Library library, Book book, String[] header) {
 		this.library = library;
-		this.copies = copies;
+		this.book = book;
+		this.copies = library.getCopiesOfBook(book);
 		this.header = header;
 		this.library.addObserver(this);
 	}

@@ -183,7 +183,7 @@ public class BookDetail implements Observer
 
 		String[] header = {"Inventar Nummer","Verfügbarkeit"};
 		copies = library.getCopiesOfBook(book);
-		final TableModelBookDetail tableModel = new TableModelBookDetail(library, copies, header);
+		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);
 		
 		table.addMouseListener(new MouseAdapter()
