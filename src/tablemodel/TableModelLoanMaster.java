@@ -2,6 +2,8 @@ package tablemodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -10,7 +12,7 @@ import domain.Copy;
 import domain.Library;
 import domain.Loan;
 
-public class TableModelLoanMaster extends AbstractTableModel {
+public class TableModelLoanMaster extends AbstractTableModel implements Observer{
 
 	Library library;
 	List<Loan> loans;
@@ -28,8 +30,7 @@ public class TableModelLoanMaster extends AbstractTableModel {
 				this.loans.add(l);
 			}
 		}
-		
-		fireTableDataChanged();
+		this.library.addObserver(this);
 	}
 	
 	@Override
@@ -112,6 +113,12 @@ public class TableModelLoanMaster extends AbstractTableModel {
 		} else {
 			return "\u2713 Ok";
 		}
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		this.fireTableDataChanged();
 	}
 
 }

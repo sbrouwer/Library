@@ -214,7 +214,7 @@ public class BookDetail implements Observer
 				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
 				{
 					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
-					tableModel.removeRow(copyToDelet);
+					library.removeCopy(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
@@ -231,11 +231,7 @@ public class BookDetail implements Observer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				Copy c = library.createAndAddCopy(book);
-				tableModel.addRow(c);
-				tableModel.fireTableDataChanged();
-				table.repaint();
-				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
+				library.createAndAddCopy(book);
 			}
 		});
 		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
@@ -263,6 +259,7 @@ public class BookDetail implements Observer
 	 */
 	void updateFields()
 	{
+		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 		if (book == null)
 		{
 			txtTitel.setText("");
@@ -275,7 +272,6 @@ public class BookDetail implements Observer
 			txtAutor.setText(book.getAuthor());
 			txtVerlag.setText(book.getPublisher());
 			regalComboBox.setSelectedItem((book.getShelf().toString()));
-			System.out.println(book.getShelf().toString());
 		}
 	}
 

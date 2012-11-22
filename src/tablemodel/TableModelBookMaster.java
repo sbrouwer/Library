@@ -1,13 +1,15 @@
 package tablemodel;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
 import domain.Book;
 import domain.Library;
 
-public class TableModelBookMaster extends AbstractTableModel {
+public class TableModelBookMaster extends AbstractTableModel implements Observer {
 
 	Library library;
 	List<Book> books;
@@ -17,8 +19,7 @@ public class TableModelBookMaster extends AbstractTableModel {
 		this.library = library;
 		this.books = books;
 		this.header = header;
-
-		fireTableDataChanged();
+		this.library.addObserver(this);
 	}
 	
 	@Override
@@ -61,7 +62,7 @@ public class TableModelBookMaster extends AbstractTableModel {
 	
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return header.length;
 	}
 	
 	@Override
@@ -73,17 +74,11 @@ public class TableModelBookMaster extends AbstractTableModel {
 	public int getRowCount() {
 		return books.size();
 	}
+
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		this.fireTableDataChanged();
+	}
 	
-	public void addRow(Book bookToAdd){
-		this.books.add(bookToAdd);
-		fireTableDataChanged();
-	}	
-	
-	
-//	public void removeRow(Book bookToDelet){
-//		/*this.books.remove(bookToDelet);
-//		library.removeBook(bookToDelet);
-//		library.
-//		fireTableDataChanged();*/
-//	}
 }
