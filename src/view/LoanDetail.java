@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelLoanDetail;
+import domain.Customer;
 import domain.Library;
 import domain.Loan;
 
@@ -90,6 +91,9 @@ public class LoanDetail
 		txtCustomerIdentifier.setText("");
 		txtCustomerIdentifier.setEditable(false);
 		
+		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
+		customersComboBox.setSelectedIndex(-1);
+		
 		txtCopyInventoryNumber.setText("");		
 		GregorianCalendar returnDate = new GregorianCalendar();
 		returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
@@ -103,6 +107,9 @@ public class LoanDetail
 	{
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
 		txtCustomerIdentifier.setEditable(false);
+	
+		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
+		customersComboBox.setSelectedItem(loan.getCustomer());
 		
 		txtCopyInventoryNumber.setText("");
 		txtReturnDate.setText("");
@@ -153,7 +160,6 @@ public class LoanDetail
 		customerPanel.add(lblKennung, gbc_lblNewLabel);
 
 		txtCustomerIdentifier = new JTextField();
-		txtCustomerIdentifier.setText("1882");
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 0);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -170,17 +176,16 @@ public class LoanDetail
 		gbc_lblNewLabel_1.gridy = 1;
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
 
-		customersComboBox = new JComboBox();
+		customersComboBox = new JComboBox<Customer>();		
 		customersComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 			}
 		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
-		
-		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
 		
 		customerPanel.add(customersComboBox, gbc_comboBox);
 

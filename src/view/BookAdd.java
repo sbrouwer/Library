@@ -172,8 +172,7 @@ public class BookAdd implements Observer {
 		gbc_comboBox.gridx = 3;
 		gbc_comboBox.gridy = 5;
 		panel.add(regalComboBox, gbc_comboBox);
-		Shelf[] s = shelf.values();
-		regalComboBox.setModel(new DefaultComboBoxModel(shelf.values()));
+		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
 		btnAddBook.addActionListener(new ActionListener() {
 
@@ -267,10 +266,7 @@ public class BookAdd implements Observer {
 					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
 					library.removeCopy(copyToDelet);
 				}
-				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
-																						// Anzahl
-																						// Kopien
-																						// updaten
+				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 			}
 		});
 		btnAusgewaehlteEntfernen.setEnabled(false);
@@ -286,11 +282,8 @@ public class BookAdd implements Observer {
 				if (book == null) {
 					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufügen");
 				} else {
-					Copy c = library.createAndAddCopy(book);
-					lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
-																							// Anzahl
-																							// Kopien
-																							// updaten
+					library.createAndAddCopy(book);
+					lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 				}
 			}
 		});
