@@ -173,7 +173,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 													// Number of Lent Copies)
 					addAvailableBooks();
 				} else { // if hook is not set, add all Books
-					addAllBooks();
+					sorter.setRowFilter(null);
 				}
 			}
 		});
@@ -243,73 +243,23 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		table.setRowSorter(sorter);
 	}
 
-	// private void search() {
-	// RowFilter<TableModelBookMaster, Object> rf = null;
-	// // If current expression doesn't parse, don't update.
-	// try {
-	// rf = RowFilter.regexFilter(txtSuche.getText(), 0);
-	// } catch (java.util.regex.PatternSyntaxException e) {
-	// return;
-	// }
-	// sorter.setRowFilter(rf);
-	// }
-
-	// /**
-	// * Deletes all rows from a Table
-	// *
-	// * @param _table
-	// * Table to delete the entries(rows) from
-	// */
-	// private void deleteTableRows(JTable _table) {
-	// for (int i = _table.getRowCount() - 1; i >= 0; i--) {
-	// ((DefaultTableModel) _table.getModel()).removeRow(i);
-	// }
-	// }
-
-	/**
-	 * Adds all Books from the Library to the Inventary Table
-	 */
-	private void addAllBooks() {
-		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor",
-				"Verlag" });
-		table.setModel(tableModel);
-	}
-
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
-	// TODO
 	private void addAvailableBooks() {
-		List<Book> booksToDisplay = new ArrayList<Book>();
-		for (int x = 0; x < books.size(); x++) {
-			if ((library.getCopiesOfBook(books.get(x)).size() - library.getLentCopiesOfBook(books.get(x))
-					.size()) > 0) {
-				booksToDisplay.add(books.get(x));
-				/*
-				 * String[] s = { "" +
-				 * (library.getCopiesOfBook(books.get(x)).size() - library
-				 * .getLentCopiesOfBook(books.get(x)).size()),
-				 * books.get(x).getName(), books.get(x).getAuthor(),
-				 * books.get(x).getPublisher() }; ((DefaultTableModel)
-				 * table.getModel()).addRow(s);
-				 */
-
-			}
+		
+		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+		table.setRowSorter(sorter);
+		RowFilter<TableModelBookMaster, Object> rf = null;
+		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
+		// If current expression doesn't parse, don't update.
+		try {
+			rf = RowFilter.regexFilter("[^0]", 0);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
 		}
-		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor",
-				"Verlag" });
-		table.setModel(tableModel);
+		sorter.setRowFilter(rf);
 	}
-
-	// private void addBooks(List<Book> l) {
-	// deleteTableRows(table);
-	// for (int i = 0; i < l.size(); i++) {
-	// String[] s = {"" + (library.getCopiesOfBook(l.get(i)).size() -
-	// library.getLentCopiesOfBook(l.get(i)).size()), l.get(i).getName(),
-	// l.get(i).getAuthor(), l.get(i).getPublisher() };
-	// ((DefaultTableModel) table.getModel()).addRow(s);
-	// }
-	// }
 
 	private void search() {
 		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
@@ -348,7 +298,6 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 	private void updateFields() {
 		this.books = library.getBooks();
-		addAllBooks();
 		updateStats();
 	}
 
