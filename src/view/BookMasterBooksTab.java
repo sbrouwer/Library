@@ -274,16 +274,6 @@ public class BookMasterBooksTab extends JPanel implements Observer
 	private void addAllBooks() {
 		tableModel = new TableModelBookMaster(library, books, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
-		/*for (int i = 0; i < books.size(); i++) {
-			String[] s = {
-					""
-							+ (library.getCopiesOfBook(books.get(i)).size() - library.getLentCopiesOfBook(
-									books.get(i)).size()), books.get(i).getName(), books.get(i).getAuthor(),
-					books.get(i).getPublisher() };
-			((DefaultTableModel) table.getModel()).addRow(s);
-
-		}*/
 	}
 
 	/**
@@ -307,7 +297,6 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		}
 		tableModel = new TableModelBookMaster(library, booksToDisplay, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
-		tableModel.fireTableDataChanged();
 	}
 
 //	private void addBooks(List<Book> l) {

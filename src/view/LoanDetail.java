@@ -87,10 +87,10 @@ public class LoanDetail
 	private void updateForNewLoan()
 	{
 		txtCustomerIdentifier.setText("");
-		txtCopyInventoryNumber.setText("");
 		
+		txtCopyInventoryNumber.setText("");		
 		GregorianCalendar returnDate = new GregorianCalendar();
-		returnDate.add(GregorianCalendar.MONTH, 1);
+		returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
 		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
 			
@@ -100,11 +100,9 @@ public class LoanDetail
 	private void updateWithExistingLoan(Loan loan)
 	{
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
-		txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
 		
-		GregorianCalendar returnDate = (GregorianCalendar) loan.getPickupDate().clone();
-		returnDate.add(GregorianCalendar.DAY_OF_YEAR, loan.getDaysOfLoanDuration());		
-		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
+		txtCopyInventoryNumber.setText("");
+		txtReturnDate.setText("");
 		txtReturnDate.setEditable(false);
 		
 		List<Loan> loans = library.getCustomerLoans(loan.getCustomer());
@@ -176,7 +174,6 @@ public class LoanDetail
 		gbc_comboBox.gridy = 1;
 		
 		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
-//		customersComboBox.
 		
 		customerPanel.add(customersComboBox, gbc_comboBox);
 

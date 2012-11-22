@@ -1,6 +1,8 @@
 package tablemodel;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -8,7 +10,7 @@ import domain.Copy;
 import domain.Library;
 import domain.Loan;
 
-public class TableModelBookDetail extends AbstractTableModel {
+public class TableModelBookDetail extends AbstractTableModel implements Observer {
 
 	Library library;
 	List<Copy> copies;
@@ -18,8 +20,7 @@ public class TableModelBookDetail extends AbstractTableModel {
 		this.library = library;
 		this.copies = copies;
 		this.header = header;
-
-		fireTableDataChanged();
+		this.library.addObserver(this);
 	}
 	
 	@Override
@@ -84,18 +85,25 @@ public class TableModelBookDetail extends AbstractTableModel {
 		return header[column];
 	}
 
-	public void addRow(Copy copyToAdd) {
-		if (copies == null) {
-			this.copies = library.getCopiesOfBook(copyToAdd.getTitle());
-		}
-		this.copies.add(copyToAdd);
-		fireTableDataChanged();
-		fireTableRowsInserted(0, getRowCount());
-	}
+//	public void addRow(Copy copyToAdd) {
+//		if (copies == null) {
+//			this.copies = library.getCopiesOfBook(copyToAdd.getTitle());
+//		}
+//		this.copies.add(copyToAdd);
+//		fireTableDataChanged();
+//		fireTableRowsInserted(0, getRowCount());
+//	}
+//
+//	public void removeRow(Copy copyToDelet) {
+//		this.copies.remove(copyToDelet);
+//		library.removeCopy(copyToDelet);
+//		fireTableDataChanged();
+//	}
 
-	public void removeRow(Copy copyToDelet) {
-		this.copies.remove(copyToDelet);
-		library.removeCopy(copyToDelet);
-		fireTableDataChanged();
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		this.copies = library.getCopiesOfBook(book);
+		this.fireTableDataChanged();
 	}
 }

@@ -1,13 +1,15 @@
 package tablemodel;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.table.AbstractTableModel;
 
 import domain.Library;
 import domain.Loan;
 
-public class TableModelLoanDetail extends AbstractTableModel {
+public class TableModelLoanDetail extends AbstractTableModel implements Observer {
 
 	Library library;
 	List<Loan> loans;
@@ -16,8 +18,7 @@ public class TableModelLoanDetail extends AbstractTableModel {
 	public TableModelLoanDetail(Library library, String[] header) {
 		this.library = library;
 		this.header = header;
-
-		fireTableDataChanged();
+		this.library.addObserver(this);
 	}
 	
 	@Override
@@ -71,6 +72,12 @@ public class TableModelLoanDetail extends AbstractTableModel {
 	
 	public void setLoans(List<Loan> loans){
 		this.loans = loans;
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		this.fireTableDataChanged();
 	}
 
 }

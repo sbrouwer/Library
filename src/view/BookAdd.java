@@ -264,7 +264,7 @@ public class BookAdd implements Observer {
 																// exeception!
 				{
 					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
-					tableModel.removeRow(copyToDelet);
+					library.removeCopy(copyToDelet);
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
 																						// Anzahl
@@ -286,9 +286,6 @@ public class BookAdd implements Observer {
 					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufügen");
 				} else {
 					Copy c = library.createAndAddCopy(book);
-					tableModel.addRow(c);
-					tableModel.fireTableDataChanged();
-					table.repaint();
 					lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
 																							// Anzahl
 																							// Kopien

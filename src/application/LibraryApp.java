@@ -25,10 +25,8 @@ import domain.Shelf;
 
 public class LibraryApp {
 	
-	public static Library lib;
-
 	public static void main(String[] args) throws Exception {
-		lib = new Library();
+		Library lib = new Library();
 		initLibrary(lib);
 		BookMaster bookMaster = new BookMaster(lib);
 	}
