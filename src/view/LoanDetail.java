@@ -23,6 +23,10 @@ import javax.swing.table.TableColumn;
 import tablemodel.TableModelLoanDetail;
 import domain.Library;
 import domain.Loan;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoanDetail
 {
@@ -168,6 +172,10 @@ public class LoanDetail
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
 
 		customersComboBox = new JComboBox();
+		customersComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
@@ -201,6 +209,12 @@ public class LoanDetail
 		newCopyPanel.add(lblExemplarID, gbc_lblNewLabel_2);
 
 		txtCopyInventoryNumber = new JTextField();
+		txtCopyInventoryNumber.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				
+			}
+		});
 		txtCopyInventoryNumber.setText("123123");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
