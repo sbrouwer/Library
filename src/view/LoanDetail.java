@@ -126,6 +126,8 @@ public class LoanDetail
 	 */
 	private void initialize()
 	{
+		final String[] headers = {"Exemplar-ID", "Titel", "Autor"};
+		
 		frmAusleiheDetail = new JFrame();
 		frmAusleiheDetail.setTitle("Ausleihe Detail");
 		frmAusleiheDetail.setBounds(100, 100, 450, 300);
@@ -179,7 +181,13 @@ public class LoanDetail
 		customersComboBox = new JComboBox<Customer>();		
 		customersComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				if (customer != null)
+				{
+					tableModel = new TableModelLoanDetail(library, customer, headers);			
+				}
+				else {
+					tableModel = new TableModelLoanDetail(library, null, headers);
+				}
 			}
 		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -294,8 +302,15 @@ public class LoanDetail
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 		
-		String[] headers = {"Exemplar-ID", "Titel", "Autor"};
-		tableModel = new TableModelLoanDetail(library, null, headers);
+		if (customer != null)
+		{
+			tableModel = new TableModelLoanDetail(library, customer, headers);			
+		}
+		else {
+			tableModel = new TableModelLoanDetail(library, null, headers);
+		}
+		
+		
 		table.setModel(tableModel);
 		
 //		TableColumn tableColumnCopyInventoryNumber = this.table.getColumn(headers[0]);

@@ -100,18 +100,6 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 		return loans.size();
 	}
 
-	public void addRow(Loan loanToAdd) {
-		this.loans.add(loanToAdd);
-		fireTableDataChanged();
-	}
-
-	public void removeRow(Book bookToDelet) {
-		/*
-		 * this.books.remove(bookToDelet); library.removeBook(bookToDelet);
-		 * library. fireTableDataChanged();
-		 */
-	}
-
 	private String getLoanStatus(Loan l) {
 		if (l.isOverdue()) {
 			return "\u26A0 Fällig";
