@@ -15,21 +15,19 @@ import domain.Loan;
 public class TableModelLoanMaster extends AbstractTableModel implements Observer{
 
 	Library library;
-	List<Loan> loans;
 	String[] headers;
-	List<Copy> copies;
+	List <Loan> loans;
 
 	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
 		this.headers = headers;
-		this.copies = library.getCopies();
 		addOnlyLent(library.getLoans());
 		this.library.addObserver(this);
 	}
 
 	private void addOnlyLent(List<Loan> loans)
 	{
-		this.loans = new ArrayList<Loan>();
+		loans = new ArrayList<Loan>();
 		List<Loan> lent = loans;
 		for(Loan l : lent){
 			if(l.isLent()){
