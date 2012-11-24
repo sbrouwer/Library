@@ -39,60 +39,53 @@ public class LoanDetail
 	private List<Customer> customers;
 	private JComboBox customersComboBox;
 	private JLabel lblAnzahlAusleihenAmount;
-	private TableModelLoanDetail tableModel;
 
-	/**
-	 * Create the application.
-	 */
 	public LoanDetail(Library library)
 	{
 		this.library = library;
+		customer = null;
 		initialize();
 		updateForNewLoan();
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public LoanDetail(Library library, Loan loan)
 	{
 		this.library = library;
-		this.customer = loan.getCustomer();
-		initialize();		
+		customer = loan.getCustomer();
+		initialize();
 		updateWithExistingLoan(loan);
+	}
+
+	private void updateWithExistingLoan(Loan loan)
+	{
+		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
+		txtCustomerIdentifier.setEditable(false);
+
+		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
+		customersComboBox.setSelectedItem(loan.getCustomer());
+
+		txtCopyInventoryNumber.setText("");
+		txtReturnDate.setText("");
+		txtReturnDate.setEditable(false);
+
+		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 	}
 
 	private void updateForNewLoan()
 	{
 		txtCustomerIdentifier.setText("");
 		txtCustomerIdentifier.setEditable(false);
-		
+
 		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
 		customersComboBox.setSelectedIndex(-1);
-		
-		txtCopyInventoryNumber.setText("");		
+
+		txtCopyInventoryNumber.setText("");
 		GregorianCalendar returnDate = new GregorianCalendar();
 		returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
 		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
-			
-		lblAnzahlAusleihenAmount.setText("0");
-	}
-	
-	private void updateWithExistingLoan(Loan loan)
-	{
-		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
-		txtCustomerIdentifier.setEditable(false);
-	
-		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
-		customersComboBox.setSelectedItem(loan.getCustomer());
-		
-		txtCopyInventoryNumber.setText("");
-		txtReturnDate.setText("");
-		txtReturnDate.setEditable(false);
-		
 
-		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
+		lblAnzahlAusleihenAmount.setText("0");
 	}
 
 	/**
@@ -100,8 +93,8 @@ public class LoanDetail
 	 */
 	private void initialize()
 	{
-		final String[] headers = {"Exemplar-ID", "Titel", "Autor"};
-		
+		final String[] headers = { "Exemplar-ID", "Titel", "Autor" };
+
 		frmAusleiheDetail = new JFrame();
 		frmAusleiheDetail.setTitle("Ausleihe Detail");
 		frmAusleiheDetail.setBounds(100, 100, 450, 300);
@@ -153,25 +146,38 @@ public class LoanDetail
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
 
 		customers = library.getCustomers();
-		
-		customersComboBox = new JComboBox<Customer>();		
-		customersComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("ACTION!!!");
-				if (customer != null)
+
+		customersComboBox = new JComboBox<Customer>();
+		customersComboBox.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
+
+				if (customersComboBox.getSelectedIndex() != -1)
 				{
-					tableModel = new TableModelLoanDetail(library, customer, headers);			
+					customer = customers.get(customersComboBox.getSelectedIndex());
+					System.out.println(customer);
+
+					if (customer != null)
+					{
+						table.setModel(new TableModelLoanDetail(library, customer, headers));
+					} else
+					{
+						table.setModel(new TableModelLoanDetail(library, null, headers));
+					}
+				} else
+				{
+					// TODO
 				}
-				else {
-					tableModel = new TableModelLoanDetail(library, null, headers);
-				}
+
 			}
 		});
+
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
-		
+
 		customerPanel.add(customersComboBox, gbc_comboBox);
 
 		JPanel newCopyPanel = new JPanel();
@@ -198,10 +204,12 @@ public class LoanDetail
 		newCopyPanel.add(lblExemplarID, gbc_lblNewLabel_2);
 
 		txtCopyInventoryNumber = new JTextField();
-		txtCopyInventoryNumber.addKeyListener(new KeyAdapter() {
+		txtCopyInventoryNumber.addKeyListener(new KeyAdapter()
+		{
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-				
+			public void keyReleased(KeyEvent arg0)
+			{
+
 			}
 		});
 		txtCopyInventoryNumber.setText("123123");
@@ -278,22 +286,7 @@ public class LoanDetail
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		
-		if (customer != null)
-		{
-			tableModel = new TableModelLoanDetail(library, customer, headers);			
-		}
-		else {
-			tableModel = new TableModelLoanDetail(library, null, headers);
-		}
-		
-		
-		table.setModel(tableModel);
-		
-//		TableColumn tableColumnCopyInventoryNumber = this.table.getColumn(headers[0]);
-//		tableColumnCopyInventoryNumber.setMinWidth(100);
-//		tableColumnCopyInventoryNumber.setMaxWidth(100);
-		
+
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;
