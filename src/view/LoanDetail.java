@@ -36,30 +36,10 @@ public class LoanDetail
 	private JTable table;
 	private Library library;
 	private Customer customer;
+	private List<Customer> customers;
 	private JComboBox customersComboBox;
 	private JLabel lblAnzahlAusleihenAmount;
 	private TableModelLoanDetail tableModel;
-
-	// /**
-	// * Launch the application.
-	// */
-	// public static void main(String[] args)
-	// {
-	// EventQueue.invokeLater(new Runnable()
-	// {
-	// public void run()
-	// {
-	// try
-	// {
-	// LoanDetail window = new LoanDetail();
-	// window.frmAusleiheDetail.setVisible(true);
-	// } catch (Exception e)
-	// {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	// }
 
 	/**
 	 * Create the application.
@@ -68,10 +48,7 @@ public class LoanDetail
 	{
 		this.library = library;
 		initialize();
-
 		updateForNewLoan();
-		
-		frmAusleiheDetail.setVisible(true);
 	}
 
 	/**
@@ -81,11 +58,8 @@ public class LoanDetail
 	{
 		this.library = library;
 		this.customer = loan.getCustomer();
-		initialize();
-		
+		initialize();		
 		updateWithExistingLoan(loan);
-
-		frmAusleiheDetail.setVisible(true);
 	}
 
 	private void updateForNewLoan()
@@ -178,9 +152,12 @@ public class LoanDetail
 		gbc_lblNewLabel_1.gridy = 1;
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
 
+		customers = library.getCustomers();
+		
 		customersComboBox = new JComboBox<Customer>();		
 		customersComboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("ACTION!!!");
 				if (customer != null)
 				{
 					tableModel = new TableModelLoanDetail(library, customer, headers);			
@@ -332,6 +309,7 @@ public class LoanDetail
 		gbc_scrollPane.gridy = 1;
 		loanByCustomerTablePanel.add(scrollPane, gbc_scrollPane);
 
+		frmAusleiheDetail.setVisible(true);
 	}
 
 }

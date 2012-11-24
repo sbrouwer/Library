@@ -21,13 +21,13 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
 		this.headers = headers;
-		addOnlyLent(library.getLoans());
+		this.addOnlyLent(library.getLoans());
 		this.library.addObserver(this);
 	}
 
 	private void addOnlyLent(List<Loan> loans)
 	{
-		loans = new ArrayList<Loan>();
+		this.loans = new ArrayList<Loan>();
 		List<Loan> lent = loans;
 		for(Loan l : lent){
 			if(l.isLent()){
