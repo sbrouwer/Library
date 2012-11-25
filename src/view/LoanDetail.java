@@ -38,6 +38,8 @@ public class LoanDetail
 	private JComboBox<Customer> customersComboBox;
 	private JLabel lblAnzahlAusleihenAmount;
 	private JLabel lblX;
+	private JButton btnExemplarAusleihen;
+	private boolean check;
 
 	public LoanDetail(Library library)
 	{
@@ -89,6 +91,29 @@ public class LoanDetail
 		txtReturnDate.setEditable(false);
 
 		lblAnzahlAusleihenAmount.setText("0");
+	}
+
+	private boolean checkIfInventoryNumberExists(String potentialInventoryNumber)
+	{
+		try
+		{
+			if (Long.parseLong(potentialInventoryNumber) < 0)
+			{
+				// Falls Zahl kleiner als 0
+				return false;
+			}
+			if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())) == null)
+			{
+				// Falls keine Copy mit dieser InventoryNumber vorhanden
+				return false;
+			}
+		} catch (NumberFormatException nfe)
+		{
+			// Falls keine Zahl
+			return false;
+		}
+		return true;
+
 	}
 
 	/**
@@ -207,15 +232,14 @@ public class LoanDetail
 			@Override
 			public void keyReleased(KeyEvent arg0)
 			{
-				// TODO falscher listener
-				boolean check = (library.getCopyByInventoryNumber(Integer.parseInt(txtCopyInventoryNumber.getText())) != null);
-				System.out.println("Gibts " + txtCopyInventoryNumber.getText() + "? " + check);
-				if (check)
+				if(checkIfInventoryNumberExists(txtCopyInventoryNumber.getText()))
 				{
 					lblX.setText("\u2713");
+					btnExemplarAusleihen.setEnabled(true);
 				} else
 				{
 					lblX.setText("X");
+					btnExemplarAusleihen.setEnabled(false);
 				}
 			}
 		});
@@ -235,21 +259,23 @@ public class LoanDetail
 		gbc_lblX.gridy = 0;
 		newCopyPanel.add(lblX, gbc_lblX);
 
-		JButton btnExemplarAusleihen = new JButton("Exemplar ausleihen");
+		btnExemplarAusleihen = new JButton("Exemplar ausleihen");
+		btnExemplarAusleihen.setEnabled(false);
 		btnExemplarAusleihen.addActionListener(new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				System.out.println("Leihe " + txtCopyInventoryNumber.getText() + " aus");
-				if (true) // TODO Check einfügen
+				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText()))
 				{
-					library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Integer.parseInt(txtCopyInventoryNumber.getText())));
-
-				} else
-				{
-					System.out.println("güselzahl!");
+					Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
+					if (l != null)
+					{
+						// TODO erfolgreich Loan erstellt
+					} else
+					{
+						// TODO bereits ausgeliehen
+					}
 				}
 			}
 		});
