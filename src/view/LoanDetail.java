@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -25,7 +27,7 @@ import domain.Customer;
 import domain.Library;
 import domain.Loan;
 
-public class LoanDetail
+public class LoanDetail implements Observer 
 {
 
 	private JFrame frmAusleiheDetail;
@@ -45,6 +47,7 @@ public class LoanDetail
 	{
 		this.library = library;
 		customer = null;
+		library.addObserver(this);
 		initialize();
 		updateForNewLoan();
 		frmAusleiheDetail.setVisible(true);
@@ -55,6 +58,7 @@ public class LoanDetail
 	{
 		this.library = library;
 		customer = loan.getCustomer();
+		library.addObserver(this);
 		initialize();
 		updateWithExistingLoan(loan);
 		frmAusleiheDetail.setVisible(true);
@@ -271,7 +275,7 @@ public class LoanDetail
 					Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
 					if (l != null)
 					{
-						// TODO erfolgreich Loan erstellt
+						lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 					} else
 					{
 						// TODO bereits ausgeliehen
@@ -352,5 +356,11 @@ public class LoanDetail
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		loanByCustomerTablePanel.add(scrollPane, gbc_scrollPane);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1)
+	{
+		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));		
 	}
 }
