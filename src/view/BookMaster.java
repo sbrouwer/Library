@@ -55,7 +55,7 @@ public class BookMaster {
 			
 		JPanel buecherTab = new BookMasterBooksTab(library);
 		ImageIcon icon = new ImageIcon("icons/book.png");
-		buchMasterTabs.addTab("B\u00FCcher", icon, buecherTab, null);
+		buchMasterTabs.addTab("B\u00FCcher", icon, buecherTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
 
 		JPanel ausleiheTab = new BookMasterLoanTab(library);	
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
