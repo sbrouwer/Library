@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -134,7 +135,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 				search();
 			}
 		});
-		
+
 		txtSuche.setText("Suche");
 		GridBagConstraints gbc_txtSuche = new GridBagConstraints();
 		gbc_txtSuche.gridwidth = 2;
@@ -191,12 +192,18 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		// Ab hier "Neues Buch hinzufügen"
-		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen");
+		
+		ImageIcon icon = createImageIcon("icons/book_add.png",
+                "Neues Buch hinzufügen");
+		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",icon);
 		btnNeuesBuch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);
 			}
 		});
+
+		
+
 		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
 		gbc_btnNeuesBuch.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNeuesBuch.insets = new Insets(0, 0, 5, 0);
@@ -247,7 +254,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
 	private void addAvailableBooks() {
-		
+
 		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelBookMaster, Object> rf = null;
@@ -288,6 +295,16 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
 		lblAnzahlExemplare.setText("Anzahl Exemplare: "
 				+ (library.getBooks().size() + library.getCopies().size()));
+	}
+
+	public ImageIcon createImageIcon(String path, String description) {
+		java.net.URL imgURL = getClass().getResource(path);
+		if (imgURL != null) {
+			return new ImageIcon(imgURL, description);
+		} else {
+			System.err.println("Couldn't find file: " + path);
+			return null;
+		}
 	}
 
 	@Override
