@@ -94,7 +94,6 @@ public class Loan {
 		
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
-		
 		return (int) (new GregorianCalendar().getTimeInMillis() - 
 				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
 	}
@@ -125,12 +124,12 @@ public class Loan {
 		return dueDate;
 	}
 
-	public int getDaysTilDue() {
+	public Long getDaysTilDue() {
 		if (isOverdue()) {
-			return 0;
+			return 0l;
 		} else {
 			GregorianCalendar dueDate = getDueDateDate();
-			return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 / 60 / 60 / 24;
+			return (dueDate.getTimeInMillis() - new GregorianCalendar().getTimeInMillis()) / 1000 / 60 / 60 / 24;
 		}
 	}
 	
