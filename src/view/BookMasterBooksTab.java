@@ -193,8 +193,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Neues Buch hinzufügen"
 		
-		ImageIcon icon = createImageIcon("icons/book_add.png",
-                "Neues Buch hinzufügen");
+		ImageIcon icon = new ImageIcon("icons/book_add.png");
 		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",icon);
 		btnNeuesBuch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

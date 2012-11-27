@@ -20,6 +20,7 @@ import java.util.Observer;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -173,7 +174,8 @@ public class BookAdd implements Observer {
 		gbc_comboBox.gridy = 5;
 		panel.add(regalComboBox, gbc_comboBox);
 		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
-		btnAddBook = new JButton("Buch Hinzuf\u00FCgen");
+		ImageIcon icon = new ImageIcon("icons/book_add.png");
+		btnAddBook = new JButton("Buch Hinzuf\u00FCgen",icon);
 		btnAddBook.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
