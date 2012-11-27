@@ -45,6 +45,7 @@ public class LoanDetail implements Observer {
 	private JButton btnExemplarAusleihen;
 	private JButton btnExemplarZurueckgeben;
 	private JLabel lblZurueckAm;
+	private JLabel lblError;
 
 	public LoanDetail(Library library) {
 		this.library = library;
@@ -157,12 +158,12 @@ public class LoanDetail implements Observer {
 		customerPanel.setLayout(gbl_customerPanel);
 
 		JLabel lblKennung = new JLabel("Kennung:");
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 0;
-		customerPanel.add(lblKennung, gbc_lblNewLabel);
+		GridBagConstraints gbc_lblError = new GridBagConstraints();
+		gbc_lblError.anchor = GridBagConstraints.WEST;
+		gbc_lblError.insets = new Insets(0, 0, 5, 5);
+		gbc_lblError.gridx = 0;
+		gbc_lblError.gridy = 0;
+		customerPanel.add(lblKennung, gbc_lblError);
 
 		txtCustomerIdentifier = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -220,7 +221,7 @@ public class LoanDetail implements Observer {
 		GridBagLayout gbl_newCopyPanel = new GridBagLayout();
 		gbl_newCopyPanel.columnWidths = new int[] { 100, 0, 0, 0, 0, 0 };
 		gbl_newCopyPanel.rowHeights = new int[] { 0, 0, 0, 0 };
-		gbl_newCopyPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_newCopyPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gbl_newCopyPanel.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		newCopyPanel.setLayout(gbl_newCopyPanel);
 
@@ -238,7 +239,6 @@ public class LoanDetail implements Observer {
 			public void keyReleased(KeyEvent arg0) {
 				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
 					lblX.setText("\u2713");
-					//Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
 					if(library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))){
 						btnExemplarAusleihen.setEnabled(false);
 						btnExemplarZurueckgeben.setEnabled(true);
@@ -283,6 +283,7 @@ public class LoanDetail implements Observer {
 					if (library.isCopyLent(library.getCopyByInventoryNumber(Long
 							.parseLong(txtCopyInventoryNumber.getText())))) { //check if is Lent
 						System.out.println("Kopie ist bereits Ausgeliehen!");
+						lblError.setText("Dieses Exemplar ist bereits ausgeliehen!");
 					} else {
 						Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
 								.parseLong(txtCopyInventoryNumber.getText()))); //add loan
@@ -345,13 +346,23 @@ public class LoanDetail implements Observer {
 		txtReturnDate = new JTextField();
 		txtReturnDate.setText("");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
-		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAsdasd.gridwidth = 4;
 		gbc_txtAsdasd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAsdasd.gridx = 1;
 		gbc_txtAsdasd.gridy = 1;
 		newCopyPanel.add(txtReturnDate, gbc_txtAsdasd);
 		txtReturnDate.setColumns(10);
+		
+		lblError = new JLabel("");
+		GridBagConstraints gbc_lblError2 = new GridBagConstraints();
+		gbc_lblError2.anchor = GridBagConstraints.EAST;
+		gbc_lblError2.gridwidth = 5;
+		gbc_lblError2.insets = new Insets(0, 0, 0, 5);
+		gbc_lblError2.gridx = 0;
+		gbc_lblError2.gridy = 2;
+		newCopyPanel.add(lblError, gbc_lblError2);
+		GridBagConstraints gbc_textFieldError;
 
 		JPanel loanByCustomerTablePanel = new JPanel();
 		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von Kunde",
@@ -376,12 +387,12 @@ public class LoanDetail implements Observer {
 		loanByCustomerTablePanel.add(lblAnzahlAusleihen, gbc_lblNewLabel_3);
 
 		lblAnzahlAusleihenAmount = new JLabel("42");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.anchor = GridBagConstraints.WEST;
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.gridx = 1;
-		gbc_label.gridy = 0;
-		loanByCustomerTablePanel.add(lblAnzahlAusleihenAmount, gbc_label);
+		GridBagConstraints gbc_lblAnzahlAusleihenAmount = new GridBagConstraints();
+		gbc_lblAnzahlAusleihenAmount.anchor = GridBagConstraints.WEST;
+		gbc_lblAnzahlAusleihenAmount.insets = new Insets(0, 0, 5, 0);
+		gbc_lblAnzahlAusleihenAmount.gridx = 1;
+		gbc_lblAnzahlAusleihenAmount.gridy = 0;
+		loanByCustomerTablePanel.add(lblAnzahlAusleihenAmount, gbc_lblAnzahlAusleihenAmount);
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
