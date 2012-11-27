@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,6 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -24,11 +26,11 @@ import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelLoanDetail;
 import domain.Customer;
+import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Loan;
 
-public class LoanDetail implements Observer 
-{
+public class LoanDetail implements Observer {
 
 	private JFrame frmAusleiheDetail;
 	private JTextField txtCustomerIdentifier;
@@ -41,9 +43,10 @@ public class LoanDetail implements Observer
 	private JLabel lblAnzahlAusleihenAmount;
 	private JLabel lblX;
 	private JButton btnExemplarAusleihen;
+	private JButton btnExemplarZurueckgeben;
+	private JLabel lblZurueckAm;
 
-	public LoanDetail(Library library)
-	{
+	public LoanDetail(Library library) {
 		this.library = library;
 		customer = null;
 		library.addObserver(this);
@@ -53,34 +56,39 @@ public class LoanDetail implements Observer
 
 	}
 
-	public LoanDetail(Library library, Loan loan)
-	{
+	public LoanDetail(Library library, Loan loan) {
 		this.library = library;
 		customer = loan.getCustomer();
 		library.addObserver(this);
 		initialize();
 		updateWithExistingLoan(loan);
 		frmAusleiheDetail.setVisible(true);
-
 	}
 
-	private void updateWithExistingLoan(Loan loan)
-	{
+	private void updateWithExistingLoan(Loan loan) {
 		txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
 		txtCustomerIdentifier.setEditable(false);
 
 		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
 		customersComboBox.setSelectedItem(loan.getCustomer());
 
-		txtCopyInventoryNumber.setText("");
-		txtReturnDate.setText("");
+		btnExemplarZurueckgeben.setEnabled(true);
+		txtCopyInventoryNumber.setText("" + loan.getCopy().getInventoryNumber());
+		lblX.setText("\u2713");
+
+		txtCopyInventoryNumber.setText(Long.toString(loan.getCopy().getInventoryNumber()));
+		if (!loan.isOverdue()) {
+			txtReturnDate.setText(loan.getDueDateString() + " (Noch " + loan.getDaysTilDue() + " Tage)");
+		} else {
+			txtReturnDate.setText(loan.getDueDateString() + " (F‰llig!)");
+		}
+
 		txtReturnDate.setEditable(false);
 
 		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 	}
 
-	private void updateForNewLoan()
-	{
+	private void updateForNewLoan() {
 		txtCustomerIdentifier.setText("");
 		txtCustomerIdentifier.setEditable(false);
 
@@ -96,22 +104,17 @@ public class LoanDetail implements Observer
 		lblAnzahlAusleihenAmount.setText("0");
 	}
 
-	private boolean checkIfInventoryNumberExists(String potentialInventoryNumber)
-	{
-		try
-		{
-			if (Long.parseLong(potentialInventoryNumber) < 0)
-			{
+	private boolean checkIfInventoryNumberExists(String potentialInventoryNumber) {
+		try {
+			if (Long.parseLong(potentialInventoryNumber) < 0) {
 				// Falls Zahl kleiner als 0
 				return false;
 			}
-			if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())) == null)
-			{
+			if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())) == null) {
 				// Falls keine Copy mit dieser InventoryNumber vorhanden
 				return false;
 			}
-		} catch (NumberFormatException nfe)
-		{
+		} catch (NumberFormatException nfe) {
 			// Falls keine Zahl
 			return false;
 		}
@@ -122,22 +125,24 @@ public class LoanDetail implements Observer
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize()
-	{
+	private void initialize() {
 		final String[] headers = { "Exemplar-ID", "Titel", "Autor" };
 
 		frmAusleiheDetail = new JFrame();
 		frmAusleiheDetail.setTitle("Ausleihe Detail");
-		frmAusleiheDetail.setBounds(100, 100, 450, 300);
+		frmAusleiheDetail.setBounds(100, 100, 530, 370);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		frmAusleiheDetail.getContentPane().setLayout(gridBagLayout);
+		Dimension d = new Dimension(530, 370);
+		frmAusleiheDetail.setMinimumSize(d);
 
 		JPanel customerPanel = new JPanel();
-		customerPanel.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		customerPanel.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_customerPanel = new GridBagConstraints();
 		gbc_customerPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_customerPanel.fill = GridBagConstraints.BOTH;
@@ -177,20 +182,17 @@ public class LoanDetail implements Observer
 		customerPanel.add(lblKunde, gbc_lblNewLabel_1);
 
 		customersComboBox = new JComboBox<Customer>();
-		customersComboBox.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				if (customersComboBox.getSelectedIndex() != -1)
-				{
+		customersComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (customersComboBox.getSelectedIndex() != -1) {
 					// Falls Customer ausgew√§hlt...
 					customer = library.getCustomers().get(customersComboBox.getSelectedIndex());
 					txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
 					table.setModel(new TableModelLoanDetail(library, customer, headers));
-					lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
+					lblAnzahlAusleihenAmount.setText(String
+							.valueOf(library.getCustomerLoans(customer).size()));
 
-				} else
-				{
+				} else {
 					// Falls kein Customer ausgew√§hlt...
 					txtCustomerIdentifier.setText("");
 					table.setModel(new TableModelLoanDetail(library, null, headers));
@@ -207,7 +209,8 @@ public class LoanDetail implements Observer
 		customerPanel.add(customersComboBox, gbc_comboBox);
 
 		JPanel newCopyPanel = new JPanel();
-		newCopyPanel.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		newCopyPanel.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_newCopyPanel = new GridBagConstraints();
 		gbc_newCopyPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_newCopyPanel.fill = GridBagConstraints.BOTH;
@@ -230,19 +233,27 @@ public class LoanDetail implements Observer
 		newCopyPanel.add(lblExemplarID, gbc_lblNewLabel_2);
 
 		txtCopyInventoryNumber = new JTextField();
-		txtCopyInventoryNumber.addKeyListener(new KeyAdapter()
-		{
+		txtCopyInventoryNumber.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent arg0)
-			{
-				if(checkIfInventoryNumberExists(txtCopyInventoryNumber.getText()))
-				{
+			public void keyReleased(KeyEvent arg0) {
+				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
 					lblX.setText("\u2713");
-					btnExemplarAusleihen.setEnabled(true);
-				} else
-				{
+					//Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
+					if(library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))){
+						btnExemplarAusleihen.setEnabled(false);
+						btnExemplarZurueckgeben.setEnabled(true);
+						txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));						
+					}else{
+						btnExemplarAusleihen.setEnabled(true);
+						btnExemplarZurueckgeben.setEnabled(false);
+						GregorianCalendar returnDate = new GregorianCalendar();
+						returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
+						txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " noch 30 Tage");
+					}					
+				} else {
 					lblX.setText("X");
 					btnExemplarAusleihen.setEnabled(false);
+					btnExemplarZurueckgeben.setEnabled(false);
 				}
 			}
 		});
@@ -262,22 +273,25 @@ public class LoanDetail implements Observer
 		gbc_lblX.gridy = 0;
 		newCopyPanel.add(lblX, gbc_lblX);
 
-		btnExemplarAusleihen = new JButton("Exemplar ausleihen");
+		ImageIcon iconExemplarAusleihen = new ImageIcon("icons/book_go.png");
+		btnExemplarAusleihen = new JButton("Exemplar ausleihen", iconExemplarAusleihen);
 		btnExemplarAusleihen.setEnabled(false);
-		btnExemplarAusleihen.addActionListener(new ActionListener()
-		{
+		btnExemplarAusleihen.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText()))
-				{
-					Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
-					if (l != null)
-					{
-						lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
-					} else
-					{
-						// TODO bereits ausgeliehen
+			public void actionPerformed(ActionEvent arg0) {
+				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) { //check InventoryNr
+					if (library.isCopyLent(library.getCopyByInventoryNumber(Long
+							.parseLong(txtCopyInventoryNumber.getText())))) { //check if is Lent
+						System.out.println("Kopie ist bereits Ausgeliehen!");
+					} else {
+						Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
+								.parseLong(txtCopyInventoryNumber.getText()))); //add loan
+						if (l != null) {
+							lblAnzahlAusleihenAmount.setText(String.valueOf(library
+									.getCustomerLoans(customer).size())); //update textfields
+						} else {
+							System.out.println("Fehler!");
+						}
 					}
 				}
 			}
@@ -289,15 +303,38 @@ public class LoanDetail implements Observer
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 0;
 		newCopyPanel.add(btnExemplarAusleihen, gbc_btnNewButton);
-		
-		JButton btnExemplarZurckgeben = new JButton("Exemplar zur√ºckgeben");
+
+		btnExemplarZurueckgeben = new JButton("Exemplar zur\u00FCckgeben");
 		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
 		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExemplarZurckgeben.gridx = 4;
 		gbc_btnExemplarZurckgeben.gridy = 0;
-		newCopyPanel.add(btnExemplarZurckgeben, gbc_btnExemplarZurckgeben);
+		newCopyPanel.add(btnExemplarZurueckgeben, gbc_btnExemplarZurckgeben);
+		btnExemplarZurueckgeben.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
+					try {
+						Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(Long
+								.valueOf(txtCopyInventoryNumber.getText())));
+						if (l.isLent()) {
+							if (l.isOverdue()) {
+								System.out.println("Ausleihe war ‹berf‰llig!");
+								l.returnCopy(new GregorianCalendar());
+							} else {
+								l.returnCopy(new GregorianCalendar());
+							}
+						}
+					} catch (NumberFormatException e) {
+						e.printStackTrace();
+					} catch (IllegalLoanOperationException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
 
-		JLabel lblZurueckAm = new JLabel("Zur\u00FCck am:");
+		lblZurueckAm = new JLabel("Zur\u00FCck am:");
 		GridBagConstraints gbc_lblZurckAm = new GridBagConstraints();
 		gbc_lblZurckAm.anchor = GridBagConstraints.WEST;
 		gbc_lblZurckAm.insets = new Insets(0, 0, 5, 5);
@@ -306,7 +343,7 @@ public class LoanDetail implements Observer
 		newCopyPanel.add(lblZurueckAm, gbc_lblZurckAm);
 
 		txtReturnDate = new JTextField();
-		txtReturnDate.setText("42");
+		txtReturnDate.setText("");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
 		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
 		gbc_txtAsdasd.gridwidth = 4;
@@ -317,7 +354,8 @@ public class LoanDetail implements Observer
 		txtReturnDate.setColumns(10);
 
 		JPanel loanByCustomerTablePanel = new JPanel();
-		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von Kunde",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_loanByCustomerTablePanel = new GridBagConstraints();
 		gbc_loanByCustomerTablePanel.fill = GridBagConstraints.BOTH;
 		gbc_loanByCustomerTablePanel.gridx = 0;
@@ -365,8 +403,7 @@ public class LoanDetail implements Observer
 	}
 
 	@Override
-	public void update(Observable arg0, Object arg1)
-	{
-		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));		
+	public void update(Observable arg0, Object arg1) {
+		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 	}
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -136,7 +137,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 					search();
 			}
 		});
-				lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
+				lblAlleBcherDer = new JLabel("Alle Ausleihen der Bibliothek sind in der untenstehenden Tabelle");
 				GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
 				gbc_lblAlleBcherDer.gridwidth = 2;
 				gbc_lblAlleBcherDer.insets = new Insets(0, 0, 5, 5);
@@ -154,7 +155,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		txtSuche.setColumns(10);
 
 		//Ab hier "Selektiertes Anzeigen"
-		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen");
+		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
+		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
 		btnSelektiertesAnzeigen.setEnabled(false);
 		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -200,7 +202,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		//Ab hier "Neues Buch hinzufügen"
-		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen");
+		ImageIcon iconNeueAusleihe = new ImageIcon("icons/book_go.png");
+		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen",iconNeueAusleihe);
 		btnNeueAusleihe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoanDetail loanDetail = new LoanDetail(library);

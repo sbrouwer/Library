@@ -54,10 +54,11 @@ public class BookMaster {
 		frmBibliothek.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
 			
 		JPanel buecherTab = new BookMasterBooksTab(library);
-		ImageIcon icon = new ImageIcon("icons/book.png");
-		buchMasterTabs.addTab("B\u00FCcher", icon, buecherTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
+		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
+		buchMasterTabs.addTab("B\u00FCcher", iconBookTab, buecherTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
 
+		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
 		JPanel ausleiheTab = new BookMasterLoanTab(library);	
-		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
+		buchMasterTabs.addTab("Ausleihe", iconLoanTab, ausleiheTab, null);
 	}
 }
