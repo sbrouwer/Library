@@ -41,7 +41,6 @@ public class LoanDetail implements Observer
 	private JLabel lblAnzahlAusleihenAmount;
 	private JLabel lblX;
 	private JButton btnExemplarAusleihen;
-	private boolean check;
 
 	public LoanDetail(Library library)
 	{
@@ -216,10 +215,10 @@ public class LoanDetail implements Observer
 		gbc_newCopyPanel.gridy = 1;
 		frmAusleiheDetail.getContentPane().add(newCopyPanel, gbc_newCopyPanel);
 		GridBagLayout gbl_newCopyPanel = new GridBagLayout();
-		gbl_newCopyPanel.columnWidths = new int[] { 100, 0, 0, 0, 0 };
-		gbl_newCopyPanel.rowHeights = new int[] { 0, 0, 0 };
-		gbl_newCopyPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_newCopyPanel.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gbl_newCopyPanel.columnWidths = new int[] { 100, 0, 0, 0, 0, 0 };
+		gbl_newCopyPanel.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_newCopyPanel.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_newCopyPanel.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE };
 		newCopyPanel.setLayout(gbl_newCopyPanel);
 
 		JLabel lblExemplarID = new JLabel("Exemplar-ID:");
@@ -286,15 +285,22 @@ public class LoanDetail implements Observer
 
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
+		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 0;
 		newCopyPanel.add(btnExemplarAusleihen, gbc_btnNewButton);
+		
+		JButton btnExemplarZurckgeben = new JButton("Exemplar zurückgeben");
+		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
+		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
+		gbc_btnExemplarZurckgeben.gridx = 4;
+		gbc_btnExemplarZurckgeben.gridy = 0;
+		newCopyPanel.add(btnExemplarZurckgeben, gbc_btnExemplarZurckgeben);
 
 		JLabel lblZurueckAm = new JLabel("Zur\u00FCck am:");
 		GridBagConstraints gbc_lblZurckAm = new GridBagConstraints();
 		gbc_lblZurckAm.anchor = GridBagConstraints.WEST;
-		gbc_lblZurckAm.insets = new Insets(0, 0, 0, 5);
+		gbc_lblZurckAm.insets = new Insets(0, 0, 5, 5);
 		gbc_lblZurckAm.gridx = 0;
 		gbc_lblZurckAm.gridy = 1;
 		newCopyPanel.add(lblZurueckAm, gbc_lblZurckAm);
@@ -302,8 +308,8 @@ public class LoanDetail implements Observer
 		txtReturnDate = new JTextField();
 		txtReturnDate.setText("42");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
-		gbc_txtAsdasd.gridwidth = 3;
-		gbc_txtAsdasd.insets = new Insets(0, 0, 0, 5);
+		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
+		gbc_txtAsdasd.gridwidth = 4;
 		gbc_txtAsdasd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAsdasd.gridx = 1;
 		gbc_txtAsdasd.gridy = 1;
