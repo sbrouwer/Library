@@ -16,6 +16,8 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	Library library;
 	String[] headers;
 	List <Loan> loans;
+	ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
+	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
 
 	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
@@ -40,7 +42,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	{
 		switch (columnIndex) {
 		case 0:
-			return String.class;
+			return ImageIcon.class;
 		case 1:
 			return Long.class;
 		case 2:
@@ -97,11 +99,11 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 		return loans.size();
 	}
 
-	private String getLoanStatus(Loan l) {
+	private ImageIcon getLoanStatus(Loan l) {
 		if (l.isOverdue()) {
-			return "\u26A0 Fällig";
+			return iconWarning;
 		} else {
-			return "\u2713 Ok";
+			return iconOk;
 		}
 	}
 	
