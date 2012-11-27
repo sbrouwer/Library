@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -53,9 +54,10 @@ public class BookMaster {
 		frmBibliothek.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
 			
 		JPanel buecherTab = new BookMasterBooksTab(library);
-		buchMasterTabs.addTab("B\u00FCcher", null, buecherTab, null);
+		ImageIcon icon = new ImageIcon("icons/book.png");
+		buchMasterTabs.addTab("B\u00FCcher", icon, buecherTab, null);
 
-		JPanel ausleiheTab = new BookMasterLoanTab(library);
+		JPanel ausleiheTab = new BookMasterLoanTab(library);	
 		buchMasterTabs.addTab("Ausleihe", null, ausleiheTab, null);
 	}
 }
