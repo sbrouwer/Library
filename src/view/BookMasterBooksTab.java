@@ -147,7 +147,8 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		txtSuche.setColumns(10);
 
 		// Ab hier "Selektiertes Anzeigen"
-		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen");
+		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
+		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
 		btnSelektiertesAnzeigen.setEnabled(false);
 		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -193,8 +194,8 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Neues Buch hinzufügen"
 		
-		ImageIcon icon = new ImageIcon("icons/book_add.png");
-		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",icon);
+		ImageIcon iconBookAdd = new ImageIcon("icons/book_add.png");
+		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",iconBookAdd);
 		btnNeuesBuch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);

@@ -14,6 +14,7 @@ import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -204,8 +205,9 @@ public class BookDetail implements Observer
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
-
-		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte entfernen");
+		
+		ImageIcon iconAusgewaehlteEntfernen = new ImageIcon("icons/book_delete.png");
+		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte entfernen",iconAusgewaehlteEntfernen);
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -226,7 +228,9 @@ public class BookDetail implements Observer
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
-		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
+		
+		ImageIcon iconExemplarHinzufuegen = new ImageIcon("icons/book_add.png");
+		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen",iconExemplarHinzufuegen);
 		btnExemplarHinzufuegen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
