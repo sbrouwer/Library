@@ -311,7 +311,8 @@ public class LoanDetail implements Observer {
 								lblError.setForeground(black);
 								lblError.setText("Exemplar wurde erfolgreich ausgeliehen");											// textfields
 							} else {
-								System.out.println("Fehler!");
+								lblError.setForeground(red);
+								lblError.setText("Exemplar konnte nicht ausgelehnt werden");
 							}
 						}
 					}
@@ -331,6 +332,15 @@ public class LoanDetail implements Observer {
 
 		ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 		btnExemplarZurueckgeben = new JButton("Exemplar zur\u00FCckgeben", iconExemplarZurueckgeben);
+		btnExemplarZurueckgeben.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				System.out.println("Key event");
+				if(arg0.getKeyCode() == KeyEvent.VK_ENTER ){
+					returnLoan();
+				}
+			}
+		});
 		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
 		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExemplarZurckgeben.gridx = 4;
@@ -339,37 +349,7 @@ public class LoanDetail implements Observer {
 		btnExemplarZurueckgeben.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
-					try {
-						Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(Long
-								.valueOf(txtCopyInventoryNumber.getText())));
-						if (l != null) {
-							if (l.isLent()) {
-								if (l.isOverdue()) {
-
-									l.returnCopy(new GregorianCalendar());
-									lblError.setForeground(black);
-									lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war Überfällig!");
-									btnExemplarAusleihen.setEnabled(true);
-									btnExemplarZurueckgeben.setEnabled(false);
-								} else {
-									l.returnCopy(new GregorianCalendar());
-									lblError.setForeground(black);
-									lblError.setText("Exemplar wurde zurückgegeben");
-									btnExemplarAusleihen.setEnabled(true);
-									btnExemplarZurueckgeben.setEnabled(false);
-								}
-							}
-						} else {
-							System.out.println("Loan war null");
-						}
-
-					} catch (NumberFormatException e) {
-						e.printStackTrace();
-					} catch (IllegalLoanOperationException e) {
-						e.printStackTrace();
-					}
-				}
+				returnLoan();
 			}
 		});
 
@@ -454,5 +434,39 @@ public class LoanDetail implements Observer {
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
+	}
+	
+	private void returnLoan(){
+		if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
+			try {
+				Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(Long
+						.valueOf(txtCopyInventoryNumber.getText())));
+				if (l != null) {
+					if (l.isLent()) {
+						if (l.isOverdue()) {
+
+							l.returnCopy(new GregorianCalendar());
+							lblError.setForeground(black);
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war Überfällig!");
+							btnExemplarAusleihen.setEnabled(true);
+							btnExemplarZurueckgeben.setEnabled(false);
+						} else {
+							l.returnCopy(new GregorianCalendar());
+							lblError.setForeground(black);
+							lblError.setText("Exemplar wurde zurückgegeben");
+							btnExemplarAusleihen.setEnabled(true);
+							btnExemplarZurueckgeben.setEnabled(false);
+						}
+					}
+				} else {
+					System.out.println("Loan war null");
+				}
+
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			} catch (IllegalLoanOperationException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
