@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -46,6 +47,8 @@ public class LoanDetail implements Observer {
 	private JButton btnExemplarZurueckgeben;
 	private JLabel lblZurueckAm;
 	private JLabel lblError;
+	private Color red = new Color(255,0,0);
+	private Color black = new Color(0,0,0);
 
 	public LoanDetail(Library library) {
 		this.library = library;
@@ -95,6 +98,9 @@ public class LoanDetail implements Observer {
 
 		customersComboBox.setModel(new DefaultComboBoxModel(library.getCustomers().toArray()));
 		customersComboBox.setSelectedIndex(-1);
+
+		btnExemplarAusleihen.setEnabled(false);
+		btnExemplarZurueckgeben.setEnabled(false);
 
 		txtCopyInventoryNumber.setText("");
 		GregorianCalendar returnDate = new GregorianCalendar();
@@ -282,29 +288,36 @@ public class LoanDetail implements Observer {
 		btnExemplarAusleihen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) { // check
-																						// InventoryNr
-					if (library.isCopyLent(library.getCopyByInventoryNumber(Long
-							.parseLong(txtCopyInventoryNumber.getText())))) { // check
-																				// if
-																				// is
-																				// Lent
-						System.out.println("Kopie ist bereits Ausgeliehen!");
-						lblError.setText("Dieses Exemplar ist bereits ausgeliehen!");
-					} else {
-						Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
-								.parseLong(txtCopyInventoryNumber.getText()))); // add
-																				// loan
-						if (l != null) {
-							lblAnzahlAusleihenAmount.setText(String.valueOf(library
-									.getCustomerLoans(customer).size()));
-							btnExemplarAusleihen.setEnabled(false);
-							btnExemplarZurueckgeben.setEnabled(true);// update
-																			// textfields
+				if (customersComboBox.getSelectedIndex() > -1) {
+					if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) { // check
+																							// InventoryNr
+						if (library.isCopyLent(library.getCopyByInventoryNumber(Long
+								.parseLong(txtCopyInventoryNumber.getText())))) { // check
+																					// if
+																					// is
+																					// Lent
+							System.out.println("Kopie ist bereits Ausgeliehen!");
+							lblError.setForeground(red);
+							lblError.setText("Dieses Exemplar ist bereits ausgeliehen!");
 						} else {
-							System.out.println("Fehler!");
+							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
+									.parseLong(txtCopyInventoryNumber.getText()))); // add
+																					// loan
+							if (l != null) {
+								lblAnzahlAusleihenAmount.setText(String.valueOf(library.getCustomerLoans(
+										customer).size()));
+								btnExemplarAusleihen.setEnabled(false);
+								btnExemplarZurueckgeben.setEnabled(true);// update
+								lblError.setForeground(black);
+								lblError.setText("Exemplar wurde erfolgreich ausgeliehen");											// textfields
+							} else {
+								System.out.println("Fehler!");
+							}
 						}
 					}
+				}else{
+					lblError.setForeground(red);
+					lblError.setText("Es Muss ein Kunde asgewählt sein bevor ein Buch ausgeliehen werden kann!");
 				}
 			}
 		});
@@ -333,22 +346,24 @@ public class LoanDetail implements Observer {
 						if (l != null) {
 							if (l.isLent()) {
 								if (l.isOverdue()) {
-									
+
 									l.returnCopy(new GregorianCalendar());
+									lblError.setForeground(black);
 									lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war Überfällig!");
 									btnExemplarAusleihen.setEnabled(true);
-									btnExemplarZurueckgeben.setEnabled(false);						
+									btnExemplarZurueckgeben.setEnabled(false);
 								} else {
 									l.returnCopy(new GregorianCalendar());
+									lblError.setForeground(black);
 									lblError.setText("Exemplar wurde zurückgegeben");
 									btnExemplarAusleihen.setEnabled(true);
 									btnExemplarZurueckgeben.setEnabled(false);
 								}
 							}
-						}else{
+						} else {
 							System.out.println("Loan war null");
 						}
-						
+
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					} catch (IllegalLoanOperationException e) {
