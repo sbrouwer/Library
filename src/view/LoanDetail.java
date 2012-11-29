@@ -17,12 +17,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelLoanDetail;
@@ -55,7 +57,7 @@ public class LoanDetail implements Observer {
 		customer = null;
 		library.addObserver(this);
 		initialize();
-		updateForNewLoan();
+		updateForNewLoan();		
 		frmAusleiheDetail.setVisible(true);
 
 	}
@@ -146,6 +148,8 @@ public class LoanDetail implements Observer {
 		frmAusleiheDetail.getContentPane().setLayout(gridBagLayout);
 		Dimension d = new Dimension(550, 380);
 		frmAusleiheDetail.setMinimumSize(d);
+		
+		addKeyboardListeners(frmAusleiheDetail);
 
 		JPanel customerPanel = new JPanel();
 		customerPanel.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING,
@@ -332,15 +336,7 @@ public class LoanDetail implements Observer {
 
 		ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 		btnExemplarZurueckgeben = new JButton("Exemplar zur\u00FCckgeben", iconExemplarZurueckgeben);
-		btnExemplarZurueckgeben.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				System.out.println("Key event");
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER ){
-					returnLoan();
-				}
-			}
-		});
+		
 		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
 		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExemplarZurckgeben.gridx = 4;
@@ -468,5 +464,33 @@ public class LoanDetail implements Observer {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void addKeyboardListeners(final JFrame frame) {
+	    ActionListener escListener = new ActionListener() {
+
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            frame.dispose();
+	        }
+	    };
+	    
+	    ActionListener enterListener = new ActionListener() {
+
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            returnLoan();
+	        }
+	    };
+	    
+
+	    frame.getRootPane().registerKeyboardAction(escListener,
+	            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    
+	    frame.getRootPane().registerKeyboardAction(enterListener,
+	            KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0),
+	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 }
