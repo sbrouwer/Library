@@ -246,6 +246,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
+
 		books = library.getBooks();
 		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor",
 				"Verlag" });
@@ -259,6 +260,8 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
 		table.setRowSorter(sorter);
+		sorter.setSortsOnUpdates(true);
+		sorter.toggleSortOrder(1);
 	}
 
 	/**
@@ -280,8 +283,6 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 	}
 
 	private void search() {
-		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
-		table.setRowSorter(sorter);
 		RowFilter<TableModelBookMaster, Object> rf = null;
 		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
 		// If current expression doesn't parse, don't update.
@@ -310,7 +311,6 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 		updateFields();
 	}
 
