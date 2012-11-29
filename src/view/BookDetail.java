@@ -185,6 +185,7 @@ public class BookDetail implements Observer
 		
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
+		table.setAutoCreateRowSorter(true);
 
 		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
 		copies = library.getCopiesOfBook(book);

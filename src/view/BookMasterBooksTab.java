@@ -231,7 +231,18 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 					btnSelektiertesAnzeigen.setEnabled(false);
 				}
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2){
+					int selected[] = table.getSelectedRows();
+					for (int i : selected) {
+						Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
+						BookDetail bookDetail = new BookDetail(book, library);
+					}
+				}
+			}
 		});
+		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
@@ -295,16 +306,6 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
 		lblAnzahlExemplare.setText("Anzahl Exemplare: "
 				+ (library.getBooks().size() + library.getCopies().size()));
-	}
-
-	public ImageIcon createImageIcon(String path, String description) {
-		java.net.URL imgURL = getClass().getResource(path);
-		if (imgURL != null) {
-			return new ImageIcon(imgURL, description);
-		} else {
-			System.err.println("Couldn't find file: " + path);
-			return null;
-		}
 	}
 
 	@Override
