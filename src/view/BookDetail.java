@@ -218,6 +218,7 @@ public class BookDetail implements Observer
 		
 		ImageIcon iconAusgewaehlteEntfernen = new ImageIcon("icons/book_delete.png");
 		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte entfernen",iconAusgewaehlteEntfernen);
+		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -247,6 +248,7 @@ public class BookDetail implements Observer
 		
 		ImageIcon iconExemplarHinzufuegen = new ImageIcon("icons/book_add.png");
 		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen",iconExemplarHinzufuegen);
+		btnExemplarHinzufuegen.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
 		btnExemplarHinzufuegen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)

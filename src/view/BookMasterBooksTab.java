@@ -149,6 +149,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		// Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
 		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
+		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgew\u00E4hlte Buch in einer Detailansicht an");
 		btnSelektiertesAnzeigen.setEnabled(false);
 		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -162,6 +163,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Nur Verfügbare"
 		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
+		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur B\u00FCcher mit verf\u00FCgbaren Kopien angezeigt");
 		chckbxNurVerfgbare.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
@@ -196,6 +198,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		
 		ImageIcon iconBookAdd = new ImageIcon("icons/book_add.png");
 		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",iconBookAdd);
+		btnNeuesBuch.setToolTipText("\u00D6ffnet ein Fenster um ein neues Buch zu erfassen");
 		btnNeuesBuch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);

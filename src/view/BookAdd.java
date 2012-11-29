@@ -176,6 +176,7 @@ public class BookAdd implements Observer {
 		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
 		ImageIcon icon = new ImageIcon("icons/book_add.png");
 		btnAddBook = new JButton("Buch Hinzuf\u00FCgen",icon);
+		btnAddBook.setToolTipText("F\u00FCgt der Bibliothek ein neues Buch hinzu (alle Felder m\u00FCssen ausgef\u00FCllt sein!)");
 		btnAddBook.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -252,6 +253,7 @@ public class BookAdd implements Observer {
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
 		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
+		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -279,6 +281,7 @@ public class BookAdd implements Observer {
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
 		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
+		btnExemplarHinzufuegen.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
 		btnExemplarHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (book == null) {
