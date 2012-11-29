@@ -33,5 +33,4 @@ public class Copy {
 	public long getInventoryNumber() {
 		return inventoryNumber;
 	}
-	
 }

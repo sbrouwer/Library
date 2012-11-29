@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -47,6 +48,9 @@ public class BookDetail implements Observer
 	private JTable table;
 	JButton btnExemplarHinzufuegen;
 	JButton btnAusgewaehlteEntfernen;
+	private JLabel lblError;
+	private Color red = new Color(255,0,0);
+	private Color black = new Color(0,0,0);
 
 	/**
 	 * Create the application.
@@ -164,9 +168,9 @@ public class BookDetail implements Observer
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
 		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
 		lblAnzahl = new JLabel("Anzahl: 1");
@@ -182,7 +186,7 @@ public class BookDetail implements Observer
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 
-		String[] header = {"Inventar Nummer","Verfügbarkeit"};
+		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
 		copies = library.getCopiesOfBook(book);
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);
@@ -216,7 +220,13 @@ public class BookDetail implements Observer
 				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
 				{
 					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
-					library.removeCopy(copyToDelet);
+					if(!library.isCopyLent(copyToDelet)){
+						library.removeCopy(copyToDelet);
+					}else{
+						lblError.setForeground(red);
+						lblError.setText("Das Exemplar ist noch ausgeliehen und kann deshalb nicht entfernt werden!");
+					}
+					
 				}
 				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
@@ -243,16 +253,25 @@ public class BookDetail implements Observer
 		gbc_btnExemplarHinzufuegen.gridx = 7;
 		gbc_btnExemplarHinzufuegen.gridy = 0;
 		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
+		
+		lblError = new JLabel("");
+		GridBagConstraints gbc_lblError = new GridBagConstraints();
+		gbc_lblError.anchor = GridBagConstraints.EAST;
+		gbc_lblError.gridwidth = 7;
+		gbc_lblError.insets = new Insets(0, 0, 5, 0);
+		gbc_lblError.gridx = 1;
+		gbc_lblError.gridy = 1;
+		panel_1.add(lblError, gbc_lblError);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.gridheight = 2;
 		gbc_scrollPane.gridwidth = 8;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
+		gbc_scrollPane.gridy = 2;
 		panel_1.add(scrollPane, gbc_scrollPane);
 	}
 

@@ -7,6 +7,7 @@ import javax.swing.table.AbstractTableModel;
 
 import domain.Book;
 import domain.Copy;
+import domain.Copy.Condition;
 import domain.Library;
 import domain.Loan;
 
@@ -31,6 +32,8 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 			return Long.class;
 		case 1:
 			return String.class;
+		case 2: 
+			return Condition.class;
 		default:
 			return null;
 		}
@@ -57,6 +60,8 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 			} else {
 				return "Verfügbar";
 			}
+		case 2:
+			return copy.getCondition();
 		default:
 			return null;
 		}
