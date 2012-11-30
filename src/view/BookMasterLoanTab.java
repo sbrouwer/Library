@@ -130,7 +130,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				}
 			}
 		});
-		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes  ein, nach dem Sie suchen m\u00F6chten");
+		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes  ein, nach dem Sie suchen möchten");
 		txtSuche.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
@@ -157,6 +157,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		//Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
 		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
+		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
 		btnSelektiertesAnzeigen.setEnabled(false);
 		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -169,7 +170,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		});
 
 		//Ab hier "Nur Überfällige"
-		chckbxNurUeberfaellige = new JCheckBox("Nur \u00DCberf\u00E4llige");
+		chckbxNurUeberfaellige = new JCheckBox("Nur Überfällige");
+		chckbxNurUeberfaellige.setToolTipText("Es werden nur überfällige Exemplare angezeigt");
 		chckbxNurUeberfaellige.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
@@ -204,6 +206,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		//Ab hier "Neues Buch hinzufügen"
 		ImageIcon iconNeueAusleihe = new ImageIcon("icons/book_go.png");
 		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen",iconNeueAusleihe);
+		btnNeueAusleihe.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
 		btnNeueAusleihe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoanDetail loanDetail = new LoanDetail(library);

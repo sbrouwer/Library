@@ -94,7 +94,7 @@ public class LoanDetail implements Observer
 			txtReturnDate.setText(loan.getDueDateString() + " (Noch " + loan.getDaysTilDue() + " Tage)");
 		} else
 		{
-			txtReturnDate.setText(loan.getDueDateString() + " (F�llig!)");
+			txtReturnDate.setText(loan.getDueDateString() + " (Fällig!)");
 		}
 
 		txtReturnDate.setEditable(false);
@@ -349,7 +349,7 @@ public class LoanDetail implements Observer
 				} else
 				{
 					lblError.setForeground(red);
-					lblError.setText("Es Muss ein Kunde asgew�hlt sein bevor ein Buch ausgeliehen werden kann!");
+					lblError.setText("Es Muss ein Kunde asgewählt sein bevor ein Buch ausgeliehen werden kann!");
 				}
 			}
 		});
@@ -363,6 +363,7 @@ public class LoanDetail implements Observer
 
 		ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 		btnExemplarZurueckgeben = new JButton("Exemplar zur\u00FCckgeben", iconExemplarZurueckgeben);
+		btnExemplarZurueckgeben.setToolTipText("Das ");
 
 		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
 		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
@@ -478,14 +479,14 @@ public class LoanDetail implements Observer
 
 							l.returnCopy(new GregorianCalendar());
 							lblError.setForeground(black);
-							lblError.setText("Exemplar wurde zur�ckgegeben, Ausleihe war �berf�llig!");
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überf\u00E4llig!");
 							btnExemplarAusleihen.setEnabled(true);
 							btnExemplarZurueckgeben.setEnabled(false);
 						} else
 						{
 							l.returnCopy(new GregorianCalendar());
 							lblError.setForeground(black);
-							lblError.setText("Exemplar wurde zur�ckgegeben");
+							lblError.setText("Exemplar wurde zurückgegeben");
 							btnExemplarAusleihen.setEnabled(true);
 							btnExemplarZurueckgeben.setEnabled(false);
 						}

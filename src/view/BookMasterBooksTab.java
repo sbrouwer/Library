@@ -163,7 +163,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Nur Verfügbare"
 		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
-		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur B\u00FCcher mit verf\u00FCgbaren Kopien angezeigt");
+		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur B\u00FCcher mit verf\u00FCgbaren Exemplaren angezeigt");
 		chckbxNurVerfgbare.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
