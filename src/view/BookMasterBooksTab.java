@@ -251,8 +251,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 
 		books = library.getBooks();
-		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor",
-				"Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -308,8 +307,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 	private void updateStats() {
 		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
-		lblAnzahlExemplare.setText("Anzahl Exemplare: "
-				+ (library.getBooks().size() + library.getCopies().size()));
+		lblAnzahlExemplare.setText("Anzahl Exemplare: " + (library.getBooks().size() + library.getCopies().size()));
 	}
 
 	@Override
