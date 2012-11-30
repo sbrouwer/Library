@@ -308,6 +308,7 @@ public class LoanDetail implements Observer
 
 		ImageIcon iconExemplarAusleihen = new ImageIcon("icons/book_go.png");
 		btnExemplarAusleihen = new JButton("Exemplar ausleihen", iconExemplarAusleihen);
+		btnExemplarAusleihen.setToolTipText("Leihe das Exemplar mit nebenstehender Exemplar-ID an den obigen Kunden aus");
 		btnExemplarAusleihen.setEnabled(false);
 		btnExemplarAusleihen.addActionListener(new ActionListener()
 		{
@@ -363,7 +364,7 @@ public class LoanDetail implements Observer
 
 		ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 		btnExemplarZurueckgeben = new JButton("Exemplar zur\u00FCckgeben", iconExemplarZurueckgeben);
-		btnExemplarZurueckgeben.setToolTipText("Das ");
+		btnExemplarZurueckgeben.setToolTipText("Gebe das Exemplar mit nebenstehender Exemplar-ID zurück");
 
 		GridBagConstraints gbc_btnExemplarZurckgeben = new GridBagConstraints();
 		gbc_btnExemplarZurckgeben.insets = new Insets(0, 0, 5, 0);
@@ -476,10 +477,9 @@ public class LoanDetail implements Observer
 					{
 						if (l.isOverdue())
 						{
-
 							l.returnCopy(new GregorianCalendar());
 							lblError.setForeground(black);
-							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überf\u00E4llig!");
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
 							btnExemplarAusleihen.setEnabled(true);
 							btnExemplarZurueckgeben.setEnabled(false);
 						} else
