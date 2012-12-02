@@ -57,9 +57,9 @@ public class TableModelCustomerMaster extends AbstractTableModel implements Obse
 		case 0:
 			return customer.getIdentifier();
 		case 1:
-			return customer.getSurname();
-		case 2:
 			return customer.getName();
+		case 2:
+			return customer.getSurname();
 		case 3:
 			return customer.getStreet();
 		case 4:
