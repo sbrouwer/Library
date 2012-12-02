@@ -69,8 +69,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		this.setLayout(gbl_buecherTab);
 
 		JPanel inventarStatistikenPanel = new JPanel();
-		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
 		gbc_inventarStatistikenPanel.gridwidth = 5;

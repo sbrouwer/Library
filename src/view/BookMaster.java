@@ -42,6 +42,7 @@ public class BookMaster {
 		frmBibliothek.setTitle("Bibliothek");
 		Dimension d = new Dimension(900, 600);
 		frmBibliothek.setMinimumSize(d);
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 545, 0 };
 		gridBagLayout.rowHeights = new int[] { 237, 5, 0 };
@@ -59,13 +60,17 @@ public class BookMaster {
 		gbc_buchMasterTabs.gridy = 0;
 		frmBibliothek.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
 			
-		JPanel buecherTab = new BookMasterBooksTab(library);
+		JPanel booksTab = new BookMasterBooksTab(library);
 		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
-		buchMasterTabs.addTab("B\u00FCcher", iconBookTab, buecherTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
+		buchMasterTabs.addTab("B\u00FCcher", iconBookTab, booksTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
 
+		JPanel loanTab = new BookMasterLoanTab(library);	
 		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
-		JPanel ausleiheTab = new BookMasterLoanTab(library);	
-		buchMasterTabs.addTab("Ausleihe", iconLoanTab, ausleiheTab, null);
+		buchMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
+		
+		JPanel customerTab = new BookMasterCustomerTab(library);	
+		ImageIcon iconCustomerTab = new ImageIcon("icons/book_go.png"); //TODO Icon ändern
+		buchMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
 	}
 	
 	private void addKeyboardListeners(final JFrame frame) {
