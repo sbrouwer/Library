@@ -71,9 +71,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private void initialize()
 	{
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
-		gbl_buecherTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
+		gbl_buecherTab.columnWidths = new int[] { 0, 0 };
 		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_buecherTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_buecherTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		this.setLayout(gbl_buecherTab);
 
@@ -81,7 +81,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
-		gbc_inventarStatistikenPanel.gridwidth = 5;
 		gbc_inventarStatistikenPanel.anchor = GridBagConstraints.NORTH;
 		gbc_inventarStatistikenPanel.insets = new Insets(0, 5, 5, 0);
 		gbc_inventarStatistikenPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -105,9 +104,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		JPanel buchInventarPanel = new JPanel();
 		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
-		gbc_buchInventarPanel.insets = new Insets(0, 5, 5, 5);
+		gbc_buchInventarPanel.insets = new Insets(0, 5, 0, 0);
 		gbc_buchInventarPanel.gridheight = 3;
-		gbc_buchInventarPanel.gridwidth = 5;
 		gbc_buchInventarPanel.fill = GridBagConstraints.BOTH;
 		gbc_buchInventarPanel.gridx = 0;
 		gbc_buchInventarPanel.gridy = 1;
