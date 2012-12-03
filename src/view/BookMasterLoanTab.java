@@ -52,7 +52,6 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private TableModelLoanMaster tableModel;
 	private Library library;
 	private JCheckBox chckbxNurUeberfaellige;
-	private JLabel lblAlleBcherDer;
 	private JScrollPane scrollPane;
 	private JLabel lblAnzahlAusleihen;
 	private JLabel lblAktuellAusgeliehen;
@@ -72,9 +71,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	{
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
 		gbl_buecherTab.columnWidths = new int[] { 0, 0 };
-		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0 };
 		gbl_buecherTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		this.setLayout(gbl_buecherTab);
 
 		JPanel inventarStatistikenPanel = new JPanel();
@@ -88,24 +87,43 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_inventarStatistikenPanel.gridy = 0;
 		
 		this.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
-		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
 
 		loans = library.getLoans();
+		GridBagLayout gbl_inventarStatistikenPanel = new GridBagLayout();
+		gbl_inventarStatistikenPanel.columnWidths = new int[]{94, 106, 113, 0};
+		gbl_inventarStatistikenPanel.rowHeights = new int[]{14, 0};
+		gbl_inventarStatistikenPanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_inventarStatistikenPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		inventarStatistikenPanel.setLayout(gbl_inventarStatistikenPanel);
+				
+				lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen: " + loans.size());
+				GridBagConstraints gbc_lblAnzahlAusleihen = new GridBagConstraints();
+				gbc_lblAnzahlAusleihen.anchor = GridBagConstraints.NORTHWEST;
+				gbc_lblAnzahlAusleihen.insets = new Insets(0, 0, 0, 5);
+				gbc_lblAnzahlAusleihen.gridx = 0;
+				gbc_lblAnzahlAusleihen.gridy = 0;
+				inventarStatistikenPanel.add(lblAnzahlAusleihen, gbc_lblAnzahlAusleihen);
 		
-		lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen: " + loans.size());
-		inventarStatistikenPanel.add(lblAnzahlAusleihen);
-
-		lblAktuellAusgeliehen = new JLabel("Aktuell Ausgeliehen: " + library.getLentOutBooks().size());
-		inventarStatistikenPanel.add(lblAktuellAusgeliehen);
+				lblAktuellAusgeliehen = new JLabel("Aktuell Ausgeliehen: " + library.getLentOutBooks().size());
+				GridBagConstraints gbc_lblAktuellAusgeliehen = new GridBagConstraints();
+				gbc_lblAktuellAusgeliehen.anchor = GridBagConstraints.NORTHWEST;
+				gbc_lblAktuellAusgeliehen.insets = new Insets(0, 0, 0, 5);
+				gbc_lblAktuellAusgeliehen.gridx = 1;
+				gbc_lblAktuellAusgeliehen.gridy = 0;
+				inventarStatistikenPanel.add(lblAktuellAusgeliehen, gbc_lblAktuellAusgeliehen);
 		
 		lblUeberfaelligeAusleihen = new JLabel("\u00DCberf\u00E4llige Ausleihen: " + library.getOverdueLoans().size());
-		inventarStatistikenPanel.add(lblUeberfaelligeAusleihen);
+		GridBagConstraints gbc_lblUeberfaelligeAusleihen = new GridBagConstraints();
+		gbc_lblUeberfaelligeAusleihen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblUeberfaelligeAusleihen.gridx = 2;
+		gbc_lblUeberfaelligeAusleihen.gridy = 0;
+		inventarStatistikenPanel.add(lblUeberfaelligeAusleihen, gbc_lblUeberfaelligeAusleihen);
 
 		JPanel buchInventarPanel = new JPanel();
 		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
 		gbc_buchInventarPanel.insets = new Insets(0, 5, 0, 0);
-		gbc_buchInventarPanel.gridheight = 3;
+		gbc_buchInventarPanel.gridheight = 2;
 		gbc_buchInventarPanel.fill = GridBagConstraints.BOTH;
 		gbc_buchInventarPanel.gridx = 0;
 		gbc_buchInventarPanel.gridy = 1;
@@ -113,9 +131,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
 		gbl_buchInventarPanel.columnWidths = new int[] { 69, 0, 131, 145, 0, 0, 0 };
-		gbl_buchInventarPanel.rowHeights = new int[] { 0, 23, 0, 0 };
+		gbl_buchInventarPanel.rowHeights = new int[] { 23, 0, 0 };
 		gbl_buchInventarPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 
 		//Ab hier "Suche"
@@ -135,20 +153,13 @@ public class BookMasterLoanTab extends JPanel implements Observer
 					search();
 			}
 		});
-				lblAlleBcherDer = new JLabel("Alle Ausleihen der Bibliothek sind in der untenstehenden Tabelle");
-				GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
-				gbc_lblAlleBcherDer.gridwidth = 2;
-				gbc_lblAlleBcherDer.insets = new Insets(0, 0, 5, 5);
-				gbc_lblAlleBcherDer.gridx = 2;
-				gbc_lblAlleBcherDer.gridy = 0;
-				buchInventarPanel.add(lblAlleBcherDer, gbc_lblAlleBcherDer);
 		txtSuche.setText("Suche");
 		GridBagConstraints gbc_txtSuche = new GridBagConstraints();
 		gbc_txtSuche.gridwidth = 2;
 		gbc_txtSuche.insets = new Insets(0, 5, 5, 5);
 		gbc_txtSuche.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSuche.gridx = 1;
-		gbc_txtSuche.gridy = 1;
+		gbc_txtSuche.gridy = 0;
 		buchInventarPanel.add(txtSuche, gbc_txtSuche);
 		txtSuche.setColumns(10);
 
@@ -192,13 +203,13 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		GridBagConstraints gbc_chckbxNurUeberfaellige = new GridBagConstraints();
 		gbc_chckbxNurUeberfaellige.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxNurUeberfaellige.gridx = 3;
-		gbc_chckbxNurUeberfaellige.gridy = 1;
+		gbc_chckbxNurUeberfaellige.gridy = 0;
 		buchInventarPanel.add(chckbxNurUeberfaellige, gbc_chckbxNurUeberfaellige);
 		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
 		gbc_btnSelektierteAnzeigen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSelektierteAnzeigen.gridx = 4;
-		gbc_btnSelektierteAnzeigen.gridy = 1;
+		gbc_btnSelektierteAnzeigen.gridy = 0;
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		//Ab hier "Neues Buch hinzufügen"
@@ -214,7 +225,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_btnNeueAusleihe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNeueAusleihe.gridx = 5;
-		gbc_btnNeueAusleihe.gridy = 1;
+		gbc_btnNeueAusleihe.gridy = 0;
 		buchInventarPanel.add(btnNeueAusleihe, gbc_btnNeueAusleihe);
 
 		scrollPane = new JScrollPane();
@@ -222,7 +233,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_scrollPane.gridwidth = 6;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
+		gbc_scrollPane.gridy = 1;
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
 		
 		//Ab hier JTable

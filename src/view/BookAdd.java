@@ -174,9 +174,10 @@ public class BookAdd implements Observer {
 		gbc_comboBox.gridy = 5;
 		panel.add(regalComboBox, gbc_comboBox);
 		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
+		
 		ImageIcon icon = new ImageIcon("icons/book_add.png");
-		btnAddBook = new JButton("Buch Hinzuf\u00FCgen",icon);
-		btnAddBook.setToolTipText("F\u00FCgt der Bibliothek ein neues Buch hinzu (alle Felder m\u00FCssen ausgef\u00FCllt sein!)");
+		btnAddBook = new JButton("Buch Hinzufügen",icon);
+		btnAddBook.setToolTipText("Fügt der Bibliothek ein neues Buch hinzu (alle Felder müssen ausgefüllt sein!)");
 		btnAddBook.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -210,8 +211,7 @@ public class BookAdd implements Observer {
 		panel.add(btnAddBook, gbc_btnAddBook);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null,
-				null));
+		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmBuchHinzufgen.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -224,6 +224,7 @@ public class BookAdd implements Observer {
 		if (book != null) {
 			lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		}
+		
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.gridwidth = 4;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
@@ -252,7 +253,7 @@ public class BookAdd implements Observer {
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
-		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte Entfernen");
+		btnAusgewaehlteEntfernen = new JButton("Ausgewählte Entfernen");
 		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener() {
@@ -280,8 +281,8 @@ public class BookAdd implements Observer {
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
-		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen");
-		btnExemplarHinzufuegen.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
+		btnExemplarHinzufuegen = new JButton(" Exemplar hinzufügen");
+		btnExemplarHinzufuegen.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
 		btnExemplarHinzufuegen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (book == null) {

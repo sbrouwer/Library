@@ -111,7 +111,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	public void update(Observable o, Object arg)
 	{
 		addOnlyLent(library.getLoans());
-		this.fireTableDataChanged();
+		fireTableDataChanged();
 	}
 
 }

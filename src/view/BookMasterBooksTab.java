@@ -47,7 +47,6 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 	private TableModelBookMaster tableModel;
 	private Library library;
 	private JCheckBox chckbxNurVerfgbare;
-	private JLabel lblAlleBcherDer;
 	private JScrollPane scrollPane;
 	private JLabel lblAnzahlBuecher;
 	private JLabel lblAnzahlExemplare;
@@ -62,17 +61,16 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 	private void initialize() {
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
-		gbl_buecherTab.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
-		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_buecherTab.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_buecherTab.columnWidths = new int[] { 0, 0 };
+		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_buecherTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		this.setLayout(gbl_buecherTab);
 
 		JPanel inventarStatistikenPanel = new JPanel();
 		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
-		gbc_inventarStatistikenPanel.gridwidth = 5;
 		gbc_inventarStatistikenPanel.anchor = GridBagConstraints.NORTH;
 		gbc_inventarStatistikenPanel.insets = new Insets(0, 5, 5, 0);
 		gbc_inventarStatistikenPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -80,34 +78,38 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		gbc_inventarStatistikenPanel.gridy = 0;
 
 		this.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
-		inventarStatistikenPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 50, 5));
-
-		lblAnzahlBuecher = new JLabel("Anzahl Bücher: " + library.getBooks().size());
-		inventarStatistikenPanel.add(lblAnzahlBuecher);
-
-		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: "
-				+ (library.getBooks().size() + library.getCopies().size()));
-		inventarStatistikenPanel.add(lblAnzahlExemplare);
-
-		lblAlleBcherDer = new JLabel("Alle B\u00FCcher der Bibliothek sind in der untenstehenden Tabelle");
-
-		GridBagConstraints gbc_lblAlleBcherDer = new GridBagConstraints();
-		gbc_lblAlleBcherDer.anchor = GridBagConstraints.WEST;
-		gbc_lblAlleBcherDer.insets = new Insets(0, 20, 5, 5);
-		gbc_lblAlleBcherDer.gridx = 0;
-		gbc_lblAlleBcherDer.gridy = 1;
-		this.add(lblAlleBcherDer, gbc_lblAlleBcherDer);
+		GridBagLayout gbl_inventarStatistikenPanel = new GridBagLayout();
+		gbl_inventarStatistikenPanel.columnWidths = new int[]{56, 81, 0};
+		gbl_inventarStatistikenPanel.rowHeights = new int[]{14, 0};
+		gbl_inventarStatistikenPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_inventarStatistikenPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		inventarStatistikenPanel.setLayout(gbl_inventarStatistikenPanel);
+				
+						lblAnzahlBuecher = new JLabel("Anzahl Bücher: " + library.getBooks().size());
+						GridBagConstraints gbc_lblAnzahlBuecher = new GridBagConstraints();
+						gbc_lblAnzahlBuecher.anchor = GridBagConstraints.NORTHWEST;
+						gbc_lblAnzahlBuecher.insets = new Insets(0, 0, 0, 5);
+						gbc_lblAnzahlBuecher.gridx = 0;
+						gbc_lblAnzahlBuecher.gridy = 0;
+						inventarStatistikenPanel.add(lblAnzahlBuecher, gbc_lblAnzahlBuecher);
+				
+						lblAnzahlExemplare = new JLabel("Anzahl Exemplare: "
+								+ (library.getBooks().size() + library.getCopies().size()));
+						GridBagConstraints gbc_lblAnzahlExemplare = new GridBagConstraints();
+						gbc_lblAnzahlExemplare.anchor = GridBagConstraints.NORTHWEST;
+						gbc_lblAnzahlExemplare.gridx = 1;
+						gbc_lblAnzahlExemplare.gridy = 0;
+						inventarStatistikenPanel.add(lblAnzahlExemplare, gbc_lblAnzahlExemplare);
 
 		JPanel buchInventarPanel = new JPanel();
 		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
-		gbc_buchInventarPanel.insets = new Insets(0, 5, 5, 5);
+		gbc_buchInventarPanel.insets = new Insets(0, 5, 0, 0);
 		gbc_buchInventarPanel.gridheight = 2;
-		gbc_buchInventarPanel.gridwidth = 5;
 		gbc_buchInventarPanel.fill = GridBagConstraints.BOTH;
 		gbc_buchInventarPanel.gridx = 0;
-		gbc_buchInventarPanel.gridy = 2;
+		gbc_buchInventarPanel.gridy = 1;
 		this.add(buchInventarPanel, gbc_buchInventarPanel);
 
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
@@ -147,8 +149,8 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
-		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
-		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgew\u00E4hlte Buch in einer Detailansicht an");
+		btnSelektiertesAnzeigen = new JButton("Buchdetail anzeigen", iconSelektiertesAnzeigen);
+		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Buch in einer Detailansicht an");
 		btnSelektiertesAnzeigen.setEnabled(false);
 		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -162,7 +164,7 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Nur Verfügbare"
 		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
-		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur B\u00FCcher mit verf\u00FCgbaren Exemplaren angezeigt");
+		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur Bücher mit verfügbaren Exemplaren angezeigt");
 		chckbxNurVerfgbare.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
@@ -196,15 +198,13 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		// Ab hier "Neues Buch hinzufügen"
 		
 		ImageIcon iconBookAdd = new ImageIcon("icons/book_add.png");
-		btnNeuesBuch = new JButton("Neues Buch hinzuf\u00FCgen",iconBookAdd);
-		btnNeuesBuch.setToolTipText("\u00D6ffnet ein Fenster um ein neues Buch zu erfassen");
+		btnNeuesBuch = new JButton("Neues Buch hinzufügen",iconBookAdd);
+		btnNeuesBuch.setToolTipText("Öffnet ein Fenster um ein neues Buch zu erfassen");
 		btnNeuesBuch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				BookAdd bookAdd = new BookAdd(library);
 			}
-		});
-
-		
+		});		
 
 		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
 		gbc_btnNeuesBuch.anchor = GridBagConstraints.NORTHWEST;

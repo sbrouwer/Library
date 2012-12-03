@@ -69,7 +69,7 @@ public class BookMaster {
 		buchMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
 		
 		JPanel customerTab = new BookMasterCustomerTab(library);	
-		ImageIcon iconCustomerTab = new ImageIcon("icons/book_go.png"); //TODO Icon ändern
+		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
 		buchMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
 	}
 	

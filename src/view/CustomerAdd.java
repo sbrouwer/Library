@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import domain.Library;
+
 public class CustomerAdd extends JFrame
 {
 
@@ -22,14 +24,23 @@ public class CustomerAdd extends JFrame
 	private JLabel lblCity;
 	private JTextField txtCity;
 	private JButton btnAddCustomer;
+	
+	private Library library;
 
 	/**
 	 * Create the frame.
 	 */
-	public CustomerAdd()
+	public CustomerAdd(Library library)
+	{
+		this.library = library;
+		initalize();
+		
+	}
+
+	private void initalize()
 	{
 		setTitle("Kunde erfassen");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "Kundendaten", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -129,6 +140,9 @@ public class CustomerAdd extends JFrame
 		gbc_btnAddCustomer.gridx = 0;
 		gbc_btnAddCustomer.gridy = 5;
 		contentPane.add(btnAddCustomer, gbc_btnAddCustomer);
+		
+		setVisible(true);
+		
 	}
 
 }

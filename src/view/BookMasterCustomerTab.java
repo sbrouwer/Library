@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,13 +20,16 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelCustomerMaster;
+import domain.Book;
+import domain.Customer;
 import domain.Library;
 import javax.swing.JLabel;
 
 public class BookMasterCustomerTab extends JPanel
 {
 	private Library library;
-	JButton btnChangeSelectedCustomer;
+	TableModelCustomerMaster tableModel;
+	JButton btnEditCustomer;
 	JTable table;
 
 	/**
@@ -67,7 +73,7 @@ public class BookMasterCustomerTab extends JPanel
 		gbc_lblCustomers.gridy = 0;
 		panel_statistics.add(lblCustomers, gbc_lblCustomers);
 		
-		JLabel lblAmountOfCustomers = new JLabel("42");
+		JLabel lblAmountOfCustomers = new JLabel(String.valueOf(library.getCustomers().size()));
 		GridBagConstraints gbc_lblAmountOfCustomers = new GridBagConstraints();
 		gbc_lblAmountOfCustomers.anchor = GridBagConstraints.WEST;
 		gbc_lblAmountOfCustomers.gridx = 1;
@@ -98,15 +104,35 @@ public class BookMasterCustomerTab extends JPanel
 		panel_management.add(textField_search, gbc_textField_search);
 		textField_search.setColumns(10);
 		
-		btnChangeSelectedCustomer = new JButton("Selektierter Kunde anpassen");
-		btnChangeSelectedCustomer.setEnabled(false);
+		ImageIcon iconCustomerEdit = new ImageIcon("icons/customer_edit.png");		
+		btnEditCustomer = new JButton("Kunde editieren", iconCustomerEdit);
+		btnEditCustomer.setToolTipText("Zeigt der in der untenstehende Tabelle ausgewählten Kunde zum editieren an");
+		btnEditCustomer.setEnabled(false);
+		btnEditCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int selected[] = table.getSelectedRows();
+				for (int i : selected) {
+					Customer customer = tableModel.getCustomerAtRow(table.convertRowIndexToModel(i));
+					CustomerEdit customerEdit = new CustomerEdit(customer, library);
+				}
+			}
+		});
+		
 		GridBagConstraints gbc_btnChangeSelectedCustomer = new GridBagConstraints();
 		gbc_btnChangeSelectedCustomer.insets = new Insets(0, 0, 5, 5);
 		gbc_btnChangeSelectedCustomer.gridx = 1;
 		gbc_btnChangeSelectedCustomer.gridy = 0;
-		panel_management.add(btnChangeSelectedCustomer, gbc_btnChangeSelectedCustomer);
+		panel_management.add(btnEditCustomer, gbc_btnChangeSelectedCustomer);
 		
-		JButton btnNewCustomer = new JButton("Neuer Kunde erfassen");
+		ImageIcon iconCustomerAdd = new ImageIcon("icons/customer_add.png");		
+		JButton btnNewCustomer = new JButton("Neuer Kunde", iconCustomerAdd);
+		btnNewCustomer.setToolTipText("Öffnet ein Fenster um einen neuen Kunden zu erfassen");
+		btnNewCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CustomerAdd customerAdd = new CustomerAdd(library);
+			}
+		});
+
 		GridBagConstraints gbc_btnNewCustomer = new GridBagConstraints();
 		gbc_btnNewCustomer.insets = new Insets(0, 0, 5, 0);
 		gbc_btnNewCustomer.gridx = 2;
@@ -127,9 +153,9 @@ public class BookMasterCustomerTab extends JPanel
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
-					btnChangeSelectedCustomer.setEnabled(true);
+					btnEditCustomer.setEnabled(true);
 				} else {
-					btnChangeSelectedCustomer.setEnabled(false);
+					btnEditCustomer.setEnabled(false);
 				}
 			}
 		});
@@ -137,11 +163,12 @@ public class BookMasterCustomerTab extends JPanel
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
-		TableModelCustomerMaster tableModel = new TableModelCustomerMaster(library, new String[] { "Kunden-ID", "Name", "Vorname", "Strasse", "PLZ", "Ort" });
+		tableModel = new TableModelCustomerMaster(library, new String[] { "Kunden-ID", "Name", "Vorname", "Strasse", "PLZ", "Ort" });
 		table.setModel(tableModel);
 
 //		table.getColumnModel().getColumn(0).setMinWidth(80);
 //		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		//TODO UPDATE?
 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);

@@ -1,20 +1,20 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
-import javax.swing.JTextField;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
-import javax.swing.JButton;
 
-public class CustomerMutate extends JFrame
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import domain.Customer;
+import domain.Library;
+
+public class CustomerEdit extends JFrame
 {
 
 	private JPanel contentPane;
@@ -25,14 +25,25 @@ public class CustomerMutate extends JFrame
 	private JLabel lblCity;
 	private JTextField txtCity;
 	private JButton btnMutateCustomer;
+	
+	Library library;
+	Customer customer;
 
 	/**
 	 * Create the frame.
 	 */
-	public CustomerMutate()
+	public CustomerEdit(Customer customer, Library library)
 	{
-		setTitle("Kundenangaben \u00E4ndern");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.library = library;
+		this.customer = customer;
+		
+		initialize();
+	}
+
+	private void initialize()
+	{
+		setTitle("Kundenangaben editieren");
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "Kundendaten", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -124,7 +135,7 @@ public class CustomerMutate extends JFrame
 		contentPane.add(txtCity, gbc_txtCity);
 		txtCity.setColumns(10);
 		
-		btnMutateCustomer = new JButton("Kundenangaben \u00FCbernehmen");
+		btnMutateCustomer = new JButton("Kundenangaben übernehmen");
 		GridBagConstraints gbc_btnMutateCustomer = new GridBagConstraints();
 		gbc_btnMutateCustomer.anchor = GridBagConstraints.EAST;
 		gbc_btnMutateCustomer.gridwidth = 2;
@@ -132,6 +143,8 @@ public class CustomerMutate extends JFrame
 		gbc_btnMutateCustomer.gridx = 0;
 		gbc_btnMutateCustomer.gridy = 5;
 		contentPane.add(btnMutateCustomer, gbc_btnMutateCustomer);
+		
+		setVisible(true);
 	}
 
 }

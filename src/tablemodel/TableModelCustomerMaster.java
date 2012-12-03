@@ -14,9 +14,6 @@ public class TableModelCustomerMaster extends AbstractTableModel implements Obse
 {
 	Library library;
 	String[] headers;
-	ImageIcon iconLent = new ImageIcon("icons/book_go.png", "Ausgeliehen");
-	ImageIcon iconOverdue = new ImageIcon("icons/warning.png", "Fällig!");
-	ImageIcon iconReturned = new ImageIcon("icons/arrow-return.png", "Zurückgegeben");
 
 	public TableModelCustomerMaster(Library library, String[] headers)
 	{
@@ -93,6 +90,11 @@ public class TableModelCustomerMaster extends AbstractTableModel implements Obse
 	public void update(Observable o, Object arg)
 	{
 		fireTableDataChanged();
+	}
+
+	public Customer getCustomerAtRow(int convertRowIndexToModel)
+	{
+		return library.getCustomers().get(convertRowIndexToModel);
 	}
 
 }
