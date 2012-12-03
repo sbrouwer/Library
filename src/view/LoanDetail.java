@@ -29,6 +29,7 @@ import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelLoanDetail;
+import domain.Copy.Condition;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
 import domain.Library;
@@ -54,6 +55,7 @@ public class LoanDetail implements Observer {
 	private Color black = new Color(0, 0, 0);
 	ImageIcon iconInventoryNumberOK = new ImageIcon("icons/ok.png", "OK");
 	ImageIcon iconInventoryNumberWrong = new ImageIcon("icons/warning.png", "Falsche Inventarnummer");
+	private JButton btnSetLost;
 
 	public LoanDetail(Library library) {
 		this.library = library;
@@ -309,10 +311,14 @@ public class LoanDetail implements Observer {
 						} else if (!checkCustomerLoanAmount()) {
 							lblError.setForeground(red);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits 3 Bücher ausgeliehen!");
-						} else if(checkCustomerHasOverdueLoans()){
+						} else if (checkCustomerHasOverdueLoans()) {
 							lblError.setForeground(red);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat eine Überfällige Ausleihe!");
-						}else {
+						} else if (library.getCopyByInventoryNumber(
+								Long.parseLong(txtCopyInventoryNumber.getText())).getCondition() == Condition.LOST) {
+							lblError.setForeground(red);
+							lblError.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
+						} else {
 							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
 									.parseLong(txtCopyInventoryNumber.getText()))); // add
 																					// loan
@@ -336,12 +342,12 @@ public class LoanDetail implements Observer {
 			}
 		});
 
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 0;
-		newCopyPanel.add(btnAddLoan, gbc_btnNewButton);
+		GridBagConstraints gbc_btnSetLost = new GridBagConstraints();
+		gbc_btnSetLost.anchor = GridBagConstraints.WEST;
+		gbc_btnSetLost.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSetLost.gridx = 3;
+		gbc_btnSetLost.gridy = 0;
+		newCopyPanel.add(btnAddLoan, gbc_btnSetLost);
 
 		ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 		btnReturnLoan = new JButton("Exemplar zur\u00FCckgeben", iconExemplarZurueckgeben);
@@ -370,19 +376,34 @@ public class LoanDetail implements Observer {
 		txtReturnDate = new JTextField();
 		txtReturnDate.setText("");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
-		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 0);
-		gbc_txtAsdasd.gridwidth = 4;
+		gbc_txtAsdasd.gridwidth = 3;
+		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
 		gbc_txtAsdasd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAsdasd.gridx = 1;
 		gbc_txtAsdasd.gridy = 1;
 		newCopyPanel.add(txtReturnDate, gbc_txtAsdasd);
 		txtReturnDate.setColumns(10);
 
+		btnSetLost = new JButton("Als Verloren markieren");
+		btnSetLost.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))
+						.setCondition(Condition.LOST);
+				returnLoan();
+				lblError.setForeground(black);
+				lblError.setText("Exemplar wurde als Verloren markiert");
+			}
+		});
+		GridBagConstraints gbc_btnSetLost1 = new GridBagConstraints();
+		gbc_btnSetLost1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSetLost1.gridx = 4;
+		gbc_btnSetLost1.gridy = 1;
+		newCopyPanel.add(btnSetLost, gbc_btnSetLost1);
+
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError2 = new GridBagConstraints();
 		gbc_lblError2.anchor = GridBagConstraints.EAST;
 		gbc_lblError2.gridwidth = 5;
-		gbc_lblError2.insets = new Insets(0, 0, 0, 5);
 		gbc_lblError2.gridx = 0;
 		gbc_lblError2.gridy = 2;
 		newCopyPanel.add(lblError, gbc_lblError2);
@@ -458,8 +479,8 @@ public class LoanDetail implements Observer {
 		}
 
 	}
-	
-	private boolean checkCustomerHasOverdueLoans(){
+
+	private boolean checkCustomerHasOverdueLoans() {
 		List<Loan> customerLoans = library.getCustomerLoans(customer);
 		for (Loan l : customerLoans) {
 			if (l.isOverdue()) {
@@ -476,21 +497,18 @@ public class LoanDetail implements Observer {
 						.valueOf(txtCopyInventoryNumber.getText())));
 				if (l != null) {
 					if (l.isLent()) {
+						lblError.setForeground(black);
 						if (l.isOverdue()) {
 							l.returnCopy(new GregorianCalendar());
 							updateWithExistingLoan(l);
-							lblError.setForeground(black);
 							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
-							btnAddLoan.setEnabled(true);
-							btnReturnLoan.setEnabled(false);
 						} else {
 							l.returnCopy(new GregorianCalendar());
 							updateWithExistingLoan(l);
-							lblError.setForeground(black);
 							lblError.setText("Exemplar wurde zurückgegeben");
-							btnAddLoan.setEnabled(true);
-							btnReturnLoan.setEnabled(false);
 						}
+						btnAddLoan.setEnabled(true);
+						btnReturnLoan.setEnabled(false);
 					}
 				} else {
 					System.out.println("Loan war null");
