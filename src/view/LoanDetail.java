@@ -305,11 +305,14 @@ public class LoanDetail implements Observer {
 																					// is
 																					// Lent
 							lblError.setForeground(red);
-							lblError.setText("Diese Kopie ist bereits ausgeliehen!");
+							lblError.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
 						} else if (!checkCustomerLoanAmount()) {
 							lblError.setForeground(red);
-							lblError.setText("Der Kunde hat bereits 3 Bücher ausgeliehen!");
-						} else {
+							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits 3 Bücher ausgeliehen!");
+						} else if(checkCustomerHasOverdueLoans()){
+							lblError.setForeground(red);
+							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat eine Überfällige Ausleihe!");
+						}else {
 							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long
 									.parseLong(txtCopyInventoryNumber.getText()))); // add
 																					// loan
@@ -454,6 +457,16 @@ public class LoanDetail implements Observer {
 			return true;
 		}
 
+	}
+	
+	private boolean checkCustomerHasOverdueLoans(){
+		List<Loan> customerLoans = library.getCustomerLoans(customer);
+		for (Loan l : customerLoans) {
+			if (l.isOverdue()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void returnLoan() {

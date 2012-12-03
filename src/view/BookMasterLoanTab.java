@@ -239,6 +239,16 @@ public class BookMasterLoanTab extends JPanel implements Observer
 					btnSelektiertesAnzeigen.setEnabled(false);
 				}
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2){
+					int selected[] = table.getSelectedRows();
+					for (int i : selected) {
+						Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
+						LoanDetail loanDetail = new LoanDetail(library,loan);
+					}
+				}
+			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
