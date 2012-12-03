@@ -394,6 +394,7 @@ public class LoanDetail implements Observer {
 				lblError.setText("Exemplar wurde als Verloren markiert");
 			}
 		});
+		
 		GridBagConstraints gbc_btnSetLost1 = new GridBagConstraints();
 		gbc_btnSetLost1.insets = new Insets(0, 0, 5, 5);
 		gbc_btnSetLost1.gridx = 4;
@@ -407,7 +408,6 @@ public class LoanDetail implements Observer {
 		gbc_lblError2.gridx = 0;
 		gbc_lblError2.gridy = 2;
 		newCopyPanel.add(lblError, gbc_lblError2);
-		GridBagConstraints gbc_textFieldError;
 
 		JPanel loanByCustomerTablePanel = new JPanel();
 		loanByCustomerTablePanel.setBorder(new TitledBorder(null, "Ausleihen von Kunde",
