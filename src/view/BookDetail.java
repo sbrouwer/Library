@@ -86,9 +86,9 @@ public class BookDetail implements Observer
 		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
@@ -105,7 +105,7 @@ public class BookDetail implements Observer
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtTitel.gridx = 3;
+		gbc_txtTitel.gridx = 2;
 		gbc_txtTitel.gridy = 0;
 		panel.add(txtTitel, gbc_txtTitel);
 		txtTitel.setColumns(10);
@@ -125,7 +125,7 @@ public class BookDetail implements Observer
 		gbc_txtAutor.gridheight = 2;
 		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtAutor.gridx = 3;
+		gbc_txtAutor.gridx = 2;
 		gbc_txtAutor.gridy = 1;
 		panel.add(txtAutor, gbc_txtAutor);
 		txtAutor.setColumns(10);
@@ -145,7 +145,7 @@ public class BookDetail implements Observer
 		gbc_txtVerlag.gridheight = 2;
 		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
 		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVerlag.gridx = 3;
+		gbc_txtVerlag.gridx = 2;
 		gbc_txtVerlag.gridy = 3;
 		panel.add(txtVerlag, gbc_txtVerlag);
 		txtVerlag.setColumns(10);
@@ -163,7 +163,7 @@ public class BookDetail implements Observer
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 3;
+		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 5;
 		regalComboBox.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));		
 		panel.add(regalComboBox, gbc_comboBox);
@@ -172,17 +172,16 @@ public class BookDetail implements Observer
 		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
 		lblAnzahl = new JLabel("Anzahl: 1");
 		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.anchor = GridBagConstraints.WEST;
-		gbc_lblAnzahl.gridwidth = 4;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
@@ -241,7 +240,7 @@ public class BookDetail implements Observer
 		btnAusgewaehlteEntfernen.setEnabled(false);
 		GridBagConstraints gbc_btnAusgewaehlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewaehlteEntfernen.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAusgewaehlteEntfernen.gridx = 4;
+		gbc_btnAusgewaehlteEntfernen.gridx = 1;
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
@@ -258,28 +257,26 @@ public class BookDetail implements Observer
 		});
 		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
 		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnExemplarHinzufuegen.gridx = 7;
+		gbc_btnExemplarHinzufuegen.gridx = 2;
 		gbc_btnExemplarHinzufuegen.gridy = 0;
 		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
 		
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.anchor = GridBagConstraints.EAST;
-		gbc_lblError.gridwidth = 7;
+		gbc_lblError.gridwidth = 3;
 		gbc_lblError.insets = new Insets(0, 0, 5, 0);
-		gbc_lblError.gridx = 1;
+		gbc_lblError.gridx = 0;
 		gbc_lblError.gridy = 1;
 		panel_1.add(lblError, gbc_lblError);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 2;
-		gbc_scrollPane.gridwidth = 8;
+		gbc_scrollPane.gridwidth = 3;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 2;
+		gbc_scrollPane.gridy = 3;
 		panel_1.add(scrollPane, gbc_scrollPane);
 	}
 
