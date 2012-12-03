@@ -18,7 +18,7 @@ import javax.swing.border.TitledBorder;
 import domain.Customer;
 import domain.Library;
 
-public class CustomerAdd extends JFrame implements Observer
+public class CustomerAdd extends JFrame
 {
 
 	private JPanel contentPane;
@@ -158,27 +158,6 @@ public class CustomerAdd extends JFrame implements Observer
 		
 		setVisible(true);
 		
-	}
-	
-	void updateFields() {
-//		if (book == null) {
-//			txtTitel.setText("");
-//			txtAutor.setText("");
-//			txtVerlag.setText("");
-//			regalComboBox.setSelectedIndex(-1);
-//		} else {
-//			txtTitel.setText(book.getName());
-//			txtAutor.setText(book.getAuthor());
-//			txtVerlag.setText(book.getPublisher());
-//			regalComboBox.setSelectedItem((book.getShelf()));
-//			System.out.println(book.getShelf().toString());
-//		}
-		
-	}
-	
-	@Override
-	public void update(Observable o, Object arg) {
-		updateFields();
 	}
 
 }
