@@ -3,6 +3,10 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,18 +18,18 @@ import javax.swing.border.TitledBorder;
 import domain.Customer;
 import domain.Library;
 
-public class CustomerEdit extends JFrame
+public class CustomerEdit extends JFrame implements Observer
 {
 
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JTextField txtSurename;
+	private JTextField txtSurname;
 	private JTextField txtStreet;
 	private JTextField txtZip;
 	private JLabel lblCity;
 	private JTextField txtCity;
 	private JButton btnMutateCustomer;
-	
+
 	Library library;
 	Customer customer;
 
@@ -36,8 +40,9 @@ public class CustomerEdit extends JFrame
 	{
 		this.library = library;
 		this.customer = customer;
-		
 		initialize();
+		updateFields();		
+		customer.addObserver(this);
 	}
 
 	private void initialize()
@@ -78,14 +83,14 @@ public class CustomerEdit extends JFrame
 		gbc_lblSurename.gridy = 1;
 		contentPane.add(lblSurename, gbc_lblSurename);
 		
-		txtSurename = new JTextField();
-		GridBagConstraints gbc_txtSurename = new GridBagConstraints();
-		gbc_txtSurename.insets = new Insets(0, 0, 5, 0);
-		gbc_txtSurename.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSurename.gridx = 1;
-		gbc_txtSurename.gridy = 1;
-		contentPane.add(txtSurename, gbc_txtSurename);
-		txtSurename.setColumns(10);
+		txtSurname = new JTextField();
+		GridBagConstraints gbc_txtSurname = new GridBagConstraints();
+		gbc_txtSurname.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSurname.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSurname.gridx = 1;
+		gbc_txtSurname.gridy = 1;
+		contentPane.add(txtSurname, gbc_txtSurname);
+		txtSurname.setColumns(10);
 		
 		JLabel lblStreet = new JLabel("Strasse");
 		GridBagConstraints gbc_lblStreet = new GridBagConstraints();
@@ -136,6 +141,20 @@ public class CustomerEdit extends JFrame
 		txtCity.setColumns(10);
 		
 		btnMutateCustomer = new JButton("Kundenangaben übernehmen");
+		btnMutateCustomer.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//TODO Check
+				customer.setName(txtName.getText());
+				customer.setSurname(txtSurname.getText());
+				customer.setStreet(txtStreet.getText());
+				customer.setZip(Integer.valueOf(txtZip.getText()));
+				customer.setCity(txtCity.getText());
+			}
+		});
+		
 		GridBagConstraints gbc_btnMutateCustomer = new GridBagConstraints();
 		gbc_btnMutateCustomer.anchor = GridBagConstraints.EAST;
 		gbc_btnMutateCustomer.gridwidth = 2;
@@ -145,6 +164,21 @@ public class CustomerEdit extends JFrame
 		contentPane.add(btnMutateCustomer, gbc_btnMutateCustomer);
 		
 		setVisible(true);
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1)
+	{
+		updateFields();
+	}
+
+	private void updateFields()
+	{
+		txtSurname.setText(customer.getSurname());
+		txtName.setText(customer.getName());
+		txtStreet.setText(customer.getStreet());
+		txtZip.setText(String.valueOf(customer.getZip()));
+		txtCity.setText(customer.getCity());
 	}
 
 }

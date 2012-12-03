@@ -65,7 +65,6 @@ public class BookDetail implements Observer
 		initialize();
 		updateFields();
 		book.addObserver(this); //TODO: Observer wieder abmelden!
-		frame.setVisible(true);
 	}
 
 	/**
@@ -278,6 +277,8 @@ public class BookDetail implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 3;
 		panel_1.add(scrollPane, gbc_scrollPane);
+
+		frame.setVisible(true);
 	}
 
 	/**

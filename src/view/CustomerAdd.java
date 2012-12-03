@@ -3,6 +3,8 @@ package view;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
+import domain.Customer;
 import domain.Library;
 
 public class CustomerAdd extends JFrame implements Observer
@@ -20,7 +23,7 @@ public class CustomerAdd extends JFrame implements Observer
 
 	private JPanel contentPane;
 	private JTextField txtName;
-	private JTextField txtSurename;
+	private JTextField txtSurname;
 	private JTextField txtStreet;
 	private JTextField txtZip;
 	private JLabel lblCity;
@@ -77,14 +80,14 @@ public class CustomerAdd extends JFrame implements Observer
 		gbc_lblSurename.gridy = 1;
 		contentPane.add(lblSurename, gbc_lblSurename);
 		
-		txtSurename = new JTextField();
-		GridBagConstraints gbc_txtSurename = new GridBagConstraints();
-		gbc_txtSurename.insets = new Insets(0, 0, 5, 0);
-		gbc_txtSurename.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSurename.gridx = 1;
-		gbc_txtSurename.gridy = 1;
-		contentPane.add(txtSurename, gbc_txtSurename);
-		txtSurename.setColumns(10);
+		txtSurname = new JTextField();
+		GridBagConstraints gbc_txtSurname = new GridBagConstraints();
+		gbc_txtSurname.insets = new Insets(0, 0, 5, 0);
+		gbc_txtSurname.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSurname.gridx = 1;
+		gbc_txtSurname.gridy = 1;
+		contentPane.add(txtSurname, gbc_txtSurname);
+		txtSurname.setColumns(10);
 		
 		JLabel lblStreet = new JLabel("Strasse");
 		GridBagConstraints gbc_lblStreet = new GridBagConstraints();
@@ -135,6 +138,16 @@ public class CustomerAdd extends JFrame implements Observer
 		txtCity.setColumns(10);
 		
 		btnAddCustomer = new JButton("Kunde erfassen");
+		btnAddCustomer.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				//TODO Check
+				Customer c = library.createAndAddCustomer(txtName.getText(), txtSurname.getText());
+				c.setAdress(txtStreet.getText(), Integer.valueOf(txtZip.getText()), txtCity.getText());
+			}
+		});
 		GridBagConstraints gbc_btnAddCustomer = new GridBagConstraints();
 		gbc_btnAddCustomer.anchor = GridBagConstraints.EAST;
 		gbc_btnAddCustomer.gridwidth = 2;
