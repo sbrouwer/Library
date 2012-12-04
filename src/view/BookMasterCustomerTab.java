@@ -6,8 +6,12 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,8 +20,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelCustomerMaster;
 import domain.Book;
@@ -28,7 +34,9 @@ import javax.swing.JLabel;
 public class BookMasterCustomerTab extends JPanel
 {
 	private Library library;
+	private JTextField txtSearch;
 	TableModelCustomerMaster tableModel;
+	private TableRowSorter<TableModelCustomerMaster> sorter;
 	JButton btnEditCustomer;
 	JTable table;
 
@@ -95,14 +103,21 @@ public class BookMasterCustomerTab extends JPanel
 			
 		panel_management.setBorder(new TitledBorder(null, "Kundenverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		JTextField textField_search = new JTextField();
+		txtSearch = new JTextField();
 		GridBagConstraints gbc_textField_search = new GridBagConstraints();
 		gbc_textField_search.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_search.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField_search.gridx = 0;
 		gbc_textField_search.gridy = 0;
-		panel_management.add(textField_search, gbc_textField_search);
-		textField_search.setColumns(10);
+		panel_management.add(txtSearch, gbc_textField_search);
+		txtSearch.setColumns(10);
+		
+		txtSearch.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				search();
+			}
+		});
 		
 		ImageIcon iconCustomerEdit = new ImageIcon("icons/customer_edit.png");		
 		btnEditCustomer = new JButton("Kunde editieren", iconCustomerEdit);
@@ -182,7 +197,44 @@ public class BookMasterCustomerTab extends JPanel
 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
+		
+		sorter = new TableRowSorter<TableModelCustomerMaster>(tableModel);
+		table.setRowSorter(sorter);
+		sorter.setSortsOnUpdates(true);
+		sorter.toggleSortOrder(1);
 	
 		}
+	
+	private void search() {
+		RowFilter<TableModelCustomerMaster, Object> rf = null;
+		List<RowFilter<TableModelCustomerMaster, Object>> filters = new ArrayList<RowFilter<TableModelCustomerMaster, Object>>();
+		// If current expression doesn't parse, don't update.
+		try {
+			RowFilter<TableModelCustomerMaster, Object> rfID = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 0);
+			RowFilter<TableModelCustomerMaster, Object> rfName = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelCustomerMaster, Object> rfSurname = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelCustomerMaster, Object> rfStreet = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 3);
+			RowFilter<TableModelCustomerMaster, Object> rfPLZ = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 4);
+			RowFilter<TableModelCustomerMaster, Object> rfOrt = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 5);
+			
+			filters.add(rfID);
+			filters.add(rfSurname);
+			filters.add(rfName);
+			filters.add(rfStreet);
+			filters.add(rfPLZ);
+			filters.add(rfOrt);
+			
+			rf = RowFilter.orFilter(filters);
+		} catch (java.util.regex.PatternSyntaxException e) {
+			return;
+		}
+		sorter.setRowFilter(rf);
+	}
 
 }
