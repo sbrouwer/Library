@@ -158,6 +158,16 @@ public class BookMasterCustomerTab extends JPanel
 					btnEditCustomer.setEnabled(false);
 				}
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2){
+					int selected[] = table.getSelectedRows();
+					for (int i : selected) {
+						Customer customer = tableModel.getCustomerAtRow(table.convertRowIndexToModel(i));
+						CustomerEdit customerEdit = new CustomerEdit(customer,library);
+					}
+				}
+			}
 		});
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
