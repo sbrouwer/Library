@@ -7,8 +7,6 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -58,13 +56,14 @@ public class CustomerAdd extends JFrame
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0 };
-		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_contentPane.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
 
-		lblName = new JLabel("Name");
+		lblName = new JLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.anchor = GridBagConstraints.WEST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName.gridx = 0;
 		gbc_lblName.gridy = 0;
@@ -80,8 +79,9 @@ public class CustomerAdd extends JFrame
 		contentPane.add(txtName, gbc_txtName);
 		txtName.setColumns(10);
 
-		lblSurename = new JLabel("Vorname");
+		lblSurename = new JLabel("Vorname:");
 		GridBagConstraints gbc_lblSurename = new GridBagConstraints();
+		gbc_lblSurename.anchor = GridBagConstraints.WEST;
 		gbc_lblSurename.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSurename.gridx = 0;
 		gbc_lblSurename.gridy = 1;
@@ -97,8 +97,9 @@ public class CustomerAdd extends JFrame
 		contentPane.add(txtSurname, gbc_txtSurname);
 		txtSurname.setColumns(10);
 
-		lblStreet = new JLabel("Strasse");
+		lblStreet = new JLabel("Strasse:");
 		GridBagConstraints gbc_lblStreet = new GridBagConstraints();
+		gbc_lblStreet.anchor = GridBagConstraints.WEST;
 		gbc_lblStreet.insets = new Insets(0, 0, 5, 5);
 		gbc_lblStreet.gridx = 0;
 		gbc_lblStreet.gridy = 2;
@@ -114,8 +115,9 @@ public class CustomerAdd extends JFrame
 		contentPane.add(txtStreet, gbc_txtStreet);
 		txtStreet.setColumns(10);
 
-		lblZip = new JLabel("PLZ");
+		lblZip = new JLabel("PLZ:");
 		GridBagConstraints gbc_lblZip = new GridBagConstraints();
+		gbc_lblZip.anchor = GridBagConstraints.WEST;
 		gbc_lblZip.insets = new Insets(0, 0, 5, 5);
 		gbc_lblZip.gridx = 0;
 		gbc_lblZip.gridy = 3;
@@ -131,8 +133,9 @@ public class CustomerAdd extends JFrame
 		contentPane.add(txtZip, gbc_txtZip);
 		txtZip.setColumns(10);
 
-		lblCity = new JLabel("Ort");
+		lblCity = new JLabel("Ort:");
 		GridBagConstraints gbc_lblCity = new GridBagConstraints();
+		gbc_lblCity.anchor = GridBagConstraints.WEST;
 		gbc_lblCity.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCity.gridx = 0;
 		gbc_lblCity.gridy = 4;
@@ -155,7 +158,6 @@ public class CustomerAdd extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				// TODO Check
 				if (verifyFields())
 				{
 					Customer c = library.createAndAddCustomer(txtName.getText(), txtSurname.getText());
@@ -169,12 +171,11 @@ public class CustomerAdd extends JFrame
 		lblStatus = new JLabel("");
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
 		gbc_lblStatus.anchor = GridBagConstraints.EAST;
-		gbc_lblStatus.insets = new Insets(0, 0, 5, 5);
+		gbc_lblStatus.insets = new Insets(0, 0, 0, 5);
 		gbc_lblStatus.gridx = 1;
 		gbc_lblStatus.gridy = 5;
 		contentPane.add(lblStatus, gbc_lblStatus);
 		GridBagConstraints gbc_btnAddCustomer = new GridBagConstraints();
-		gbc_btnAddCustomer.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAddCustomer.anchor = GridBagConstraints.EAST;
 		gbc_btnAddCustomer.gridx = 2;
 		gbc_btnAddCustomer.gridy = 5;
@@ -254,7 +255,7 @@ public class CustomerAdd extends JFrame
 			lblStatus.setText(" ");
 		} else
 		{
-			lblStatus.setText("Bitte f�llen Sie die Markierten Felder aus");
+			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
 			lblStatus.setForeground(red);
 		}
 		return ok;
