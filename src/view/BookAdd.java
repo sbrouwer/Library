@@ -183,8 +183,7 @@ public class BookAdd implements Observer
 
 			public void actionPerformed(ActionEvent arg0)
 			{
-				boolean ok = verifyFields();
-				if (ok)
+				if (verifyFields())
 				{
 					book = library.createAndAddBook(txtTitel.getText());
 					book.setAuthor(txtAutor.getText());
