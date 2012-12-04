@@ -58,8 +58,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private JButton btnSelektiertesAnzeigen;
 	private JButton btnNeueAusleihe;
 	private JLabel lblUeberfaelligeAusleihen;
-	private final String[] header =  new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
-	
+	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
+
 	public BookMasterLoanTab(Library library)
 	{
 		this.library = library;
@@ -78,41 +78,41 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 		JPanel inventarStatistikenPanel = new JPanel();
 		inventarStatistikenPanel.setBorder(new TitledBorder(null, "Inventar Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
+
 		GridBagConstraints gbc_inventarStatistikenPanel = new GridBagConstraints();
 		gbc_inventarStatistikenPanel.anchor = GridBagConstraints.NORTH;
 		gbc_inventarStatistikenPanel.insets = new Insets(0, 5, 5, 0);
 		gbc_inventarStatistikenPanel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_inventarStatistikenPanel.gridx = 0;
 		gbc_inventarStatistikenPanel.gridy = 0;
-		
+
 		this.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
 
 		loans = library.getLoans();
 		GridBagLayout gbl_inventarStatistikenPanel = new GridBagLayout();
-		gbl_inventarStatistikenPanel.columnWidths = new int[]{94, 106, 113, 0};
-		gbl_inventarStatistikenPanel.rowHeights = new int[]{14, 0};
-		gbl_inventarStatistikenPanel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_inventarStatistikenPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_inventarStatistikenPanel.columnWidths = new int[] { 94, 106, 113, 0 };
+		gbl_inventarStatistikenPanel.rowHeights = new int[] { 14, 0 };
+		gbl_inventarStatistikenPanel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_inventarStatistikenPanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		inventarStatistikenPanel.setLayout(gbl_inventarStatistikenPanel);
-				
-				lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen: " + loans.size());
-				GridBagConstraints gbc_lblAnzahlAusleihen = new GridBagConstraints();
-				gbc_lblAnzahlAusleihen.anchor = GridBagConstraints.NORTHWEST;
-				gbc_lblAnzahlAusleihen.insets = new Insets(0, 0, 0, 5);
-				gbc_lblAnzahlAusleihen.gridx = 0;
-				gbc_lblAnzahlAusleihen.gridy = 0;
-				inventarStatistikenPanel.add(lblAnzahlAusleihen, gbc_lblAnzahlAusleihen);
-		
-				lblAktuellAusgeliehen = new JLabel("Aktuell Ausgeliehen: " + library.getLentOutBooks().size());
-				GridBagConstraints gbc_lblAktuellAusgeliehen = new GridBagConstraints();
-				gbc_lblAktuellAusgeliehen.anchor = GridBagConstraints.NORTHWEST;
-				gbc_lblAktuellAusgeliehen.insets = new Insets(0, 0, 0, 5);
-				gbc_lblAktuellAusgeliehen.gridx = 1;
-				gbc_lblAktuellAusgeliehen.gridy = 0;
-				inventarStatistikenPanel.add(lblAktuellAusgeliehen, gbc_lblAktuellAusgeliehen);
-		
-		lblUeberfaelligeAusleihen = new JLabel("\u00DCberf\u00E4llige Ausleihen: " + library.getOverdueLoans().size());
+
+		lblAnzahlAusleihen = new JLabel("Anzahl Ausleihen: " + loans.size());
+		GridBagConstraints gbc_lblAnzahlAusleihen = new GridBagConstraints();
+		gbc_lblAnzahlAusleihen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlAusleihen.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlAusleihen.gridx = 0;
+		gbc_lblAnzahlAusleihen.gridy = 0;
+		inventarStatistikenPanel.add(lblAnzahlAusleihen, gbc_lblAnzahlAusleihen);
+
+		lblAktuellAusgeliehen = new JLabel("Aktuell Ausgeliehen: " + library.getLentOutBooks().size());
+		GridBagConstraints gbc_lblAktuellAusgeliehen = new GridBagConstraints();
+		gbc_lblAktuellAusgeliehen.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAktuellAusgeliehen.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAktuellAusgeliehen.gridx = 1;
+		gbc_lblAktuellAusgeliehen.gridy = 0;
+		inventarStatistikenPanel.add(lblAktuellAusgeliehen, gbc_lblAktuellAusgeliehen);
+
+		lblUeberfaelligeAusleihen = new JLabel("ÃœberfÃ¤llige Ausleihen: " + library.getOverdueLoans().size());
 		GridBagConstraints gbc_lblUeberfaelligeAusleihen = new GridBagConstraints();
 		gbc_lblUeberfaelligeAusleihen.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblUeberfaelligeAusleihen.gridx = 2;
@@ -128,7 +128,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_buchInventarPanel.gridx = 0;
 		gbc_buchInventarPanel.gridy = 1;
 		this.add(buchInventarPanel, gbc_buchInventarPanel);
-		
+
 		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
 		gbl_buchInventarPanel.columnWidths = new int[] { 69, 0, 131, 145, 0, 0, 0 };
 		gbl_buchInventarPanel.rowHeights = new int[] { 23, 0, 0 };
@@ -136,21 +136,26 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		buchInventarPanel.setLayout(gbl_buchInventarPanel);
 
-		//Ab hier "Suche"
+		// Ab hier "Suche"
 		txtSuche = new JTextField();
-		txtSuche.addFocusListener(new FocusAdapter() {
+		txtSuche.addFocusListener(new FocusAdapter()
+		{
 			@Override
-			public void focusGained(FocusEvent arg0) {
-				if (txtSuche.getText().contains("Suche")) {
+			public void focusGained(FocusEvent arg0)
+			{
+				if (txtSuche.getText().contains("Suche"))
+				{
 					txtSuche.setText("");
 				}
 			}
 		});
-		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes  ein, nach dem Sie suchen möchten");
-		txtSuche.addKeyListener(new KeyAdapter() {
+		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen mÃ¶chten");
+		txtSuche.addKeyListener(new KeyAdapter()
+		{
 			@Override
-			public void keyReleased(KeyEvent arg0) {
-					search();
+			public void keyReleased(KeyEvent arg0)
+			{
+				search();
 			}
 		});
 		txtSuche.setText("Suche");
@@ -163,37 +168,44 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		buchInventarPanel.add(txtSuche, gbc_txtSuche);
 		txtSuche.setColumns(10);
 
-		//Ab hier "Selektiertes Anzeigen"
+		// Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
-		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen",iconSelektiertesAnzeigen);
-		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
+		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen", iconSelektiertesAnzeigen);
+		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewÃ¤hlte Exemplar in einer Detailansicht an");
 		btnSelektiertesAnzeigen.setEnabled(false);
-		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSelektiertesAnzeigen.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				int selected[] = table.getSelectedRows();
-				for (int i : selected) {
+				for (int i : selected)
+				{
 					Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
 					LoanDetail loanDetail = new LoanDetail(library, loan);
 				}
 			}
 		});
 
-		//Ab hier "Nur Überfällige"
-		chckbxNurUeberfaellige = new JCheckBox("Nur Überfällige");
-		chckbxNurUeberfaellige.setToolTipText("Es werden nur überfällige Exemplare angezeigt");
-		chckbxNurUeberfaellige.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		// Ab hier "Nur ï¿½berfï¿½llige"
+		chckbxNurUeberfaellige = new JCheckBox("Nur Ã¼berfÃ¤llige");
+		chckbxNurUeberfaellige.setToolTipText("Es werden nur Ã¼berfÃ¤llige Exemplare angezeigt");
+		chckbxNurUeberfaellige.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries
-				//deleteTableRows(table);
+				// deleteTableRows(table);
 
-				if (arg0.getStateChange() == 1) { // If hook is set, add only
-						addOverdueLoans();							// entries with available
-													// Copies
-													// (Number of Copies -
-													// Number of Lent Copies)
-					
-				} else { // if hook is not set, add all Books
+				if (arg0.getStateChange() == 1)
+				{ // If hook is set, add only
+					addOverdueLoans(); // entries with available
+					// Copies
+					// (Number of Copies -
+					// Number of Lent Copies)
+
+				} else
+				{ // if hook is not set, add all Books
 					sorter.setRowFilter(null);
 				}
 			}
@@ -212,15 +224,17 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
-		//Ab hier "Neues Buch hinzufügen"
+		// Ab hier "Neues Buch hinzufï¿½gen"
 		ImageIcon iconNeueAusleihe = new ImageIcon("icons/book_go.png");
-		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen",iconNeueAusleihe);
-		btnNeueAusleihe.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
-		btnNeueAusleihe.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen", iconNeueAusleihe);
+		btnNeueAusleihe.setToolTipText("Ã–ffnet ein Fenster um eine neue Ausleihe zu tÃ¤tigen");
+		btnNeueAusleihe.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				LoanDetail loanDetail = new LoanDetail(library);
 			}
-		});	
+		});
 		GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
 		gbc_btnNeueAusleihe.anchor = GridBagConstraints.NORTHWEST;
 		gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);
@@ -235,33 +249,41 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		buchInventarPanel.add(scrollPane, gbc_scrollPane);
-		
-		//Ab hier JTable
+
+		// Ab hier JTable
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				if (table.getSelectedRows().length > 0) {
+			public void mouseReleased(MouseEvent arg0)
+			{
+				if (table.getSelectedRows().length > 0)
+				{
 					btnSelektiertesAnzeigen.setEnabled(true);
-				} else {
+				} else
+				{
 					btnSelektiertesAnzeigen.setEnabled(false);
 				}
 			}
+
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount() == 2){
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 2)
+				{
 					int selected[] = table.getSelectedRows();
-					for (int i : selected) {
+					for (int i : selected)
+					{
 						Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
-						LoanDetail loanDetail = new LoanDetail(library,loan);
+						LoanDetail loanDetail = new LoanDetail(library, loan);
 					}
 				}
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
-		
+
 		books = library.getBooks();
 		tableModel = new TableModelLoanMaster(library, header);
 		table.setModel(tableModel);
@@ -271,56 +293,63 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
-		
+
 	}
-	
-	private void search() {
+
+	private void search()
+	{
 		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelLoanMaster, Object> rf = null;
-		List<RowFilter<TableModelLoanMaster,Object>> filters = new ArrayList<RowFilter<TableModelLoanMaster,Object>>();
+		List<RowFilter<TableModelLoanMaster, Object>> filters = new ArrayList<RowFilter<TableModelLoanMaster, Object>>();
 		// If current expression doesn't parse, don't update.
-		try {
-			RowFilter<TableModelLoanMaster, Object> rfID =RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
+		try
+		{
+			RowFilter<TableModelLoanMaster, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
 			RowFilter<TableModelLoanMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 2);
 			RowFilter<TableModelLoanMaster, Object> rfKunde = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 4);
 			filters.add(rfID);
 			filters.add(rfTitel);
 			filters.add(rfKunde);
 			rf = RowFilter.orFilter(filters);
-		} catch (java.util.regex.PatternSyntaxException e) {
+		} catch (java.util.regex.PatternSyntaxException e)
+		{
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
-	
-	private void updateStats(){
-		lblAnzahlAusleihen.setText("Anzahl Bücher: " + books.size());
+	private void updateStats()
+	{
+		lblAnzahlAusleihen.setText("Anzahl BÃ¼cher: " + books.size());
 		lblAktuellAusgeliehen.setText("Anzahl Exemplare: " + library.getCopies().size());
 	}
-	
-	private void addOverdueLoans() {
-		
+
+	private void addOverdueLoans()
+	{
+
 		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelLoanMaster, Object> rf = null;
 		// If current expression doesn't parse, don't update.
-		try {
-			rf =  RowFilter.regexFilter("(?i)^.*Fällig.*", 0);
-		} catch (java.util.regex.PatternSyntaxException e) {
+		try
+		{
+			rf = RowFilter.regexFilter("(?i)^.*FÃ¤llig.*", 0);
+		} catch (java.util.regex.PatternSyntaxException e)
+		{
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
+	public void update(Observable o, Object arg)
+	{
 		updateFields();
 	}
 
-	private void updateFields() {
+	private void updateFields()
+	{
 		this.books = library.getBooks();
 		updateStats();
 	}

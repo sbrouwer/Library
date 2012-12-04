@@ -149,7 +149,7 @@ public class CustomerEdit extends JFrame implements Observer {
 		contentPane.add(txtCity, gbc_txtCity);
 		txtCity.setColumns(10);
 
-		btnMutateCustomer = new JButton("Änderungen speichern");
+		btnMutateCustomer = new JButton("Ã„nderungen speichern");
 		btnMutateCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -244,7 +244,7 @@ public class CustomerEdit extends JFrame implements Observer {
 		if (ok) {
 			lblStatus.setText(" ");
 		} else {
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setText("Bitte fï¿½llen Sie die Markierten Felder aus");
 			lblStatus.setForeground(red);
 		}
 		return ok;
@@ -253,7 +253,7 @@ public class CustomerEdit extends JFrame implements Observer {
 	private boolean checkZip() {
 		if (Integer.parseInt(txtZip.getText()) < 0 || Integer.parseInt(txtZip.getText()) > 10000
 				|| txtZip.getText().length() != 4) {
-			lblStatus.setText("PLZ muss eine 4-stellige Zahl sein");
+			lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
 			lblZip.setText("PLZ*");
 			lblZip.setForeground(new Color(255, 0, 0));
 			return false;

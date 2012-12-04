@@ -62,7 +62,7 @@ public class BookAdd implements Observer
 	private JButton btnAusgewaehlteEntfernen;
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
-	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
+	private final String[] header = new String[] { "Inventar Nummer", "VerfÃ¼gbarkeit" };
 	private JLabel lblStatus;
 
 	/**
@@ -85,7 +85,7 @@ public class BookAdd implements Observer
 		frmBuchHinzufgen.setBounds(100, 100, 450, 360);
 		frmBuchHinzufgen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmBuchHinzufgen.getContentPane().setLayout(new BoxLayout(frmBuchHinzufgen.getContentPane(), BoxLayout.Y_AXIS));
-		frmBuchHinzufgen.setTitle("Buch Hinzufügen");
+		frmBuchHinzufgen.setTitle("Buch Hinzufï¿½gen");
 		Dimension d = new Dimension(450, 360);
 		frmBuchHinzufgen.setMinimumSize(d);
 
@@ -176,8 +176,8 @@ public class BookAdd implements Observer
 		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
 
 		ImageIcon icon = new ImageIcon("icons/book_add.png");
-		btnAddBook = new JButton("Buch Hinzufügen", icon);
-		btnAddBook.setToolTipText("Fügt der Bibliothek ein neues Buch hinzu (alle Felder müssen ausgefüllt sein!)");
+		btnAddBook = new JButton("Buch HinzufÃ¼gen", icon);
+		btnAddBook.setToolTipText("FÃ¼gt der Bibliothek ein neues Buch hinzu (alle Felder mÃ¼ssen ausgefÃ¼llt sein!)");
 		btnAddBook.addActionListener(new ActionListener()
 		{
 
@@ -193,7 +193,7 @@ public class BookAdd implements Observer
 					tableModel = new TableModelBookDetail(library, book, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
-					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
+					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefï¿½gt");
 					lblStatus.setForeground(new Color(0, 0, 0));
 				}
 			}
@@ -260,7 +260,7 @@ public class BookAdd implements Observer
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
-		btnAusgewaehlteEntfernen = new JButton("Ausgewählte Entfernen");
+		btnAusgewaehlteEntfernen = new JButton("AusgewÃ¤hlte Entfernen");
 		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 
 		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
@@ -283,15 +283,15 @@ public class BookAdd implements Observer
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
 		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
 
-		btnExemplarHinzufuegen = new JButton(" Exemplar hinzufügen");
-		btnExemplarHinzufuegen.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
+		btnExemplarHinzufuegen = new JButton(" Exemplar hinzufÃ¼gen");
+		btnExemplarHinzufuegen.setToolTipText("FÃ¼gt ein neues Exemplar des angezeigten Buches hinzu");
 		btnExemplarHinzufuegen.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				if (book == null)
 				{
-					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufügen");
+					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufÃ¼gen");
 				} else
 				{
 					library.createAndAddCopy(book);
@@ -377,7 +377,7 @@ public class BookAdd implements Observer
 			lblStatus.setText(" ");
 		} else
 		{
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setText("Bitte fÃ¼llen Sie die Markierten Felder aus");
 			lblStatus.setForeground(red);
 		}
 		return ok;

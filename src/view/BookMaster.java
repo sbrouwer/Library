@@ -23,18 +23,12 @@ public class BookMaster {
 	private JFrame frmBibliothek;
 	private Library library;
 
-	/**
-	 * Create the application.
-	 */
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
 		frmBibliothek.setVisible(true);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 
 		frmBibliothek = new JFrame();
@@ -64,7 +58,7 @@ public class BookMaster {
 			
 		JPanel booksTab = new BookMasterBooksTab(library);
 		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
-		buchMasterTabs.addTab("B\u00FCcher", iconBookTab, booksTab, "\u00DCbersicht der B\u00FCcher in der Bibliothek, m\u00F6glichkeiten B\u00FCcher hinzuzuf\u00FCgen und zu entfernen");
+		buchMasterTabs.addTab("Bücher", iconBookTab, booksTab, "Übersicht der Bücher in der Bibliothek, möglichkeiten Bücher hinzuzufügen und zu entfernen");
 
 		JPanel loanTab = new BookMasterLoanTab(library);	
 		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
@@ -84,9 +78,6 @@ public class BookMaster {
 	        }
 	    };
 	    
-
-	    frame.getRootPane().registerKeyboardAction(escListener,
-	            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 }

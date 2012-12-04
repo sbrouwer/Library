@@ -39,7 +39,8 @@ import tablemodel.TableModelBookMaster;
 import domain.Book;
 import domain.Library;
 
-public class BookMasterBooksTab extends JPanel implements Observer {
+public class BookMasterBooksTab extends JPanel implements Observer
+{
 	private JTable table;
 	private JTextField txtSuche;
 	private List<Book> books;
@@ -53,13 +54,15 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 	private JButton btnSelektiertesAnzeigen;
 	private JButton btnNeuesBuch;
 
-	public BookMasterBooksTab(Library library) {
+	public BookMasterBooksTab(Library library)
+	{
 		this.library = library;
 		library.addObserver(this);
 		initialize();
 	}
 
-	private void initialize() {
+	private void initialize()
+	{
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
 		gbl_buecherTab.columnWidths = new int[] { 0, 0 };
 		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -79,31 +82,29 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		this.add(inventarStatistikenPanel, gbc_inventarStatistikenPanel);
 		GridBagLayout gbl_inventarStatistikenPanel = new GridBagLayout();
-		gbl_inventarStatistikenPanel.columnWidths = new int[]{56, 81, 0};
-		gbl_inventarStatistikenPanel.rowHeights = new int[]{14, 0};
-		gbl_inventarStatistikenPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_inventarStatistikenPanel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_inventarStatistikenPanel.columnWidths = new int[] { 56, 81, 0 };
+		gbl_inventarStatistikenPanel.rowHeights = new int[] { 14, 0 };
+		gbl_inventarStatistikenPanel.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_inventarStatistikenPanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		inventarStatistikenPanel.setLayout(gbl_inventarStatistikenPanel);
-				
-						lblAnzahlBuecher = new JLabel("Anzahl Bücher: " + library.getBooks().size());
-						GridBagConstraints gbc_lblAnzahlBuecher = new GridBagConstraints();
-						gbc_lblAnzahlBuecher.anchor = GridBagConstraints.NORTHWEST;
-						gbc_lblAnzahlBuecher.insets = new Insets(0, 0, 0, 5);
-						gbc_lblAnzahlBuecher.gridx = 0;
-						gbc_lblAnzahlBuecher.gridy = 0;
-						inventarStatistikenPanel.add(lblAnzahlBuecher, gbc_lblAnzahlBuecher);
-				
-						lblAnzahlExemplare = new JLabel("Anzahl Exemplare: "
-								+ (library.getBooks().size() + library.getCopies().size()));
-						GridBagConstraints gbc_lblAnzahlExemplare = new GridBagConstraints();
-						gbc_lblAnzahlExemplare.anchor = GridBagConstraints.NORTHWEST;
-						gbc_lblAnzahlExemplare.gridx = 1;
-						gbc_lblAnzahlExemplare.gridy = 0;
-						inventarStatistikenPanel.add(lblAnzahlExemplare, gbc_lblAnzahlExemplare);
+
+		lblAnzahlBuecher = new JLabel("Anzahl BÃ¼cher: " + library.getBooks().size());
+		GridBagConstraints gbc_lblAnzahlBuecher = new GridBagConstraints();
+		gbc_lblAnzahlBuecher.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlBuecher.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAnzahlBuecher.gridx = 0;
+		gbc_lblAnzahlBuecher.gridy = 0;
+		inventarStatistikenPanel.add(lblAnzahlBuecher, gbc_lblAnzahlBuecher);
+
+		lblAnzahlExemplare = new JLabel("Anzahl Exemplare: " + (library.getBooks().size() + library.getCopies().size()));
+		GridBagConstraints gbc_lblAnzahlExemplare = new GridBagConstraints();
+		gbc_lblAnzahlExemplare.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAnzahlExemplare.gridx = 1;
+		gbc_lblAnzahlExemplare.gridy = 0;
+		inventarStatistikenPanel.add(lblAnzahlExemplare, gbc_lblAnzahlExemplare);
 
 		JPanel buchInventarPanel = new JPanel();
-		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
+		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
 		gbc_buchInventarPanel.insets = new Insets(0, 5, 0, 0);
 		gbc_buchInventarPanel.gridheight = 2;
@@ -121,18 +122,23 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 
 		// Ab hier "Suche"
 		txtSuche = new JTextField();
-		txtSuche.addFocusListener(new FocusAdapter() {
+		txtSuche.addFocusListener(new FocusAdapter()
+		{
 			@Override
-			public void focusGained(FocusEvent arg0) {
-				if (txtSuche.getText().contains("Suche")) {
+			public void focusGained(FocusEvent arg0)
+			{
+				if (txtSuche.getText().contains("Suche"))
+				{
 					txtSuche.setText("");
 				}
 			}
 		});
-		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
-		txtSuche.addKeyListener(new KeyAdapter() {
+		txtSuche.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen mÃ¶chten");
+		txtSuche.addKeyListener(new KeyAdapter()
+		{
 			@Override
-			public void keyReleased(KeyEvent arg0) {
+			public void keyReleased(KeyEvent arg0)
+			{
 				search();
 			}
 		});
@@ -150,34 +156,38 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		// Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
 		btnSelektiertesAnzeigen = new JButton("Buchdetail anzeigen", iconSelektiertesAnzeigen);
-		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Buch in einer Detailansicht an");
+		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewÃ¤hlte Buch in einer Detailansicht an");
 		btnSelektiertesAnzeigen.setEnabled(false);
-		btnSelektiertesAnzeigen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSelektiertesAnzeigen.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent arg0)
+			{
 				int selected[] = table.getSelectedRows();
-				for (int i : selected) {
+				for (int i : selected)
+				{
 					Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
 					BookDetail bookDetail = new BookDetail(book, library);
 				}
 			}
 		});
 
-		// Ab hier "Nur Verfügbare"
-		chckbxNurVerfgbare = new JCheckBox("Nur Verf\u00FCgbare");
-		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur Bücher mit verfügbaren Exemplaren angezeigt");
-		chckbxNurVerfgbare.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		// Ab hier "Nur Verfï¿½gbare"
+		chckbxNurVerfgbare = new JCheckBox("Nur VerfÃ¼gbare");
+		chckbxNurVerfgbare.setToolTipText("Falls markiert, werden nur Bï¿½cher mit verfÃ¼gbaren Exemplaren angezeigt");
+		chckbxNurVerfgbare.addItemListener(new ItemListener()
+		{
+			public void itemStateChanged(ItemEvent arg0)
+			{
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries
 				// deleteTableRows(table);
-
-				if (arg0.getStateChange() == 1) { // If hook is set, add only
-													// entries with available
-													// Copies
-													// (Number of Copies -
-													// Number of Lent Copies)
+				if (arg0.getStateChange() == 1)
+				{ 
+					// If hook is set, add only entries with available Copies
+					// (Number of Copies - Number of Lent Copies)
 					addAvailableBooks();
-				} else { // if hook is not set, add all Books
+				} else
+				{ // if hook is not set, add all Books
 					sorter.setRowFilter(null);
 				}
 			}
@@ -195,16 +205,18 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		gbc_btnSelektierteAnzeigen.gridy = 0;
 		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
-		// Ab hier "Neues Buch hinzufügen"
-		
+		// Ab hier "Neues Buch hinzufï¿½gen"
+
 		ImageIcon iconBookAdd = new ImageIcon("icons/book_add.png");
-		btnNeuesBuch = new JButton("Neues Buch hinzufügen",iconBookAdd);
-		btnNeuesBuch.setToolTipText("Öffnet ein Fenster um ein neues Buch zu erfassen");
-		btnNeuesBuch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnNeuesBuch = new JButton("Neues Buch hinzufÃ¼gen", iconBookAdd);
+		btnNeuesBuch.setToolTipText("Ã–ffnet ein Fenster um ein neues Buch zu erfassen");
+		btnNeuesBuch.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent e)
+			{
 				BookAdd bookAdd = new BookAdd(library);
 			}
-		});		
+		});
 
 		GridBagConstraints gbc_btnNeuesBuch = new GridBagConstraints();
 		gbc_btnNeuesBuch.anchor = GridBagConstraints.NORTHWEST;
@@ -224,33 +236,40 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 		// Ab hier JTable
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter()
+		{
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				if (table.getSelectedRows().length > 0) {
+			public void mouseReleased(MouseEvent arg0)
+			{
+				if (table.getSelectedRows().length > 0)
+				{
 					btnSelektiertesAnzeigen.setEnabled(true);
-				} else {
+				} else
+				{
 					btnSelektiertesAnzeigen.setEnabled(false);
 				}
 			}
+
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount() == 2){
+			public void mouseClicked(MouseEvent e)
+			{
+				if (e.getClickCount() == 2)
+				{
 					int selected[] = table.getSelectedRows();
-					for (int i : selected) {
+					for (int i : selected)
+					{
 						Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
 						BookDetail bookDetail = new BookDetail(book, library);
 					}
 				}
 			}
 		});
-		
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
-
 		books = library.getBooks();
-		tableModel = new TableModelBookMaster(library, new String[] { "Verf\u00FCgbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelBookMaster(library, new String[] { "VerfÃ¼gbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 
 		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -268,53 +287,59 @@ public class BookMasterBooksTab extends JPanel implements Observer {
 	/**
 	 * Adds only Available Books from the Library to the Inventary Table
 	 */
-	private void addAvailableBooks() {
+	private void addAvailableBooks()
+	{
 
 		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelBookMaster, Object> rf = null;
 		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
 		// If current expression doesn't parse, don't update.
-		try {
+		try
+		{
 			rf = RowFilter.regexFilter("[^0]", 0);
-		} catch (java.util.regex.PatternSyntaxException e) {
+		} catch (java.util.regex.PatternSyntaxException e)
+		{
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
-	private void search() {
+	private void search()
+	{
 		RowFilter<TableModelBookMaster, Object> rf = null;
 		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
 		// If current expression doesn't parse, don't update.
-		try {
-			RowFilter<TableModelBookMaster, Object> rfTitel = RowFilter.regexFilter(
-					"(?i)^.*" + txtSuche.getText() + ".*", 1);
-			RowFilter<TableModelBookMaster, Object> rfAutor = RowFilter.regexFilter(
-					"(?i)^.*" + txtSuche.getText() + ".*", 2);
-			RowFilter<TableModelBookMaster, Object> rfVerlag = RowFilter.regexFilter(
-					"(?i)^.*" + txtSuche.getText() + ".*", 3);
+		try
+		{
+			RowFilter<TableModelBookMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
+			RowFilter<TableModelBookMaster, Object> rfAutor = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 2);
+			RowFilter<TableModelBookMaster, Object> rfVerlag = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 3);
 			filters.add(rfAutor);
 			filters.add(rfTitel);
 			filters.add(rfVerlag);
 			rf = RowFilter.orFilter(filters);
-		} catch (java.util.regex.PatternSyntaxException e) {
+		} catch (java.util.regex.PatternSyntaxException e)
+		{
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
-	private void updateStats() {
-		lblAnzahlBuecher.setText("Anzahl Bücher: " + books.size());
+	private void updateStats()
+	{
+		lblAnzahlBuecher.setText("Anzahl BÃ¼cher: " + books.size());
 		lblAnzahlExemplare.setText("Anzahl Exemplare: " + (library.getBooks().size() + library.getCopies().size()));
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object arg)
+	{
 		updateFields();
 	}
 
-	private void updateFields() {
+	private void updateFields()
+	{
 		this.books = library.getBooks();
 		updateStats();
 	}

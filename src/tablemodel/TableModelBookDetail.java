@@ -47,18 +47,18 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 		case 1:
 			Loan l = library.getLoanOfCopy(copy);
 			if (l != null) {
-				if (l.isLent()) { //Damit keine schon zurückgegebene Loans angezeigt werden
+				if (l.isLent()) { //Damit keine schon zurÃ¼ckgegebene Loans angezeigt werden
 					if (!l.isOverdue()) {
 						return l.getDueDateString() + " (Noch " + l.getDaysTilDue()
-								+ " Tage bis zur Rückgabe)";
+								+ " Tage bis zur RÃ¼ckgabe)";
 					} else {
-						return l.getDueDateString() + " (Fällig!)";
+						return l.getDueDateString() + " (FÃ¤llig!)";
 					}
 				} else {
-					return "Verfügbar";
+					return "VerfÃ¼gbar";
 				}
 			} else {
-				return "Verfügbar";
+				return "VerfÃ¼gbar";
 			}
 		case 2:
 			return copy.getCondition();

@@ -17,7 +17,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	String[] headers;
 	List <Loan> loans;
 	ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
-	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
+	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fï¿½llig!");
 
 	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
@@ -70,7 +70,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 				if (!loan.isOverdue()) {
 					return loan.getDueDateString() + " (Noch " + loan.getDaysTilDue() + " Tage)";
 				} else {
-					return loan.getDueDateString() + " (Fällig!)";
+					return loan.getDueDateString() + " (FÃ¤llig!)";
 				}
 		case 4:
 			return loan.getCustomer().getName();

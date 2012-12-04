@@ -40,9 +40,6 @@ public class BookMasterCustomerTab extends JPanel
 	JButton btnEditCustomer;
 	JTable table;
 
-	/**
-	 * Create the panel.
-	 */
 	public BookMasterCustomerTab(Library library)
 	{
 		this.library = library;
@@ -121,7 +118,7 @@ public class BookMasterCustomerTab extends JPanel
 		
 		ImageIcon iconCustomerEdit = new ImageIcon("icons/customer_edit.png");		
 		btnEditCustomer = new JButton("Kunde editieren", iconCustomerEdit);
-		btnEditCustomer.setToolTipText("Zeigt der in der untenstehende Tabelle ausgewählten Kunde zum editieren an");
+		btnEditCustomer.setToolTipText("Zeigt der in der untenstehende Tabelle ausgewÃ¤hlten Kunde zum editieren an");
 		btnEditCustomer.setEnabled(false);
 		btnEditCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -141,7 +138,7 @@ public class BookMasterCustomerTab extends JPanel
 		
 		ImageIcon iconCustomerAdd = new ImageIcon("icons/customer_add.png");		
 		JButton btnNewCustomer = new JButton("Neuer Kunde", iconCustomerAdd);
-		btnNewCustomer.setToolTipText("Öffnet ein Fenster um einen neuen Kunden zu erfassen");
+		btnNewCustomer.setToolTipText("Ã–ffnet ein Fenster um einen neuen Kunden zu erfassen");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CustomerAdd customerAdd = new CustomerAdd(library);
@@ -165,6 +162,7 @@ public class BookMasterCustomerTab extends JPanel
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter() {
+			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
@@ -173,6 +171,7 @@ public class BookMasterCustomerTab extends JPanel
 					btnEditCustomer.setEnabled(false);
 				}
 			}
+			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2){
