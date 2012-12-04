@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import domain.Library;
+import java.awt.Toolkit;
 
 public class BookMaster {
 
@@ -37,6 +38,7 @@ public class BookMaster {
 	private void initialize() {
 
 		frmBibliothek = new JFrame();
+		frmBibliothek.setIconImage(Toolkit.getDefaultToolkit().getImage("icons/books_stack.png"));
 		frmBibliothek.setBounds(100, 100, 644, 516);
 		frmBibliothek.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmBibliothek.setTitle("Bibliothek");
