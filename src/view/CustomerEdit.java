@@ -153,7 +153,6 @@ public class CustomerEdit extends JFrame implements Observer {
 		btnMutateCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Check
 				if (verifyFields()) {
 					customer.setName(txtName.getText());
 					customer.setSurname(txtSurname.getText());
