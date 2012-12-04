@@ -253,7 +253,7 @@ public class CustomerEdit extends JFrame implements Observer {
 	private boolean checkZip() {
 		if (Integer.parseInt(txtZip.getText()) < 0 || Integer.parseInt(txtZip.getText()) > 10000
 				|| txtZip.getText().length() != 4) {
-			lblStatus.setText("PLZ muss eine 4 Stellige Zahl sein");
+			lblStatus.setText("PLZ muss eine 4-stellige Zahl sein");
 			lblZip.setText("PLZ*");
 			lblZip.setForeground(new Color(255, 0, 0));
 			return false;
