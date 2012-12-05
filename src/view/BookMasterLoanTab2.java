@@ -29,11 +29,16 @@ import domain.Loan;
 public class BookMasterLoanTab2 extends JPanel
 {
 	private Library library;
-	private JTextField textFieldSearch;
+	private JTextField txtSearch;
 	private JTable table;
 	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
 	private TableModelLoanMaster tableModel;
 	private JCheckBox chckbxOnlyOverdues;
+	private JButton btnLoanDetail;
+	private JLabel lblAmountOfCopies;
+	private JLabel lblAmoutOfActualLoans;
+	private JLabel lblAmountOfOverdueLoans;
+	
 
 
 	public BookMasterLoanTab2(Library library)
@@ -75,7 +80,7 @@ public class BookMasterLoanTab2 extends JPanel
 		gbc_lblCopies.gridy = 0;
 		panel_statistics.add(lblCopies, gbc_lblCopies);
 		
-		JLabel lblAmountOfCopies = new JLabel("0");
+		lblAmountOfCopies = new JLabel("0");
 		GridBagConstraints gbc_lblAmountOfCopies = new GridBagConstraints();
 		gbc_lblAmountOfCopies.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblAmountOfCopies.insets = new Insets(0, 0, 0, 5);
@@ -91,7 +96,7 @@ public class BookMasterLoanTab2 extends JPanel
 		gbc_lblActualLoans.gridy = 0;
 		panel_statistics.add(lblActualLoans, gbc_lblActualLoans);
 		
-		JLabel lblAmoutOfActualLoans = new JLabel("0");
+		lblAmoutOfActualLoans = new JLabel("0");
 		GridBagConstraints gbc_lblAmoutOfActualLoans = new GridBagConstraints();
 		gbc_lblAmoutOfActualLoans.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblAmoutOfActualLoans.insets = new Insets(0, 0, 0, 5);
@@ -107,7 +112,7 @@ public class BookMasterLoanTab2 extends JPanel
 		gbc_lblOverdueLoans.gridy = 0;
 		panel_statistics.add(lblOverdueLoans, gbc_lblOverdueLoans);
 		
-		JLabel lblAmountOfOverdueLoans = new JLabel("0");
+		lblAmountOfOverdueLoans = new JLabel("0");
 		GridBagConstraints gbc_lblAmountOfOverdueLoans = new GridBagConstraints();
 		gbc_lblAmountOfOverdueLoans.anchor = GridBagConstraints.NORTHWEST;
 		gbc_lblAmountOfOverdueLoans.gridx = 5;
@@ -127,15 +132,15 @@ public class BookMasterLoanTab2 extends JPanel
 		gbl_panel_management.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_management.setLayout(gbl_panel_management);
 		
-		textFieldSearch = new JTextField();
-		textFieldSearch.setText("Suche");
+		txtSearch = new JTextField();
+		txtSearch.setText("Suche");
 		GridBagConstraints gbc_textFieldSearch = new GridBagConstraints();
 		gbc_textFieldSearch.insets = new Insets(0, 0, 5, 5);
 		gbc_textFieldSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldSearch.gridx = 0;
 		gbc_textFieldSearch.gridy = 0;
-		panel_management.add(textFieldSearch, gbc_textFieldSearch);
-		textFieldSearch.setColumns(10);
+		panel_management.add(txtSearch, gbc_textFieldSearch);
+		txtSearch.setColumns(10);
 		
 		chckbxOnlyOverdues = new JCheckBox("Nur Überfällige");
 		GridBagConstraints gbc_chckbxOnlyOverdues = new GridBagConstraints();
@@ -144,7 +149,7 @@ public class BookMasterLoanTab2 extends JPanel
 		gbc_chckbxOnlyOverdues.gridy = 0;
 		panel_management.add(chckbxOnlyOverdues, gbc_chckbxOnlyOverdues);
 		
-		JButton btnLoanDetail = new JButton("Ausleihedetail anzeigen");
+		btnLoanDetail = new JButton("Ausleihedetail anzeigen");
 		GridBagConstraints gbc_btnLoanDetail = new GridBagConstraints();
 		gbc_btnLoanDetail.insets = new Insets(0, 0, 5, 5);
 		gbc_btnLoanDetail.gridx = 2;
@@ -176,13 +181,12 @@ public class BookMasterLoanTab2 extends JPanel
 			{
 				if (table.getSelectedRows().length > 0)
 				{
-					chckbxOnlyOverdues.setEnabled(true);
+					btnLoanDetail.setEnabled(true);
 				} else
 				{
-					chckbxOnlyOverdues.setEnabled(false);
+					btnLoanDetail.setEnabled(false);
 				}
 			}
-
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
@@ -209,5 +213,14 @@ public class BookMasterLoanTab2 extends JPanel
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
 	}
+	
 
+	private void updateStatistics()
+	{
+		lblAmountOfCopies.setText(String.valueOf(library.getCopies().size()));
+//		lblAmoutOfActualLoans.setText(String.valueOf(library.get));
+//		lblAmoutOfOverdueLoans;
+//		
+
+	}
 }

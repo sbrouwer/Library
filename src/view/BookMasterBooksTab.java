@@ -39,7 +39,7 @@ import domain.Library;
 
 public class BookMasterBooksTab extends JPanel implements Observer
 {
-	private JTextField textFieldSearch;
+	private JTextField txtSearch;
 	private Library library;
 	private JLabel lblAmountOfBooks;
 	private JLabel lblAmountOfCopies;
@@ -124,29 +124,29 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		gbl_panel_management.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		panel_management.setLayout(gbl_panel_management);
 		
-		textFieldSearch = new JTextField();
-		textFieldSearch.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
-		textFieldSearch.setText("Suche");
-		textFieldSearch.addFocusListener(new FocusAdapter()
+		txtSearch = new JTextField();
+		txtSearch.setToolTipText("Geben Sie hier den Namen, Author oder Verlag eines Buches ein, dass Sie suchen möchten");
+		txtSearch.setText("Suche");
+		txtSearch.addFocusListener(new FocusAdapter()
 		{
 			@Override
 			public void focusGained(FocusEvent arg0)
 			{
-				if (textFieldSearch.getText().contains("Suche"))
+				if (txtSearch.getText().contains("Suche"))
 				{
-					textFieldSearch.setText("");
+					txtSearch.setText("");
 				}
 			}
 			@Override
 			public void focusLost(FocusEvent arg0)
 			{
-				if (textFieldSearch.getText().contains(""))
+				if (txtSearch.getText().contains(""))
 				{
-					textFieldSearch.setText("Suche");
+					txtSearch.setText("Suche");
 				}
 			}
 		});
-		textFieldSearch.addKeyListener(new KeyAdapter()
+		txtSearch.addKeyListener(new KeyAdapter()
 		{
 			@Override
 			public void keyReleased(KeyEvent arg0)
@@ -159,8 +159,8 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		gbc_textFieldSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textFieldSearch.gridx = 0;
 		gbc_textFieldSearch.gridy = 0;
-		panel_management.add(textFieldSearch, gbc_textFieldSearch);
-		textFieldSearch.setColumns(10);
+		panel_management.add(txtSearch, gbc_textFieldSearch);
+		txtSearch.setColumns(10);
 		
 		JCheckBox chckbxOnlyAvailable = new JCheckBox("Nur Verfügbare");
 		chckbxOnlyAvailable.setToolTipText("Falls markiert, werden nur Bücher mit verfügbaren Exemplaren angezeigt");
@@ -307,9 +307,9 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		// If current expression doesn't parse, don't update.
 		try
 		{
-			RowFilter<TableModelBookMaster, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + textFieldSearch.getText() + ".*", 1);
-			RowFilter<TableModelBookMaster, Object> rfAuthor = RowFilter.regexFilter("(?i)^.*" + textFieldSearch.getText() + ".*", 2);
-			RowFilter<TableModelBookMaster, Object> rfPublisher = RowFilter.regexFilter("(?i)^.*" + textFieldSearch.getText() + ".*", 3);
+			RowFilter<TableModelBookMaster, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelBookMaster, Object> rfAuthor = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelBookMaster, Object> rfPublisher = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 3);
 			filters.add(rfAuthor);
 			filters.add(rfTitle);
 			filters.add(rfPublisher);
