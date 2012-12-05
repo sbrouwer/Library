@@ -32,8 +32,6 @@ import javax.swing.table.TableRowSorter;
 
 import renderer.IconAndDescriptionRenderer;
 import tablemodel.TableModelLoanDetail;
-import tablemodel.TableModelTabBook;
-import tablemodel.TableModelTabLoan;
 import domain.Copy.Condition;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -58,9 +56,8 @@ public class LoanDetail implements Observer
 	private JButton btnReturnLoan;
 	private JLabel lblReturnAt;
 	private JLabel lblError;
-	ImageIcon iconInventoryNumberOK = new ImageIcon("icons/ok.png", "OK");
-	ImageIcon iconInventoryNumberWrong = new ImageIcon("icons/warning.png", "Falsche Inventarnummer");
-	private JButton btnSetLost;
+	private ImageIcon iconInventoryNumberOK = new ImageIcon("icons/ok.png", "OK");
+	private ImageIcon iconInventoryNumberWrong = new ImageIcon("icons/warning.png", "Falsche Inventarnummer");
 	private TableRowSorter<TableModelLoanDetail> sorter;
 	private JLabel lblActualLoansByCustomer;
 	private JLabel lblAmountOfActualLoansByCustomer;
@@ -84,6 +81,7 @@ public class LoanDetail implements Observer
 		initialize();
 		updateWithExistingLoan(loan);
 		frmLoanDetail.setVisible(true);
+		
 	}
 
 	private void updateWithExistingLoan(Loan loan)
@@ -106,10 +104,9 @@ public class LoanDetail implements Observer
 		{
 			txtReturnDate.setText(loan.getDueDateString() + " (Fällig!)");
 		}
-
 		txtReturnDate.setEditable(false);
-
-		lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
+		
+		updateFields();
 	}
 
 	private void updateForNewLoan()
@@ -129,14 +126,14 @@ public class LoanDetail implements Observer
 		txtReturnDate.setText(String.valueOf(Loan.getFormattedDate(returnDate)));
 		txtReturnDate.setEditable(false);
 
-		lblAmountOfLoansByCustomer.setText("0");
+		updateFields();
 	}
 
 	private boolean checkIfInventoryNumberExists(String potentialInventoryNumber)
 	{
 		try
 		{
-			if ((Long.parseLong(potentialInventoryNumber) < 0) 
+			if ((Long.parseLong(potentialInventoryNumber) < 0)
 					|| (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())) == null))
 			{
 				return false;
@@ -224,7 +221,7 @@ public class LoanDetail implements Observer
 					table.setModel(tableModel);
 					table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
 					lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
-					
+
 					sorter = new TableRowSorter<TableModelLoanDetail>((TableModelLoanDetail) tableModel);
 					table.setRowSorter(sorter);
 					sorter.setSortsOnUpdates(true);
@@ -283,7 +280,8 @@ public class LoanDetail implements Observer
 					{
 						btnAddLoan.setEnabled(false);
 						btnReturnLoan.setEnabled(true);
-						txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));
+						txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(
+								library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));
 					} else
 					{
 						btnAddLoan.setEnabled(true);
@@ -349,7 +347,7 @@ public class LoanDetail implements Observer
 							lblError.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
 						} else
 						{
-							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))); // add loan
+							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))); 
 							if (l != null)
 							{
 								lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
@@ -407,31 +405,13 @@ public class LoanDetail implements Observer
 
 		txtReturnDate = new JTextField();
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
-		gbc_txtAsdasd.gridwidth = 3;
+		gbc_txtAsdasd.gridwidth = 4;
 		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
 		gbc_txtAsdasd.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAsdasd.gridx = 1;
 		gbc_txtAsdasd.gridy = 1;
 		panel_newLoan.add(txtReturnDate, gbc_txtAsdasd);
 		txtReturnDate.setColumns(10);
-
-		btnSetLost = new JButton("Als verloren markieren");
-		btnSetLost.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())).setCondition(Condition.LOST);
-				returnLoan();
-				lblError.setForeground(Color.BLACK);
-				lblError.setText("Exemplar wurde als Verloren markiert");
-			}
-		});
-
-		GridBagConstraints gbc_btnSetLost1 = new GridBagConstraints();
-		gbc_btnSetLost1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSetLost1.gridx = 4;
-		gbc_btnSetLost1.gridy = 1;
-		panel_newLoan.add(btnSetLost, gbc_btnSetLost1);
 
 		lblError = new JLabel();
 		GridBagConstraints gbc_lblError2 = new GridBagConstraints();
@@ -454,7 +434,7 @@ public class LoanDetail implements Observer
 		gbl_panel_loansByCustomer.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_loansByCustomer.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		panel_loansByCustomer.setLayout(gbl_panel_loansByCustomer);
-		
+
 		lblActualLoansByCustomer = new JLabel("Aktuelle Ausleihen:");
 		GridBagConstraints gbc_lblActualLoansByCustomer = new GridBagConstraints();
 		gbc_lblActualLoansByCustomer.anchor = GridBagConstraints.WEST;
@@ -462,31 +442,30 @@ public class LoanDetail implements Observer
 		gbc_lblActualLoansByCustomer.gridx = 0;
 		gbc_lblActualLoansByCustomer.gridy = 0;
 		panel_loansByCustomer.add(lblActualLoansByCustomer, gbc_lblActualLoansByCustomer);
-				
-				lblAmountOfActualLoansByCustomer = new JLabel();
-				GridBagConstraints gbc_lblAmountOfActualLoansByCustomer = new GridBagConstraints();
-				gbc_lblAmountOfActualLoansByCustomer.anchor = GridBagConstraints.WEST;
-				gbc_lblAmountOfActualLoansByCustomer.insets = new Insets(0, 0, 5, 5);
-				gbc_lblAmountOfActualLoansByCustomer.gridx = 1;
-				gbc_lblAmountOfActualLoansByCustomer.gridy = 0;
-				panel_loansByCustomer.add(lblAmountOfActualLoansByCustomer, gbc_lblAmountOfActualLoansByCustomer);		
-		
-				JLabel lblLoansByCustomer = new JLabel("Anzahl Ausleihen total:");
-				GridBagConstraints gbc_lblLoansByCustomer = new GridBagConstraints();
-				gbc_lblLoansByCustomer.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLoansByCustomer.gridx = 2;
-				gbc_lblLoansByCustomer.gridy = 0;
-				panel_loansByCustomer.add(lblLoansByCustomer, gbc_lblLoansByCustomer);
-		
-				
-				lblAmountOfLoansByCustomer = new JLabel();
-				GridBagConstraints gbc_lblAmountOfLoansByCustomer = new GridBagConstraints();
-				gbc_lblAmountOfLoansByCustomer.anchor = GridBagConstraints.WEST;
-				gbc_lblAmountOfLoansByCustomer.insets = new Insets(0, 0, 5, 0);
-				gbc_lblAmountOfLoansByCustomer.gridx = 3;
-				gbc_lblAmountOfLoansByCustomer.gridy = 0;
-				panel_loansByCustomer.add(lblAmountOfLoansByCustomer, gbc_lblAmountOfLoansByCustomer);
-		
+
+		lblAmountOfActualLoansByCustomer = new JLabel();
+		GridBagConstraints gbc_lblAmountOfActualLoansByCustomer = new GridBagConstraints();
+		gbc_lblAmountOfActualLoansByCustomer.anchor = GridBagConstraints.WEST;
+		gbc_lblAmountOfActualLoansByCustomer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAmountOfActualLoansByCustomer.gridx = 1;
+		gbc_lblAmountOfActualLoansByCustomer.gridy = 0;
+		panel_loansByCustomer.add(lblAmountOfActualLoansByCustomer, gbc_lblAmountOfActualLoansByCustomer);
+
+		JLabel lblLoansByCustomer = new JLabel("Anzahl Ausleihen total:");
+		GridBagConstraints gbc_lblLoansByCustomer = new GridBagConstraints();
+		gbc_lblLoansByCustomer.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoansByCustomer.gridx = 2;
+		gbc_lblLoansByCustomer.gridy = 0;
+		panel_loansByCustomer.add(lblLoansByCustomer, gbc_lblLoansByCustomer);
+
+		lblAmountOfLoansByCustomer = new JLabel();
+		GridBagConstraints gbc_lblAmountOfLoansByCustomer = new GridBagConstraints();
+		gbc_lblAmountOfLoansByCustomer.anchor = GridBagConstraints.WEST;
+		gbc_lblAmountOfLoansByCustomer.insets = new Insets(0, 0, 5, 0);
+		gbc_lblAmountOfLoansByCustomer.gridx = 3;
+		gbc_lblAmountOfLoansByCustomer.gridy = 0;
+		panel_loansByCustomer.add(lblAmountOfLoansByCustomer, gbc_lblAmountOfLoansByCustomer);
+
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.gridwidth = 4;
@@ -494,10 +473,10 @@ public class LoanDetail implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_loansByCustomer.add(scrollPane, gbc_scrollPane);
-		
+
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		table.setAutoCreateRowSorter(true);	
+		table.setAutoCreateRowSorter(true);
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;
@@ -505,8 +484,6 @@ public class LoanDetail implements Observer
 		gbc_table.gridy = 2;
 
 		scrollPane.setViewportView(table);
-		
-		updateFields();
 	}
 
 	@Override
@@ -517,8 +494,8 @@ public class LoanDetail implements Observer
 
 	private void updateFields()
 	{
-		lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 		lblAmountOfActualLoansByCustomer.setText(String.valueOf(library.getActualLoansByCustomer(customer).size()));
+		lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 	}
 
 	private boolean checkCustomerLoanAmount()
@@ -555,7 +532,7 @@ public class LoanDetail implements Observer
 						{
 							l.returnCopy(new GregorianCalendar());
 							updateWithExistingLoan(l);
-							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");							
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
 						} else
 						{
 							l.returnCopy(new GregorianCalendar());
@@ -585,7 +562,6 @@ public class LoanDetail implements Observer
 	{
 		ActionListener escListener = new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
@@ -595,14 +571,12 @@ public class LoanDetail implements Observer
 
 		ActionListener enterListener = new ActionListener()
 		{
-
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				returnLoan();
 			}
 		};
-
 		frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 		frame.getRootPane().registerKeyboardAction(enterListener, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 

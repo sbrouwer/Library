@@ -4,7 +4,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Observable;
-import java.util.Observer;
 
 public class Loan extends Observable {
 

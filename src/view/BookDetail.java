@@ -30,7 +30,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelBookDetail;
-import tablemodel.TableModelTabLoan;
 import domain.Book;
 import domain.Copy;
 import domain.Library;

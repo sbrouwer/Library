@@ -33,7 +33,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import renderer.IconAndDescriptionRenderer;
-import tablemodel.TableModelTabBook;
 import tablemodel.TableModelTabLoan;
 import domain.Library;
 import domain.Loan;
