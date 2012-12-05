@@ -33,6 +33,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import renderer.IconAndDescriptionRenderer;
+import tablemodel.TableModelTabBook;
 import tablemodel.TableModelTabLoan;
 import domain.Library;
 import domain.Loan;
@@ -308,6 +309,11 @@ public class TabLoan extends JPanel implements Observer
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		scrollPane.setViewportView(table);
+		
+		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
+		table.setRowSorter(sorter);
+		sorter.setSortsOnUpdates(true);
+		sorter.toggleSortOrder(2);
 
 	}
 

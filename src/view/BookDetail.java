@@ -27,8 +27,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelBookDetail;
+import tablemodel.TableModelTabLoan;
 import domain.Book;
 import domain.Copy;
 import domain.Library;
@@ -48,6 +50,7 @@ public class BookDetail implements Observer
 	JButton btnAddCopy;
 	private JLabel lblError;
 	private JTable table;
+	private TableRowSorter<TableModelBookDetail> sorter;
 
 	/**
 	 * Create the application.
@@ -70,7 +73,7 @@ public class BookDetail implements Observer
 		frame.setBounds(100, 100, 450, 360);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buchdetail");
-		frame.setMinimumSize(new Dimension(450, 360));
+		frame.setMinimumSize(new Dimension(500, 360));
 		frame.setMaximumSize(new Dimension(749, 659));
 		
 		addKeyboardListeners(frame);
@@ -203,9 +206,6 @@ public class BookDetail implements Observer
 		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);	
-		table.getColumnModel().getColumn(0).setPreferredWidth(105);
-		table.getColumnModel().getColumn(0).setMinWidth(30);
-		table.getColumnModel().getColumn(0).setMaxWidth(105);
 		
 		ImageIcon iconRemoveCopy = new ImageIcon("icons/book_delete.png");
 		btnRemoveCopy = new JButton("Ausgew\u00E4hlte entfernen",iconRemoveCopy);
@@ -271,6 +271,11 @@ public class BookDetail implements Observer
 		panel_copies.add(scrollPane, gbc_scrollPane);
 
 		frame.setVisible(true);
+		
+		sorter = new TableRowSorter<TableModelBookDetail>((TableModelBookDetail) tableModel);
+		table.setRowSorter(sorter);
+		sorter.setSortsOnUpdates(true);
+		sorter.toggleSortOrder(0);
 	}
 
 	private void setInformation()
