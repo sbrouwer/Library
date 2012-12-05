@@ -16,7 +16,7 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 	Customer customer;
 	String[] headers;
 	ImageIcon iconLent = new ImageIcon("icons/book_go.png", "Ausgeliehen");
-	ImageIcon iconOverdue = new ImageIcon("icons/warning.png", "Fällig!");
+	ImageIcon iconOverdue = new ImageIcon("icons/warning.png", "Überfällig!");
 	ImageIcon iconReturned = new ImageIcon("icons/arrow-return.png", "Zurückgegeben");
 
 	public TableModelLoanDetail(Library library, Customer customer, String[] headers)

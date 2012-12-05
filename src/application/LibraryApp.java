@@ -14,13 +14,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import view.Master;
-
+import domain.Book;
 import domain.Copy;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Loan;
-import domain.Book;
 import domain.Shelf;
 
 public class LibraryApp

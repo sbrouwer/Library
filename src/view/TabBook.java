@@ -28,12 +28,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
-import javax.swing.UIManager;
 
 import tablemodel.TableModelTabBook;
-
 import domain.Book;
 import domain.Library;
 
@@ -154,13 +153,13 @@ public class TabBook extends JPanel implements Observer
 				search();
 			}
 		});
+		txtSearch.setColumns(10);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtSearch.gridx = 0;
 		gbc_txtSearch.gridy = 0;
 		panel_management.add(txtSearch, gbc_txtSearch);
-		txtSearch.setColumns(10);
 		
 		JCheckBox chckbxOnlyAvailable = new JCheckBox("Nur Verfügbare");
 		chckbxOnlyAvailable.setToolTipText("Falls markiert, werden nur Bücher mit verfügbaren Exemplaren angezeigt");

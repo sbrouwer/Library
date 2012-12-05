@@ -3,12 +3,10 @@ package tablemodel;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import domain.Customer;
 import domain.Library;
-import domain.Loan;
 
 public class TableModelTabCustomer extends AbstractTableModel implements Observer
 {

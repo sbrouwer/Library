@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,11 +29,9 @@ import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelBookDetail;
-
 import domain.Book;
 import domain.Copy;
 import domain.Library;
-import domain.Loan;
 import domain.Shelf;
 
 public class BookDetail implements Observer

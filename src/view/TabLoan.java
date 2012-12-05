@@ -32,9 +32,8 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
-import renderer.TabLoanRenderer;
+import renderer.IconAndDescriptionRenderer;
 import tablemodel.TableModelTabLoan;
-import domain.Book;
 import domain.Library;
 import domain.Loan;
 
@@ -156,6 +155,7 @@ public class TabLoan extends JPanel implements Observer
 		panel_management.setLayout(gbl_panel_management);
 
 		txtSearch = new JTextField();
+		txtSearch.setText("Suche");
 		txtSearch.addFocusListener(new FocusAdapter()
 		{
 			@Override
@@ -166,9 +166,16 @@ public class TabLoan extends JPanel implements Observer
 					txtSearch.setText("");
 				}
 			}
+			@Override
+			public void focusLost(FocusEvent arg0)
+			{
+				if (txtSearch.getText().contains(""))
+				{
+					txtSearch.setText("Suche");
+				}
+			}
 		});
-		txtSearch
-				.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
+		txtSearch.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
 		txtSearch.addKeyListener(new KeyAdapter()
 		{
 			@Override
@@ -177,7 +184,6 @@ public class TabLoan extends JPanel implements Observer
 				search();
 			}
 		});
-		txtSearch.setText("Suche");
 		txtSearch.setColumns(10);
 		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
 		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
@@ -298,7 +304,7 @@ public class TabLoan extends JPanel implements Observer
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		table.setModel(tableModel);
-		table.getColumnModel().getColumn(0).setCellRenderer(new TabLoanRenderer());
+		table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		scrollPane.setViewportView(table);

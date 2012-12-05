@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
+import renderer.IconAndDescriptionRenderer;
 import tablemodel.TableModelLoanDetail;
 import domain.Copy.Condition;
 import domain.Customer;
@@ -52,8 +53,6 @@ public class LoanDetail implements Observer
 	private JButton btnReturnLoan;
 	private JLabel lblReturnAt;
 	private JLabel lblError;
-	private Color red = new Color(255, 0, 0);
-	private Color black = new Color(0, 0, 0);
 	ImageIcon iconInventoryNumberOK = new ImageIcon("icons/ok.png", "OK");
 	ImageIcon iconInventoryNumberWrong = new ImageIcon("icons/warning.png", "Falsche Inventarnummer");
 	private JButton btnSetLost;
@@ -220,6 +219,7 @@ public class LoanDetail implements Observer
 					customer = library.getCustomers().get(customersComboBox.getSelectedIndex());
 					txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
 					table.setModel(new TableModelLoanDetail(library, customer, headers));
+					table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
 					lblLoanAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 
 				} else
@@ -275,8 +275,7 @@ public class LoanDetail implements Observer
 					{
 						btnAddLoan.setEnabled(false);
 						btnReturnLoan.setEnabled(true);
-						txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(
-								library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));
+						txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));
 					} else
 					{
 						btnAddLoan.setEnabled(true);
@@ -326,19 +325,19 @@ public class LoanDetail implements Observer
 						if (library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))))
 						{
 							// check if is Lent
-							lblError.setForeground(red);
+							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
 						} else if (!checkCustomerLoanAmount())
 						{
-							lblError.setForeground(red);
+							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits 3 Bücher ausgeliehen!");
 						} else if (checkCustomerHasOverdueLoans())
 						{
-							lblError.setForeground(red);
+							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat eine überfällige Ausleihe!");
 						} else if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())).getCondition() == Condition.LOST)
 						{
-							lblError.setForeground(red);
+							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
 						} else
 						{
@@ -348,18 +347,18 @@ public class LoanDetail implements Observer
 								lblLoanAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
 								btnAddLoan.setEnabled(false);
 								btnReturnLoan.setEnabled(true);// update
-								lblError.setForeground(black);
+								lblError.setForeground(Color.BLACK);
 								lblError.setText("Exemplar wurde erfolgreich ausgeliehen"); // textfields
 							} else
 							{
-								lblError.setForeground(red);
+								lblError.setForeground(Color.RED);
 								lblError.setText("Exemplar konnte nicht ausgelehnt werden");
 							}
 						}
 					}
 				} else
 				{
-					lblError.setForeground(red);
+					lblError.setForeground(Color.RED);
 					lblError.setText("Es Muss ein Kunde asgewählt sein bevor ein Buch ausgeliehen werden kann!");
 				}
 			}
@@ -399,7 +398,6 @@ public class LoanDetail implements Observer
 		newCopyPanel.add(lblReturnAt, gbc_lblZurckAm);
 
 		txtReturnDate = new JTextField();
-		txtReturnDate.setText("");
 		GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
 		gbc_txtAsdasd.gridwidth = 3;
 		gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
@@ -409,14 +407,14 @@ public class LoanDetail implements Observer
 		newCopyPanel.add(txtReturnDate, gbc_txtAsdasd);
 		txtReturnDate.setColumns(10);
 
-		btnSetLost = new JButton("Als Verloren markieren");
+		btnSetLost = new JButton("Als verloren markieren");
 		btnSetLost.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())).setCondition(Condition.LOST);
 				returnLoan();
-				lblError.setForeground(black);
+				lblError.setForeground(Color.BLACK);
 				lblError.setText("Exemplar wurde als Verloren markiert");
 			}
 		});
@@ -427,7 +425,7 @@ public class LoanDetail implements Observer
 		gbc_btnSetLost1.gridy = 1;
 		newCopyPanel.add(btnSetLost, gbc_btnSetLost1);
 
-		lblError = new JLabel("");
+		lblError = new JLabel();
 		GridBagConstraints gbc_lblError2 = new GridBagConstraints();
 		gbc_lblError2.anchor = GridBagConstraints.EAST;
 		gbc_lblError2.gridwidth = 5;
@@ -456,7 +454,7 @@ public class LoanDetail implements Observer
 		gbc_lblNewLabel_3.gridy = 0;
 		loanByCustomerTablePanel.add(lblAnzahlAusleihen, gbc_lblNewLabel_3);
 
-		lblLoanAmount = new JLabel("42");
+		lblLoanAmount = new JLabel();
 		GridBagConstraints gbc_lblAnzahlAusleihenAmount = new GridBagConstraints();
 		gbc_lblAnzahlAusleihenAmount.anchor = GridBagConstraints.WEST;
 		gbc_lblAnzahlAusleihenAmount.insets = new Insets(0, 0, 5, 0);
@@ -467,7 +465,6 @@ public class LoanDetail implements Observer
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoCreateRowSorter(true);
-
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;
@@ -535,12 +532,12 @@ public class LoanDetail implements Observer
 				{
 					if (l.isLent())
 					{
-						lblError.setForeground(black);
+						lblError.setForeground(Color.BLACK);
 						if (l.isOverdue())
 						{
 							l.returnCopy(new GregorianCalendar());
 							updateWithExistingLoan(l);
-							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überf�llig!");
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
 						} else
 						{
 							l.returnCopy(new GregorianCalendar());
@@ -588,7 +585,6 @@ public class LoanDetail implements Observer
 		};
 
 		frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-
 		frame.getRootPane().registerKeyboardAction(enterListener, KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 	}

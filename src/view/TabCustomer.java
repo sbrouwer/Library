@@ -1,11 +1,12 @@
 package view;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -15,21 +16,19 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelTabCustomer;
-import domain.Book;
 import domain.Customer;
 import domain.Library;
-import javax.swing.JLabel;
 
 public class TabCustomer extends JPanel
 {
@@ -101,20 +100,39 @@ public class TabCustomer extends JPanel
 		panel_management.setBorder(new TitledBorder(null, "Kundenverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		txtSearch = new JTextField();
-		GridBagConstraints gbc_textField_search = new GridBagConstraints();
-		gbc_textField_search.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_search.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_search.gridx = 0;
-		gbc_textField_search.gridy = 0;
-		panel_management.add(txtSearch, gbc_textField_search);
-		txtSearch.setColumns(10);
-		
+		txtSearch.setText("Suche");
+		txtSearch.addFocusListener(new FocusAdapter()
+		{
+			@Override
+			public void focusGained(FocusEvent arg0)
+			{
+				if (txtSearch.getText().contains("Suche"))
+				{
+					txtSearch.setText("");
+				}
+			}
+			@Override
+			public void focusLost(FocusEvent arg0)
+			{
+				if (txtSearch.getText().contains(""))
+				{
+					txtSearch.setText("Suche");
+				}
+			}
+		});
 		txtSearch.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
 				search();
 			}
 		});
+		txtSearch.setColumns(10);
+		GridBagConstraints gbc_textField_search = new GridBagConstraints();
+		gbc_textField_search.insets = new Insets(0, 0, 5, 5);
+		gbc_textField_search.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_search.gridx = 0;
+		gbc_textField_search.gridy = 0;
+		panel_management.add(txtSearch, gbc_textField_search);
 		
 		ImageIcon iconCustomerEdit = new ImageIcon("icons/customer_edit.png");		
 		btnEditCustomer = new JButton("Kunde editieren", iconCustomerEdit);

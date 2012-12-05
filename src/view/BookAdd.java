@@ -9,17 +9,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,10 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableModel;
 
 import tablemodel.TableModelBookDetail;
-
 import domain.Book;
 import domain.Copy;
 import domain.Library;
