@@ -3,8 +3,10 @@ package domain;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.Observable;
+import java.util.Observer;
 
-public class Loan {
+public class Loan extends Observable {
 
 	private Copy copy;
 	private Customer customer;
@@ -30,13 +32,13 @@ public class Loan {
 		return true;
 	}
 
-	public void returnCopy(GregorianCalendar returnDate)
-			throws IllegalLoanOperationException {
+	public void returnCopy(GregorianCalendar returnDate) throws IllegalLoanOperationException {
 		if (returnDate.before(pickupDate)) {
-			throw new IllegalLoanOperationException(
-					"Return Date is before pickupDate");
+			throw new IllegalLoanOperationException("Return Date is before pickupDate");
 		}
 		this.returnDate = returnDate;
+		setChanged();
+		notifyObservers();
 	}
 
 	public void setPickupDate(GregorianCalendar pickupDate)

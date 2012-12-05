@@ -26,6 +26,7 @@ public class Library extends Observable implements Observer
 		{
 			Loan l = new Loan(customer, copy);
 			loans.add(l);
+			l.addObserver(this);
 			libraryChanged();
 			return l;
 		} else
@@ -208,16 +209,15 @@ public class Library extends Observable implements Observer
 		return copy;
 	}
 
-	private void libraryChanged()
-	{
-		setChanged();
-		notifyObservers();
-	}
-
 	@Override
 	public void update(Observable arg0, Object arg1)
 	{
 		libraryChanged();		
 	}
 
+	private void libraryChanged()
+	{
+		setChanged();
+		notifyObservers();
+	}
 }
