@@ -49,8 +49,8 @@ public class LibraryApp
 		System.out.println("Books in library: " + library.getBooks().size());
 		System.out.println("Customers: " + library.getCustomers().size() + "\n");
 		System.out.println("Copies in library: " + library.getCopies().size());
-		System.out.println("Copies currently on loan: " + library.getLentOutBooks().size());
-		int lentBooksPercentage = (int) (((double) library.getLentOutBooks().size()) / library.getCopies().size() * 100);
+		System.out.println("Copies currently on loan: " + library.getLentOutCopies().size());
+		int lentBooksPercentage = (int) (((double) library.getLentOutCopies().size()) / library.getCopies().size() * 100);
 		System.out.println("Percent copies on loan: " + lentBooksPercentage + "%");
 		System.out.println("Copies currently overdue: " + library.getOverdueLoans().size());
 

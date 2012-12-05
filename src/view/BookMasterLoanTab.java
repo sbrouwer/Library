@@ -40,9 +40,9 @@ import domain.Loan;
 public class BookMasterLoanTab extends JPanel implements Observer
 {
 	private Library library;
-	private JLabel lblAmountOfOverdueLoans;
 	private JLabel lblAmountOfLoans;
 	private JLabel lblAmountOfLentLoans;
+	private JLabel lblAmountOfOverdueLoans;
 	private JTextField txtSearch;
 	private JCheckBox chckbxOnlyOverdue;
 	private TableModelLoanMaster tableModel;
@@ -326,8 +326,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	
 	private void updateStatistics()
 	{
-		lblAmountOfLoans.setText("Anzahl Bücher: " + library.getBooks().size());
-		lblAmountOfLentLoans.setText("Anzahl Exemplare: " + library.getCopies().size());
+		lblAmountOfLoans.setText(String.valueOf(library.getLoans().size()));
+		lblAmountOfLentLoans.setText(String.valueOf(library.getLentOutCopies().size()));
+		lblAmountOfOverdueLoans.setText(String.valueOf(library.getOverdueLoans().size()));
 	}
 
 }

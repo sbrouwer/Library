@@ -79,7 +79,7 @@ public class LibraryTest extends TestCase {
 		Customer c = library.getCustomers().get(1);
 		library.createAndAddLoan(c, library.getCopiesOfBook(t).get(0));
 		
-		assertEquals(1,library.getLentOutBooks().size());
+		assertEquals(1,library.getLentOutCopies().size());
 
 	}
 	

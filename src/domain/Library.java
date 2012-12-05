@@ -151,7 +151,7 @@ public class Library extends Observable
 		return getCopies(false);
 	}
 
-	public List<Copy> getLentOutBooks()
+	public List<Copy> getLentOutCopies()
 	{
 		return getCopies(true);
 	}
