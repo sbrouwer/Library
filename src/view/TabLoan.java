@@ -306,8 +306,12 @@ public class TabLoan extends JPanel implements Observer
 		table.setAutoCreateRowSorter(true);
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
-		table.getColumnModel().getColumn(0).setMinWidth(80);
-		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		table.getColumnModel().getColumn(0).setMinWidth(70);
+		table.getColumnModel().getColumn(0).setMaxWidth(70);
+		table.getColumnModel().getColumn(1).setMinWidth(80);
+		table.getColumnModel().getColumn(1).setMaxWidth(80);
+		table.getColumnModel().getColumn(2).setMinWidth(350);
+		table.getColumnModel().getColumn(2).setMaxWidth(350);
 		scrollPane.setViewportView(table);
 		
 		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
