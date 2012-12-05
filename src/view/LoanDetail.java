@@ -537,7 +537,7 @@ public class LoanDetail implements Observer
 						{
 							l.returnCopy(new GregorianCalendar());
 							updateWithExistingLoan(l);
-							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
+							lblError.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");							
 						} else
 						{
 							l.returnCopy(new GregorianCalendar());
@@ -546,6 +546,7 @@ public class LoanDetail implements Observer
 						}
 						btnAddLoan.setEnabled(true);
 						btnReturnLoan.setEnabled(false);
+						library.update(null, null);
 					}
 				} else
 				{
