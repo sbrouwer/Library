@@ -78,7 +78,7 @@ public class BookAdd implements Observer
 		frmBookAdd.setBounds(100, 100, 450, 360);
 		frmBookAdd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmBookAdd.getContentPane().setLayout(new BoxLayout(frmBookAdd.getContentPane(), BoxLayout.Y_AXIS));
-		frmBookAdd.setTitle("Buch Hinzuf�gen");
+		frmBookAdd.setTitle("Buch Hinzufügen");
 		Dimension d = new Dimension(450, 360);
 		frmBookAdd.setMinimumSize(d);
 
@@ -86,15 +86,15 @@ public class BookAdd implements Observer
 		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frmBookAdd.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel.columnWidths = new int[] { 47, 77, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
 		lblTitle = new JLabel("Titel");
 		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
-		gbc_lblTitle.gridwidth = 2;
+		gbc_lblTitle.anchor = GridBagConstraints.WEST;
 		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTitle.gridx = 0;
 		gbc_lblTitle.gridy = 0;
@@ -105,15 +105,15 @@ public class BookAdd implements Observer
 		gbc_txtTitle.gridwidth = 2;
 		gbc_txtTitle.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitle.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtTitle.gridx = 2;
+		gbc_txtTitle.gridx = 1;
 		gbc_txtTitle.gridy = 0;
 		panel.add(txtTitle, gbc_txtTitle);
 		txtTitle.setColumns(10);
 
 		lblAuthor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAuthor = new GridBagConstraints();
+		gbc_lblAuthor.anchor = GridBagConstraints.WEST;
 		gbc_lblAuthor.gridheight = 2;
-		gbc_lblAuthor.gridwidth = 2;
 		gbc_lblAuthor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAuthor.gridx = 0;
 		gbc_lblAuthor.gridy = 1;
@@ -125,15 +125,15 @@ public class BookAdd implements Observer
 		gbc_txtAuthor.gridheight = 2;
 		gbc_txtAuthor.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAuthor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtAuthor.gridx = 2;
+		gbc_txtAuthor.gridx = 1;
 		gbc_txtAuthor.gridy = 1;
 		panel.add(txtAuthor, gbc_txtAuthor);
 		txtAuthor.setColumns(10);
 
 		lblPublisher = new JLabel("Verlag");
 		GridBagConstraints gbc_lblPublisher = new GridBagConstraints();
+		gbc_lblPublisher.anchor = GridBagConstraints.WEST;
 		gbc_lblPublisher.gridheight = 2;
-		gbc_lblPublisher.gridwidth = 2;
 		gbc_lblPublisher.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPublisher.gridx = 0;
 		gbc_lblPublisher.gridy = 3;
@@ -145,14 +145,14 @@ public class BookAdd implements Observer
 		gbc_txtPublisher.gridheight = 2;
 		gbc_txtPublisher.insets = new Insets(0, 0, 5, 0);
 		gbc_txtPublisher.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPublisher.gridx = 2;
+		gbc_txtPublisher.gridx = 1;
 		gbc_txtPublisher.gridy = 3;
 		panel.add(txtPublisher, gbc_txtPublisher);
 		txtPublisher.setColumns(10);
 
 		lblShelf = new JLabel("Regal");
 		GridBagConstraints gbc_lblShelf = new GridBagConstraints();
-		gbc_lblShelf.gridwidth = 2;
+		gbc_lblShelf.anchor = GridBagConstraints.WEST;
 		gbc_lblShelf.insets = new Insets(0, 0, 5, 5);
 		gbc_lblShelf.gridx = 0;
 		gbc_lblShelf.gridy = 5;
@@ -163,7 +163,7 @@ public class BookAdd implements Observer
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 5;
 		panel.add(comboBoxShelf, gbc_comboBox);
 		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
@@ -194,14 +194,16 @@ public class BookAdd implements Observer
 
 		lblStatus = new JLabel(" ");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
+		gbc_lblError.gridwidth = 2;
+		gbc_lblError.anchor = GridBagConstraints.EAST;
 		gbc_lblError.insets = new Insets(0, 0, 5, 5);
-		gbc_lblError.gridx = 2;
+		gbc_lblError.gridx = 0;
 		gbc_lblError.gridy = 6;
 		panel.add(lblStatus, gbc_lblError);
 		GridBagConstraints gbc_btnAddBook = new GridBagConstraints();
 		gbc_btnAddBook.anchor = GridBagConstraints.EAST;
 		gbc_btnAddBook.gridheight = 2;
-		gbc_btnAddBook.gridx = 3;
+		gbc_btnAddBook.gridx = 2;
 		gbc_btnAddBook.gridy = 6;
 		panel.add(btnAddBook, gbc_btnAddBook);
 
