@@ -45,7 +45,7 @@ import domain.Loan;
 public class BookMasterLoanTab extends JPanel implements Observer
 {
 	private JTable table;
-	private JTextField txtSuche;
+	private JTextField txtSearch;
 	private List<Book> books;
 	private List<Loan> loans;
 	private TableRowSorter<TableModelLoanMaster> sorter;
@@ -59,6 +59,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private JButton btnNeueAusleihe;
 	private JLabel lblUeberfaelligeAusleihen;
 	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
+	private JPanel panel;
 
 	public BookMasterLoanTab(Library library)
 	{
@@ -71,9 +72,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	{
 		GridBagLayout gbl_buecherTab = new GridBagLayout();
 		gbl_buecherTab.columnWidths = new int[] { 0, 0 };
-		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0, 0 };
+		gbl_buecherTab.rowHeights = new int[] { 0, 0, 0 };
 		gbl_buecherTab.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_buecherTab.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_buecherTab.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		this.setLayout(gbl_buecherTab);
 
 		JPanel inventarStatistikenPanel = new JPanel();
@@ -119,180 +120,176 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_lblUeberfaelligeAusleihen.gridy = 0;
 		inventarStatistikenPanel.add(lblUeberfaelligeAusleihen, gbc_lblUeberfaelligeAusleihen);
 
-		JPanel buchInventarPanel = new JPanel();
-		buchInventarPanel.setBorder(new TitledBorder(null, "Buch Inventar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_buchInventarPanel = new GridBagConstraints();
-		gbc_buchInventarPanel.insets = new Insets(0, 5, 0, 0);
-		gbc_buchInventarPanel.gridheight = 2;
-		gbc_buchInventarPanel.fill = GridBagConstraints.BOTH;
-		gbc_buchInventarPanel.gridx = 0;
-		gbc_buchInventarPanel.gridy = 1;
-		this.add(buchInventarPanel, gbc_buchInventarPanel);
-
-		GridBagLayout gbl_buchInventarPanel = new GridBagLayout();
-		gbl_buchInventarPanel.columnWidths = new int[] { 69, 0, 131, 145, 0, 0, 0 };
-		gbl_buchInventarPanel.rowHeights = new int[] { 23, 0, 0 };
-		gbl_buchInventarPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_buchInventarPanel.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		buchInventarPanel.setLayout(gbl_buchInventarPanel);
-
-		// Ab hier "Suche"
-		txtSuche = new JTextField();
-		txtSuche.addFocusListener(new FocusAdapter()
-		{
-			@Override
-			public void focusGained(FocusEvent arg0)
-			{
-				if (txtSuche.getText().contains("Suche"))
-				{
-					txtSuche.setText("");
-				}
-			}
-		});
-		txtSuche.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
-		txtSuche.addKeyListener(new KeyAdapter()
-		{
-			@Override
-			public void keyReleased(KeyEvent arg0)
-			{
-				search();
-			}
-		});
-		txtSuche.setText("Suche");
-		GridBagConstraints gbc_txtSuche = new GridBagConstraints();
-		gbc_txtSuche.gridwidth = 2;
-		gbc_txtSuche.insets = new Insets(0, 5, 5, 5);
-		gbc_txtSuche.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtSuche.gridx = 1;
-		gbc_txtSuche.gridy = 0;
-		buchInventarPanel.add(txtSuche, gbc_txtSuche);
-		txtSuche.setColumns(10);
-
 		// Ab hier "Selektiertes Anzeigen"
 		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
-		btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen", iconSelektiertesAnzeigen);
-		btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
-		btnSelektiertesAnzeigen.setEnabled(false);
-		btnSelektiertesAnzeigen.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
-				int selected[] = table.getSelectedRows();
-				for (int i : selected)
-				{
-					Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
-					LoanDetail loanDetail = new LoanDetail(library, loan);
-				}
-			}
-		});
-
-		// Ab hier "Nur �berf�llige"
-		chckbxNurUeberfaellige = new JCheckBox("Nur überfällige");
-		chckbxNurUeberfaellige.setToolTipText("Es werden nur überfällige Exemplare angezeigt");
-		chckbxNurUeberfaellige.addItemListener(new ItemListener()
-		{
-			public void itemStateChanged(ItemEvent arg0)
-			{
-				// 1 = Selected, 2 = Not Selected
-				// remove all entries
-				// deleteTableRows(table);
-
-				if (arg0.getStateChange() == 1)
-				{ // If hook is set, add only
-					addOverdueLoans(); // entries with available
-					// Copies
-					// (Number of Copies -
-					// Number of Lent Copies)
-
-				} else
-				{ // if hook is not set, add all Books
-					sorter.setRowFilter(null);
-				}
-			}
-
-		});
-
-		GridBagConstraints gbc_chckbxNurUeberfaellige = new GridBagConstraints();
-		gbc_chckbxNurUeberfaellige.insets = new Insets(0, 0, 5, 5);
-		gbc_chckbxNurUeberfaellige.gridx = 3;
-		gbc_chckbxNurUeberfaellige.gridy = 0;
-		buchInventarPanel.add(chckbxNurUeberfaellige, gbc_chckbxNurUeberfaellige);
-		GridBagConstraints gbc_btnSelektierteAnzeigen = new GridBagConstraints();
-		gbc_btnSelektierteAnzeigen.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnSelektierteAnzeigen.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSelektierteAnzeigen.gridx = 4;
-		gbc_btnSelektierteAnzeigen.gridy = 0;
-		buchInventarPanel.add(btnSelektiertesAnzeigen, gbc_btnSelektierteAnzeigen);
 
 		// Ab hier "Neues Buch hinzuf�gen"
 		ImageIcon iconNeueAusleihe = new ImageIcon("icons/book_go.png");
-		btnNeueAusleihe = new JButton("Neue Ausleihe erfassen", iconNeueAusleihe);
-		btnNeueAusleihe.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
-		btnNeueAusleihe.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				LoanDetail loanDetail = new LoanDetail(library);
-			}
-		});
-		GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
-		gbc_btnNeueAusleihe.anchor = GridBagConstraints.NORTHWEST;
-		gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNeueAusleihe.gridx = 5;
-		gbc_btnNeueAusleihe.gridy = 0;
-		buchInventarPanel.add(btnNeueAusleihe, gbc_btnNeueAusleihe);
-
-		scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 6;
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
-		buchInventarPanel.add(scrollPane, gbc_scrollPane);
-
-		// Ab hier JTable
-		table = new JTable();
-		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new MouseAdapter()
-		{
-			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				if (table.getSelectedRows().length > 0)
-				{
-					btnSelektiertesAnzeigen.setEnabled(true);
-				} else
-				{
-					btnSelektiertesAnzeigen.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if (e.getClickCount() == 2)
-				{
-					int selected[] = table.getSelectedRows();
-					for (int i : selected)
-					{
-						Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
-						LoanDetail loanDetail = new LoanDetail(library, loan);
-					}
-				}
-			}
-		});
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoCreateRowSorter(true);
 
 		books = library.getBooks();
 		tableModel = new TableModelLoanMaster(library, header);
-		table.setModel(tableModel);
+		
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 0;
+		gbc_panel.gridy = 1;
+		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{38, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0};
+		gbl_panel.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+				// Ab hier "Suche"
+				txtSearch = new JTextField();
+				GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+				gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtSearch.anchor = GridBagConstraints.WEST;
+				gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
+				gbc_txtSearch.gridx = 0;
+				gbc_txtSearch.gridy = 0;
+				panel.add(txtSearch, gbc_txtSearch);
+				txtSearch.addFocusListener(new FocusAdapter()
+				{
+					@Override
+					public void focusGained(FocusEvent arg0)
+					{
+						if (txtSearch.getText().contains("Suche"))
+						{
+							txtSearch.setText("");
+						}
+					}
+				});
+				txtSearch.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
+				txtSearch.addKeyListener(new KeyAdapter()
+				{
+					@Override
+					public void keyReleased(KeyEvent arg0)
+					{
+						search();
+					}
+				});
+				txtSearch.setText("Suche");
+				txtSearch.setColumns(10);
+				
+						// Ab hier "Nur �berf�llige"
+						chckbxNurUeberfaellige = new JCheckBox("Nur überfällige");
+						GridBagConstraints gbc_chckbxNurUeberfaellige = new GridBagConstraints();
+						gbc_chckbxNurUeberfaellige.anchor = GridBagConstraints.EAST;
+						gbc_chckbxNurUeberfaellige.insets = new Insets(0, 0, 5, 5);
+						gbc_chckbxNurUeberfaellige.gridx = 1;
+						gbc_chckbxNurUeberfaellige.gridy = 0;
+						panel.add(chckbxNurUeberfaellige, gbc_chckbxNurUeberfaellige);
+						chckbxNurUeberfaellige.setToolTipText("Es werden nur überfällige Exemplare angezeigt");
+						btnSelektiertesAnzeigen = new JButton("Selektiertes Anzeigen", iconSelektiertesAnzeigen);
+						GridBagConstraints gbc_btnSelektiertesAnzeigen = new GridBagConstraints();
+						gbc_btnSelektiertesAnzeigen.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSelektiertesAnzeigen.anchor = GridBagConstraints.EAST;
+						gbc_btnSelektiertesAnzeigen.gridx = 2;
+						gbc_btnSelektiertesAnzeigen.gridy = 0;
+						panel.add(btnSelektiertesAnzeigen, gbc_btnSelektiertesAnzeigen);
+						btnSelektiertesAnzeigen.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
+						btnSelektiertesAnzeigen.setEnabled(false);
+						btnNeueAusleihe = new JButton("Neue Ausleihe erfassen", iconNeueAusleihe);
+						GridBagConstraints gbc_btnNeueAusleihe = new GridBagConstraints();
+						gbc_btnNeueAusleihe.anchor = GridBagConstraints.EAST;
+						gbc_btnNeueAusleihe.insets = new Insets(0, 0, 5, 0);
+						gbc_btnNeueAusleihe.gridx = 3;
+						gbc_btnNeueAusleihe.gridy = 0;
+						panel.add(btnNeueAusleihe, gbc_btnNeueAusleihe);
+						btnNeueAusleihe.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
+						
+								scrollPane = new JScrollPane();
+								GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+								gbc_scrollPane.fill = GridBagConstraints.BOTH;
+								gbc_scrollPane.gridwidth = 4;
+								gbc_scrollPane.gridx = 0;
+								gbc_scrollPane.gridy = 1;
+								panel.add(scrollPane, gbc_scrollPane);
+								
+										// Ab hier JTable
+										table = new JTable();
+										table.getTableHeader().setReorderingAllowed(false);
+										table.addMouseListener(new MouseAdapter()
+										{
+											@Override
+											public void mouseReleased(MouseEvent arg0)
+											{
+												if (table.getSelectedRows().length > 0)
+												{
+													btnSelektiertesAnzeigen.setEnabled(true);
+												} else
+												{
+													btnSelektiertesAnzeigen.setEnabled(false);
+												}
+											}
 
-		table.getColumnModel().getColumn(0).setMinWidth(80);
-		table.getColumnModel().getColumn(0).setMaxWidth(80);
+											@Override
+											public void mouseClicked(MouseEvent e)
+											{
+												if (e.getClickCount() == 2)
+												{
+													int selected[] = table.getSelectedRows();
+													for (int i : selected)
+													{
+														Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
+														LoanDetail loanDetail = new LoanDetail(library, loan);
+													}
+												}
+											}
+										});
+										table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+										table.setAutoCreateRowSorter(true);
+										table.setModel(tableModel);
+										
+												table.getColumnModel().getColumn(0).setMinWidth(80);
+												table.getColumnModel().getColumn(0).setMaxWidth(80);
+												
+														table.setBorder(new LineBorder(new Color(0, 0, 0)));
+														scrollPane.setViewportView(table);
+						btnNeueAusleihe.addActionListener(new ActionListener()
+						{
+							public void actionPerformed(ActionEvent e)
+							{
+								LoanDetail loanDetail = new LoanDetail(library);
+							}
+						});
+						btnSelektiertesAnzeigen.addActionListener(new ActionListener()
+						{
+							public void actionPerformed(ActionEvent arg0)
+							{
+								int selected[] = table.getSelectedRows();
+								for (int i : selected)
+								{
+									Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
+									LoanDetail loanDetail = new LoanDetail(library, loan);
+								}
+							}
+						});
+						chckbxNurUeberfaellige.addItemListener(new ItemListener()
+						{
+							public void itemStateChanged(ItemEvent arg0)
+							{
+								// 1 = Selected, 2 = Not Selected
+								// remove all entries
+								// deleteTableRows(table);
 
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		scrollPane.setViewportView(table);
+								if (arg0.getStateChange() == 1)
+								{ // If hook is set, add only
+									addOverdueLoans(); // entries with available
+									// Copies
+									// (Number of Copies -
+									// Number of Lent Copies)
+
+								} else
+								{ // if hook is not set, add all Books
+									sorter.setRowFilter(null);
+								}
+							}
+
+						});
 
 	}
 
@@ -305,9 +302,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		// If current expression doesn't parse, don't update.
 		try
 		{
-			RowFilter<TableModelLoanMaster, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 1);
-			RowFilter<TableModelLoanMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 2);
-			RowFilter<TableModelLoanMaster, Object> rfKunde = RowFilter.regexFilter("(?i)^.*" + txtSuche.getText() + ".*", 4);
+			RowFilter<TableModelLoanMaster, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelLoanMaster, Object> rfTitel = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelLoanMaster, Object> rfKunde = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
 			filters.add(rfID);
 			filters.add(rfTitel);
 			filters.add(rfKunde);
