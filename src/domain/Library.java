@@ -3,10 +3,10 @@ package domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Observer;
 
-public class Library extends Observable
+public class Library extends Observable implements Observer
 {
-
 	private List<Copy> copies;
 	private List<Customer> customers;
 	private List<Loan> loans;
@@ -212,6 +212,12 @@ public class Library extends Observable
 	{
 		setChanged();
 		notifyObservers();
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1)
+	{
+		libraryChanged();		
 	}
 
 }

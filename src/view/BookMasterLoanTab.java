@@ -73,7 +73,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		this.setLayout(gbl_booksTab);
 
 		JPanel panel_statistics = new JPanel();
-		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistiken", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 
 		GridBagConstraints gbc_panel_statistics = new GridBagConstraints();
 		gbc_panel_statistics.anchor = GridBagConstraints.NORTH;
@@ -90,38 +91,38 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbl_panel_statistics.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_statistics.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_statistics.setLayout(gbl_panel_statistics);
-				
-				lblLoans = new JLabel("Anzahl Ausleihen:");
-				GridBagConstraints gbc_lblLoans = new GridBagConstraints();
-				gbc_lblLoans.insets = new Insets(0, 0, 0, 5);
-				gbc_lblLoans.gridx = 0;
-				gbc_lblLoans.gridy = 0;
-				panel_statistics.add(lblLoans, gbc_lblLoans);
-		
-				lblAmountOfLoans = new JLabel("Anzahl Ausleihen: " + library.getLoans().size());
-				GridBagConstraints gbc_lblAmountOfLoans = new GridBagConstraints();
-				gbc_lblAmountOfLoans.anchor = GridBagConstraints.NORTHWEST;
-				gbc_lblAmountOfLoans.insets = new Insets(0, 0, 0, 20);
-				gbc_lblAmountOfLoans.gridx = 1;
-				gbc_lblAmountOfLoans.gridy = 0;
-				panel_statistics.add(lblAmountOfLoans, gbc_lblAmountOfLoans);
-				
-				lblLentLoans = new JLabel("Aktuelle Ausleihen:");
-				GridBagConstraints gbc_lblLentLoans = new GridBagConstraints();
-				gbc_lblLentLoans.anchor = GridBagConstraints.WEST;
-				gbc_lblLentLoans.insets = new Insets(0, 0, 0, 5);
-				gbc_lblLentLoans.gridx = 2;
-				gbc_lblLentLoans.gridy = 0;
-				panel_statistics.add(lblLentLoans, gbc_lblLentLoans);
-		
-				lblAmountOfLentLoans = new JLabel();
-				GridBagConstraints gbc_lblAmountOfLentLoans = new GridBagConstraints();
-				gbc_lblAmountOfLentLoans.anchor = GridBagConstraints.NORTHWEST;
-				gbc_lblAmountOfLentLoans.insets = new Insets(0, 0, 0, 20);
-				gbc_lblAmountOfLentLoans.gridx = 3;
-				gbc_lblAmountOfLentLoans.gridy = 0;
-				panel_statistics.add(lblAmountOfLentLoans, gbc_lblAmountOfLentLoans);
-		
+
+		lblLoans = new JLabel("Anzahl Ausleihen:");
+		GridBagConstraints gbc_lblLoans = new GridBagConstraints();
+		gbc_lblLoans.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLoans.gridx = 0;
+		gbc_lblLoans.gridy = 0;
+		panel_statistics.add(lblLoans, gbc_lblLoans);
+
+		lblAmountOfLoans = new JLabel("Anzahl Ausleihen: " + library.getLoans().size());
+		GridBagConstraints gbc_lblAmountOfLoans = new GridBagConstraints();
+		gbc_lblAmountOfLoans.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAmountOfLoans.insets = new Insets(0, 0, 0, 20);
+		gbc_lblAmountOfLoans.gridx = 1;
+		gbc_lblAmountOfLoans.gridy = 0;
+		panel_statistics.add(lblAmountOfLoans, gbc_lblAmountOfLoans);
+
+		lblLentLoans = new JLabel("Aktuelle Ausleihen:");
+		GridBagConstraints gbc_lblLentLoans = new GridBagConstraints();
+		gbc_lblLentLoans.anchor = GridBagConstraints.WEST;
+		gbc_lblLentLoans.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLentLoans.gridx = 2;
+		gbc_lblLentLoans.gridy = 0;
+		panel_statistics.add(lblLentLoans, gbc_lblLentLoans);
+
+		lblAmountOfLentLoans = new JLabel();
+		GridBagConstraints gbc_lblAmountOfLentLoans = new GridBagConstraints();
+		gbc_lblAmountOfLentLoans.anchor = GridBagConstraints.NORTHWEST;
+		gbc_lblAmountOfLentLoans.insets = new Insets(0, 0, 0, 20);
+		gbc_lblAmountOfLentLoans.gridx = 3;
+		gbc_lblAmountOfLentLoans.gridy = 0;
+		panel_statistics.add(lblAmountOfLentLoans, gbc_lblAmountOfLentLoans);
+
 		lblOverdueLoans = new JLabel("Überfällige Ausleihen:");
 		GridBagConstraints gbc_lblOverdueLoans = new GridBagConstraints();
 		gbc_lblOverdueLoans.anchor = GridBagConstraints.WEST;
@@ -165,7 +166,8 @@ public class BookMasterLoanTab extends JPanel implements Observer
 				}
 			}
 		});
-		txtSearch.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
+		txtSearch
+				.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
 		txtSearch.addKeyListener(new KeyAdapter()
 		{
 			@Override
@@ -213,7 +215,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_chckbxOnlyOverdue.gridy = 0;
 		panel_management.add(chckbxOnlyOverdue, gbc_chckbxOnlyOverdue);
 		chckbxOnlyOverdue.setToolTipText("Es werden nur überfällige Exemplare angezeigt");
-		
+
 		ImageIcon iconShowSelected = new ImageIcon("icons/book.png");
 		btnShowSelected = new JButton("Selektiertes Anzeigen", iconShowSelected);
 		btnShowSelected.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
@@ -236,7 +238,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_btnShowSelected.gridx = 2;
 		gbc_btnShowSelected.gridy = 0;
 		panel_management.add(btnShowSelected, gbc_btnShowSelected);
-		
+
 		ImageIcon iconAddLoan = new ImageIcon("icons/book_go.png");
 		btnAddLoan = new JButton("Neue Ausleihe erfassen", iconAddLoan);
 		btnAddLoan.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
@@ -277,6 +279,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 					btnShowSelected.setEnabled(false);
 				}
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
@@ -294,6 +297,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		table.setModel(tableModel);
+		table.getColumnModel().getColumn(0).setCellRenderer(new IconAndTextRenderer());
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		scrollPane.setViewportView(table);
@@ -322,7 +326,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		}
 		sorter.setRowFilter(rf);
 	}
-	
+
 	private void addOverdueLoans()
 	{
 		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
@@ -349,7 +353,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	{
 		updateStatistics();
 	}
-	
+
 	private void updateStatistics()
 	{
 		lblAmountOfLoans.setText(String.valueOf(library.getLoans().size()));

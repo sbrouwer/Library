@@ -39,21 +39,18 @@ import domain.Shelf;
 
 public class BookDetail implements Observer
 {
+	private Book book;
+	private Library library;
 	private JFrame frame;
 	private JTextField txtTitle;
 	private JTextField txtAuthor;
 	private JTextField txtPublisher;
+	JComboBox<Shelf> comboBoxShelf;
 	private JLabel lblCount;
-	private Book book;
-	private Library library;
-	private List<Copy> copies;
-	JComboBox comboBoxShelf;
-	private JTable table;
-	JButton btnAddCopy;
 	JButton btnRemoveCopy;
+	JButton btnAddCopy;
 	private JLabel lblError;
-	private Color red = new Color(255,0,0);
-	private Color black = new Color(0,0,0);
+	private JTable table;
 
 	/**
 	 * Create the application.
@@ -64,7 +61,7 @@ public class BookDetail implements Observer
 		this.library = library;
 		initialize();
 		updateFields();
-		book.addObserver(this); //TODO: Observer wieder abmelden!
+		library.addObserver(this);
 	}
 
 	/**
@@ -75,48 +72,48 @@ public class BookDetail implements Observer
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-		frame.setTitle("Buch Detail Ansicht");
+		frame.setTitle("Buchdetail");
 		frame.setMinimumSize(new Dimension(450, 360));
 		frame.setMaximumSize(new Dimension(749, 659));
 		
 		addKeyboardListeners(frame);
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frame.getContentPane().add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0 };
-		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panel.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel.setLayout(gbl_panel);
+		JPanel panel_book = new JPanel();
+		panel_book.setBorder(new TitledBorder(null, "Buchinformationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		frame.getContentPane().add(panel_book);
+		GridBagLayout gbl_panel_book = new GridBagLayout();
+		gbl_panel_book.columnWidths = new int[] { 0, 0, 0 };
+		gbl_panel_book.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_panel_book.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_book.rowWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		panel_book.setLayout(gbl_panel_book);
 
-		JLabel lblTitel = new JLabel("Titel");
-		GridBagConstraints gbc_lblTitel = new GridBagConstraints();
-		gbc_lblTitel.gridwidth = 2;
-		gbc_lblTitel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTitel.gridx = 0;
-		gbc_lblTitel.gridy = 0;
-		panel.add(lblTitel, gbc_lblTitel);
+		JLabel lblTitle = new JLabel("Titel:");
+		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+		gbc_lblTitle.anchor = GridBagConstraints.WEST;
+		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTitle.gridx = 0;
+		gbc_lblTitle.gridy = 0;
+		panel_book.add(lblTitle, gbc_lblTitle);
 
 		txtTitle = new JTextField();
 		txtTitle.setEditable(false);
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtTitel.gridx = 2;
+		gbc_txtTitel.gridx = 1;
 		gbc_txtTitel.gridy = 0;
-		panel.add(txtTitle, gbc_txtTitel);
+		panel_book.add(txtTitle, gbc_txtTitel);
 		txtTitle.setColumns(10);
 
-		JLabel lblAutor = new JLabel("Autor");
-		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
-		gbc_lblAutor.gridheight = 2;
-		gbc_lblAutor.gridwidth = 2;
-		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAutor.gridx = 0;
-		gbc_lblAutor.gridy = 1;
-		panel.add(lblAutor, gbc_lblAutor);
+		JLabel lblAuthor = new JLabel("Autor:");
+		GridBagConstraints gbc_lblAuthor = new GridBagConstraints();
+		gbc_lblAuthor.anchor = GridBagConstraints.WEST;
+		gbc_lblAuthor.gridheight = 2;
+		gbc_lblAuthor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAuthor.gridx = 0;
+		gbc_lblAuthor.gridy = 1;
+		panel_book.add(lblAuthor, gbc_lblAuthor);
 
 		txtAuthor = new JTextField();
 		txtAuthor.setEditable(false);
@@ -124,19 +121,19 @@ public class BookDetail implements Observer
 		gbc_txtAutor.gridheight = 2;
 		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtAutor.gridx = 2;
+		gbc_txtAutor.gridx = 1;
 		gbc_txtAutor.gridy = 1;
-		panel.add(txtAuthor, gbc_txtAutor);
+		panel_book.add(txtAuthor, gbc_txtAutor);
 		txtAuthor.setColumns(10);
 
-		JLabel lblVerlag = new JLabel("Verlag");
-		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
-		gbc_lblVerlag.gridheight = 2;
-		gbc_lblVerlag.gridwidth = 2;
-		gbc_lblVerlag.insets = new Insets(0, 0, 5, 5);
-		gbc_lblVerlag.gridx = 0;
-		gbc_lblVerlag.gridy = 3;
-		panel.add(lblVerlag, gbc_lblVerlag);
+		JLabel lblPublisher = new JLabel("Verlag:");
+		GridBagConstraints gbc_lblPublisher = new GridBagConstraints();
+		gbc_lblPublisher.anchor = GridBagConstraints.WEST;
+		gbc_lblPublisher.gridheight = 2;
+		gbc_lblPublisher.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPublisher.gridx = 0;
+		gbc_lblPublisher.gridy = 3;
+		panel_book.add(lblPublisher, gbc_lblPublisher);
 
 		txtPublisher = new JTextField();
 		txtPublisher.setEditable(false);
@@ -144,58 +141,52 @@ public class BookDetail implements Observer
 		gbc_txtVerlag.gridheight = 2;
 		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
 		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVerlag.gridx = 2;
+		gbc_txtVerlag.gridx = 1;
 		gbc_txtVerlag.gridy = 3;
-		panel.add(txtPublisher, gbc_txtVerlag);
+		panel_book.add(txtPublisher, gbc_txtVerlag);
 		txtPublisher.setColumns(10);
 
-		JLabel lblRegal = new JLabel("Regal");
-		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
-		gbc_lblRegal.gridheight = 2;
-		gbc_lblRegal.gridwidth = 2;
-		gbc_lblRegal.insets = new Insets(0, 0, 0, 5);
-		gbc_lblRegal.gridx = 0;
-		gbc_lblRegal.gridy = 5;
-		panel.add(lblRegal, gbc_lblRegal);
+		JLabel lblShelf = new JLabel("Regal:");
+		GridBagConstraints gbc_lblShelf = new GridBagConstraints();
+		gbc_lblShelf.anchor = GridBagConstraints.WEST;
+		gbc_lblShelf.gridheight = 2;
+		gbc_lblShelf.insets = new Insets(0, 0, 0, 5);
+		gbc_lblShelf.gridx = 0;
+		gbc_lblShelf.gridy = 5;
+		panel_book.add(lblShelf, gbc_lblShelf);
 
-		comboBoxShelf = new JComboBox();
+		comboBoxShelf = new JComboBox<Shelf>();
 		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));	
 		comboBoxShelf.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 5;
-		panel.add(comboBoxShelf, gbc_comboBox);
+		panel_book.add(comboBoxShelf, gbc_comboBox);
+		
+		setInformation();
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frame.getContentPane().add(panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0 };
-		gbl_panel_1.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
+		JPanel panel_copies = new JPanel();
+		panel_copies.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		frame.getContentPane().add(panel_copies);
+		GridBagLayout gbl_panel_copies = new GridBagLayout();
+		gbl_panel_copies.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_panel_copies.rowHeights = new int[] { 0, 0, 0, 0, 0 };
+		gbl_panel_copies.columnWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel_copies.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		panel_copies.setLayout(gbl_panel_copies);
 
-		lblCount = new JLabel("Anzahl: 1");
+		lblCount = new JLabel();
 		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.anchor = GridBagConstraints.WEST;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
-		panel_1.add(lblCount, gbc_lblAnzahl);
+		panel_copies.add(lblCount, gbc_lblAnzahl);
 		
 		table = new JTable();
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setAutoCreateRowSorter(true);
-
-		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
-		copies = library.getCopiesOfBook(book);
-		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
-		table.setModel(tableModel);
-		
 		table.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -210,7 +201,11 @@ public class BookDetail implements Observer
 				}
 			}
 		});
-
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setAutoCreateRowSorter(true);
+		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
+		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
+		table.setModel(tableModel);	
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
@@ -223,16 +218,16 @@ public class BookDetail implements Observer
 			public void actionPerformed(ActionEvent e)
 			{
 				int selected[] = table.getSelectedRows();
-				for (int i = selected.length - 1; i >= 0; i--) //Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
+				//Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
+				for (int i = selected.length - 1; i >= 0; i--)
 				{
 					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
 					if(!library.isCopyLent(copyToDelet)){
 						library.removeCopy(copyToDelet);
 					}else{
-						lblError.setForeground(red);
+						lblError.setForeground(Color.BLACK);
 						lblError.setText("Das Exemplar ist noch ausgeliehen und kann deshalb nicht entfernt werden!");
-					}
-					
+					}	
 				}
 				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
@@ -242,9 +237,8 @@ public class BookDetail implements Observer
 		gbc_btnRemoveCopy.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRemoveCopy.gridx = 1;
 		gbc_btnRemoveCopy.gridy = 0;
-		panel_1.add(btnRemoveCopy, gbc_btnRemoveCopy);
+		panel_copies.add(btnRemoveCopy, gbc_btnRemoveCopy);
 
-		
 		ImageIcon iconAddCopy = new ImageIcon("icons/book_add.png");
 		btnAddCopy = new JButton(" Exemplar hinzuf\u00FCgen",iconAddCopy);
 		btnAddCopy.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
@@ -259,7 +253,7 @@ public class BookDetail implements Observer
 		gbc_btnAddCopy.insets = new Insets(0, 0, 5, 0);
 		gbc_btnAddCopy.gridx = 2;
 		gbc_btnAddCopy.gridy = 0;
-		panel_1.add(btnAddCopy, gbc_btnAddCopy);
+		panel_copies.add(btnAddCopy, gbc_btnAddCopy);
 		
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
@@ -268,7 +262,7 @@ public class BookDetail implements Observer
 		gbc_lblError.insets = new Insets(0, 0, 5, 0);
 		gbc_lblError.gridx = 0;
 		gbc_lblError.gridy = 1;
-		panel_1.add(lblError, gbc_lblError);
+		panel_copies.add(lblError, gbc_lblError);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
@@ -277,52 +271,38 @@ public class BookDetail implements Observer
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 3;
-		panel_1.add(scrollPane, gbc_scrollPane);
+		panel_copies.add(scrollPane, gbc_scrollPane);
 
 		frame.setVisible(true);
 	}
 
-	/**
-	 * @param
-	 * @author Simon Brouwer, Adrian Rieser
-	 * @return void Updates the fields that have changed in another BuchDetail
-	 */
-	void updateFields()
+	private void setInformation()
 	{
-		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
-		if (book == null)
-		{
-			txtTitle.setText("");
-			txtAuthor.setText("");
-			txtPublisher.setText("");
-			comboBoxShelf.setSelectedIndex(-1);
-		} else
-		{
-			txtTitle.setText(book.getName());
-			txtAuthor.setText(book.getAuthor());
-			txtPublisher.setText(book.getPublisher());
-			comboBoxShelf.setSelectedItem((book.getShelf().toString()));
-		}
+		txtTitle.setText(book.getName());
+		txtAuthor.setText(book.getAuthor());
+		txtPublisher.setText(book.getPublisher());
 	}
+	
 	public void addKeyboardListeners(final JFrame frame) {
 	    ActionListener escListener = new ActionListener() {
-
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	            frame.dispose();
 	        }
 	    };
-	    
-
-	    frame.getRootPane().registerKeyboardAction(escListener,
-	            KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
-	            JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	
 	}
 
 	@Override
 	public void update(Observable o, Object arg)
 	{
 		updateFields();
+	}
+
+	void updateFields()
+	{
+		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 	}
 
 }
