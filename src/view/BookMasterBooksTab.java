@@ -154,12 +154,12 @@ public class BookMasterBooksTab extends JPanel implements Observer
 				search();
 			}
 		});
-		GridBagConstraints gbc_textFieldSearch = new GridBagConstraints();
-		gbc_textFieldSearch.insets = new Insets(0, 0, 5, 5);
-		gbc_textFieldSearch.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textFieldSearch.gridx = 0;
-		gbc_textFieldSearch.gridy = 0;
-		panel_management.add(txtSearch, gbc_textFieldSearch);
+		GridBagConstraints gbc_txtSearch = new GridBagConstraints();
+		gbc_txtSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_txtSearch.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtSearch.gridx = 0;
+		gbc_txtSearch.gridy = 0;
+		panel_management.add(txtSearch, gbc_txtSearch);
 		txtSearch.setColumns(10);
 		
 		JCheckBox chckbxOnlyAvailable = new JCheckBox("Nur Verfügbare");
@@ -189,8 +189,8 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		gbc_chckbxOnlyAvailable.gridy = 0;
 		panel_management.add(chckbxOnlyAvailable, gbc_chckbxOnlyAvailable);
 		
-		ImageIcon iconSelektiertesAnzeigen = new ImageIcon("icons/book.png");
-		btnBookDetail = new JButton("Buchdetail anzeigen", iconSelektiertesAnzeigen);
+		ImageIcon iconBookDetail = new ImageIcon("icons/book.png");
+		btnBookDetail = new JButton("Buchdetail anzeigen", iconBookDetail);
 		btnBookDetail.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Buch in einer Detailansicht an");
 		btnBookDetail.setEnabled(false);
 		btnBookDetail.addActionListener(new ActionListener()

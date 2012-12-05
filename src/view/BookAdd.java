@@ -100,70 +100,70 @@ public class BookAdd implements Observer
 		panel.setLayout(gbl_panel);
 
 		lblTitle = new JLabel("Titel");
-		GridBagConstraints gbc_lblTitel = new GridBagConstraints();
-		gbc_lblTitel.gridwidth = 2;
-		gbc_lblTitel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTitel.gridx = 0;
-		gbc_lblTitel.gridy = 0;
-		panel.add(lblTitle, gbc_lblTitel);
+		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
+		gbc_lblTitle.gridwidth = 2;
+		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTitle.gridx = 0;
+		gbc_lblTitle.gridy = 0;
+		panel.add(lblTitle, gbc_lblTitle);
 
 		txtTitle = new JTextField();
-		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
-		gbc_txtTitel.gridwidth = 2;
-		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
-		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtTitel.gridx = 2;
-		gbc_txtTitel.gridy = 0;
-		panel.add(txtTitle, gbc_txtTitel);
+		GridBagConstraints gbc_txtTitle = new GridBagConstraints();
+		gbc_txtTitle.gridwidth = 2;
+		gbc_txtTitle.insets = new Insets(0, 0, 5, 0);
+		gbc_txtTitle.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtTitle.gridx = 2;
+		gbc_txtTitle.gridy = 0;
+		panel.add(txtTitle, gbc_txtTitle);
 		txtTitle.setColumns(10);
 
 		lblAuthor = new JLabel("Autor");
-		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
-		gbc_lblAutor.gridheight = 2;
-		gbc_lblAutor.gridwidth = 2;
-		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAutor.gridx = 0;
-		gbc_lblAutor.gridy = 1;
-		panel.add(lblAuthor, gbc_lblAutor);
+		GridBagConstraints gbc_lblAuthor = new GridBagConstraints();
+		gbc_lblAuthor.gridheight = 2;
+		gbc_lblAuthor.gridwidth = 2;
+		gbc_lblAuthor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAuthor.gridx = 0;
+		gbc_lblAuthor.gridy = 1;
+		panel.add(lblAuthor, gbc_lblAuthor);
 
 		txtAuthor = new JTextField();
-		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
-		gbc_txtAutor.gridwidth = 2;
-		gbc_txtAutor.gridheight = 2;
-		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
-		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtAutor.gridx = 2;
-		gbc_txtAutor.gridy = 1;
-		panel.add(txtAuthor, gbc_txtAutor);
+		GridBagConstraints gbc_txtAuthor = new GridBagConstraints();
+		gbc_txtAuthor.gridwidth = 2;
+		gbc_txtAuthor.gridheight = 2;
+		gbc_txtAuthor.insets = new Insets(0, 0, 5, 0);
+		gbc_txtAuthor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAuthor.gridx = 2;
+		gbc_txtAuthor.gridy = 1;
+		panel.add(txtAuthor, gbc_txtAuthor);
 		txtAuthor.setColumns(10);
 
 		lblPublisher = new JLabel("Verlag");
-		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
-		gbc_lblVerlag.gridheight = 2;
-		gbc_lblVerlag.gridwidth = 2;
-		gbc_lblVerlag.insets = new Insets(0, 0, 5, 5);
-		gbc_lblVerlag.gridx = 0;
-		gbc_lblVerlag.gridy = 3;
-		panel.add(lblPublisher, gbc_lblVerlag);
+		GridBagConstraints gbc_lblPublisher = new GridBagConstraints();
+		gbc_lblPublisher.gridheight = 2;
+		gbc_lblPublisher.gridwidth = 2;
+		gbc_lblPublisher.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPublisher.gridx = 0;
+		gbc_lblPublisher.gridy = 3;
+		panel.add(lblPublisher, gbc_lblPublisher);
 
 		txtPublisher = new JTextField();
-		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
-		gbc_txtVerlag.gridwidth = 2;
-		gbc_txtVerlag.gridheight = 2;
-		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
-		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVerlag.gridx = 2;
-		gbc_txtVerlag.gridy = 3;
-		panel.add(txtPublisher, gbc_txtVerlag);
+		GridBagConstraints gbc_txtPublisher = new GridBagConstraints();
+		gbc_txtPublisher.gridwidth = 2;
+		gbc_txtPublisher.gridheight = 2;
+		gbc_txtPublisher.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPublisher.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPublisher.gridx = 2;
+		gbc_txtPublisher.gridy = 3;
+		panel.add(txtPublisher, gbc_txtPublisher);
 		txtPublisher.setColumns(10);
 
 		lblShelf = new JLabel("Regal");
-		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
-		gbc_lblRegal.gridwidth = 2;
-		gbc_lblRegal.insets = new Insets(0, 0, 5, 5);
-		gbc_lblRegal.gridx = 0;
-		gbc_lblRegal.gridy = 5;
-		panel.add(lblShelf, gbc_lblRegal);
+		GridBagConstraints gbc_lblShelf = new GridBagConstraints();
+		gbc_lblShelf.gridwidth = 2;
+		gbc_lblShelf.insets = new Insets(0, 0, 5, 5);
+		gbc_lblShelf.gridx = 0;
+		gbc_lblShelf.gridy = 5;
+		panel.add(lblShelf, gbc_lblShelf);
 
 		comboBoxShelf = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -175,8 +175,8 @@ public class BookAdd implements Observer
 		panel.add(comboBoxShelf, gbc_comboBox);
 		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
 
-		ImageIcon icon = new ImageIcon("icons/book_add.png");
-		btnAddBook = new JButton("Buch Hinzufügen", icon);
+		ImageIcon iconAddBook = new ImageIcon("icons/book_add.png");
+		btnAddBook = new JButton("Buch Hinzufügen", iconAddBook);
 		btnAddBook.setToolTipText("Fügt der Bibliothek ein neues Buch hinzu (alle Felder müssen ausgefüllt sein!)");
 		btnAddBook.addActionListener(new ActionListener()
 		{
@@ -277,11 +277,11 @@ public class BookAdd implements Observer
 			}
 		});
 		btnRemoveCopy.setEnabled(false);
-		GridBagConstraints gbc_btnAusgewaehlteEntfernen = new GridBagConstraints();
-		gbc_btnAusgewaehlteEntfernen.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAusgewaehlteEntfernen.gridx = 1;
-		gbc_btnAusgewaehlteEntfernen.gridy = 0;
-		panel_1.add(btnRemoveCopy, gbc_btnAusgewaehlteEntfernen);
+		GridBagConstraints gbc_btnRemoveCopy = new GridBagConstraints();
+		gbc_btnRemoveCopy.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRemoveCopy.gridx = 1;
+		gbc_btnRemoveCopy.gridy = 0;
+		panel_1.add(btnRemoveCopy, gbc_btnRemoveCopy);
 
 		btnAddCopy = new JButton(" Exemplar hinzufügen");
 		btnAddCopy.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
@@ -299,11 +299,11 @@ public class BookAdd implements Observer
 				}
 			}
 		});
-		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
-		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnExemplarHinzufuegen.gridx = 2;
-		gbc_btnExemplarHinzufuegen.gridy = 0;
-		panel_1.add(btnAddCopy, gbc_btnExemplarHinzufuegen);
+		GridBagConstraints gbc_btnAddCopy = new GridBagConstraints();
+		gbc_btnAddCopy.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAddCopy.gridx = 2;
+		gbc_btnAddCopy.gridy = 0;
+		panel_1.add(btnAddCopy, gbc_btnAddCopy);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);

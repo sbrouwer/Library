@@ -20,53 +20,53 @@ import java.awt.Toolkit;
 
 public class BookMaster {
 
-	private JFrame frmBibliothek;
+	private JFrame frmLibrary;
 	private Library library;
 
 	public BookMaster(Library library) {
 		this.library = library;
 		initialize();
-		frmBibliothek.setVisible(true);
+		frmLibrary.setVisible(true);
 	}
 
 	private void initialize() {
 
-		frmBibliothek = new JFrame();
-		frmBibliothek.setIconImage(Toolkit.getDefaultToolkit().getImage("icons/books_stack.png"));
-		frmBibliothek.setBounds(100, 100, 644, 516);
-		frmBibliothek.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmBibliothek.setTitle("Bibliothek");
+		frmLibrary = new JFrame();
+		frmLibrary.setIconImage(Toolkit.getDefaultToolkit().getImage("icons/books_stack.png"));
+		frmLibrary.setBounds(100, 100, 644, 516);
+		frmLibrary.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmLibrary.setTitle("Bibliothek");
 		Dimension d = new Dimension(900, 600);
-		frmBibliothek.setMinimumSize(d);
+		frmLibrary.setMinimumSize(d);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 545, 0 };
 		gridBagLayout.rowHeights = new int[] { 237, 5, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		frmBibliothek.getContentPane().setLayout(gridBagLayout);
-		addKeyboardListeners(frmBibliothek);
+		frmLibrary.getContentPane().setLayout(gridBagLayout);
+		addKeyboardListeners(frmLibrary);
 
-		JTabbedPane buchMasterTabs = new JTabbedPane(JTabbedPane.TOP);
-		GridBagConstraints gbc_buchMasterTabs = new GridBagConstraints();
-		gbc_buchMasterTabs.gridheight = 2;
-		gbc_buchMasterTabs.insets = new Insets(0, 5, 5, 0);
-		gbc_buchMasterTabs.fill = GridBagConstraints.BOTH;
-		gbc_buchMasterTabs.gridx = 0;
-		gbc_buchMasterTabs.gridy = 0;
-		frmBibliothek.getContentPane().add(buchMasterTabs, gbc_buchMasterTabs);
+		JTabbedPane bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
+		GridBagConstraints gbc_bookMasterTabs = new GridBagConstraints();
+		gbc_bookMasterTabs.gridheight = 2;
+		gbc_bookMasterTabs.insets = new Insets(0, 5, 5, 0);
+		gbc_bookMasterTabs.fill = GridBagConstraints.BOTH;
+		gbc_bookMasterTabs.gridx = 0;
+		gbc_bookMasterTabs.gridy = 0;
+		frmLibrary.getContentPane().add(bookMasterTabs, gbc_bookMasterTabs);
 			
 		JPanel booksTab = new BookMasterBooksTab(library);
 		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
-		buchMasterTabs.addTab("Bücher", iconBookTab, booksTab, "Übersicht der Bücher in der Bibliothek, möglichkeiten Bücher hinzuzufügen und zu entfernen");
+		bookMasterTabs.addTab("Bücher", iconBookTab, booksTab, "Übersicht der Bücher in der Bibliothek, möglichkeiten Bücher hinzuzufügen und zu entfernen");
 
 		JPanel loanTab = new BookMasterLoanTab(library);	
 		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
-		buchMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
+		bookMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
 		
 		JPanel customerTab = new BookMasterCustomerTab(library);	
 		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
-		buchMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
+		bookMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
 	}
 	
 	private void addKeyboardListeners(final JFrame frame) {

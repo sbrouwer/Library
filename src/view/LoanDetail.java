@@ -38,7 +38,7 @@ import domain.Loan;
 public class LoanDetail implements Observer
 {
 
-	private JFrame frmAusleiheDetail;
+	private JFrame frmLoanDetail;
 	private JTextField txtCustomerIdentifier;
 	private JTextField txtCopyInventoryNumber;
 	private JTextField txtReturnDate;
@@ -65,7 +65,7 @@ public class LoanDetail implements Observer
 		library.addObserver(this);
 		initialize();
 		updateForNewLoan();
-		frmAusleiheDetail.setVisible(true);
+		frmLoanDetail.setVisible(true);
 
 	}
 
@@ -76,7 +76,7 @@ public class LoanDetail implements Observer
 		library.addObserver(this);
 		initialize();
 		updateWithExistingLoan(loan);
-		frmAusleiheDetail.setVisible(true);
+		frmLoanDetail.setVisible(true);
 	}
 
 	private void updateWithExistingLoan(Loan loan)
@@ -155,19 +155,19 @@ public class LoanDetail implements Observer
 	{
 		final String[] headers = { "Status", "Exemplar-ID", "Titel", "Autor" };
 
-		frmAusleiheDetail = new JFrame();
-		frmAusleiheDetail.setTitle("Ausleihe Detail");
-		frmAusleiheDetail.setBounds(100, 100, 550, 380);
+		frmLoanDetail = new JFrame();
+		frmLoanDetail.setTitle("Ausleihe Detail");
+		frmLoanDetail.setBounds(100, 100, 550, 380);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
-		frmAusleiheDetail.getContentPane().setLayout(gridBagLayout);
+		frmLoanDetail.getContentPane().setLayout(gridBagLayout);
 		Dimension d = new Dimension(550, 380);
-		frmAusleiheDetail.setMinimumSize(d);
+		frmLoanDetail.setMinimumSize(d);
 
-		addKeyboardListeners(frmAusleiheDetail);
+		addKeyboardListeners(frmLoanDetail);
 
 		JPanel customerPanel = new JPanel();
 		customerPanel.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -176,7 +176,7 @@ public class LoanDetail implements Observer
 		gbc_customerPanel.fill = GridBagConstraints.BOTH;
 		gbc_customerPanel.gridx = 0;
 		gbc_customerPanel.gridy = 0;
-		frmAusleiheDetail.getContentPane().add(customerPanel, gbc_customerPanel);
+		frmLoanDetail.getContentPane().add(customerPanel, gbc_customerPanel);
 		GridBagLayout gbl_customerPanel = new GridBagLayout();
 		gbl_customerPanel.columnWidths = new int[] { 100, 0, 0 };
 		gbl_customerPanel.rowHeights = new int[] { 0, 0, 0 };
@@ -184,13 +184,13 @@ public class LoanDetail implements Observer
 		gbl_customerPanel.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
 		customerPanel.setLayout(gbl_customerPanel);
 
-		JLabel lblKennung = new JLabel("Kennung:");
+		JLabel lblCustomerIdenfifier = new JLabel("Kennung:");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.anchor = GridBagConstraints.WEST;
 		gbc_lblError.insets = new Insets(0, 0, 5, 5);
 		gbc_lblError.gridx = 0;
 		gbc_lblError.gridy = 0;
-		customerPanel.add(lblKennung, gbc_lblError);
+		customerPanel.add(lblCustomerIdenfifier, gbc_lblError);
 
 		txtCustomerIdentifier = new JTextField();
 		GridBagConstraints gbc_textField = new GridBagConstraints();
@@ -246,7 +246,7 @@ public class LoanDetail implements Observer
 		gbc_newCopyPanel.fill = GridBagConstraints.BOTH;
 		gbc_newCopyPanel.gridx = 0;
 		gbc_newCopyPanel.gridy = 1;
-		frmAusleiheDetail.getContentPane().add(newCopyPanel, gbc_newCopyPanel);
+		frmLoanDetail.getContentPane().add(newCopyPanel, gbc_newCopyPanel);
 		GridBagLayout gbl_newCopyPanel = new GridBagLayout();
 		gbl_newCopyPanel.columnWidths = new int[] { 100, 0, 0, 0, 0, 0 };
 		gbl_newCopyPanel.rowHeights = new int[] { 0, 0, 0, 0 };
@@ -293,7 +293,7 @@ public class LoanDetail implements Observer
 				}
 			}
 		});
-		txtCopyInventoryNumber.setText("42");
+		txtCopyInventoryNumber.setText(" ");
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
@@ -441,7 +441,7 @@ public class LoanDetail implements Observer
 		gbc_loanByCustomerTablePanel.fill = GridBagConstraints.BOTH;
 		gbc_loanByCustomerTablePanel.gridx = 0;
 		gbc_loanByCustomerTablePanel.gridy = 2;
-		frmAusleiheDetail.getContentPane().add(loanByCustomerTablePanel, gbc_loanByCustomerTablePanel);
+		frmLoanDetail.getContentPane().add(loanByCustomerTablePanel, gbc_loanByCustomerTablePanel);
 		GridBagLayout gbl_loanByCustomerTablePanel = new GridBagLayout();
 		gbl_loanByCustomerTablePanel.columnWidths = new int[] { 0, 0, 0 };
 		gbl_loanByCustomerTablePanel.rowHeights = new int[] { 0, 0, 0 };
