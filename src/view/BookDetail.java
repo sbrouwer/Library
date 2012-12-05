@@ -40,17 +40,17 @@ import domain.Shelf;
 public class BookDetail implements Observer
 {
 	private JFrame frame;
-	private JTextField txtTitel;
-	private JTextField txtAutor;
-	private JTextField txtVerlag;
-	private JLabel lblAnzahl;
+	private JTextField txtTitle;
+	private JTextField txtAuthor;
+	private JTextField txtPublisher;
+	private JLabel lblCount;
 	private Book book;
 	private Library library;
 	private List<Copy> copies;
-	JComboBox regalComboBox;
+	JComboBox comboBoxShelf;
 	private JTable table;
-	JButton btnExemplarHinzufuegen;
-	JButton btnAusgewaehlteEntfernen;
+	JButton btnAddCopy;
+	JButton btnRemoveCopy;
 	private JLabel lblError;
 	private Color red = new Color(255,0,0);
 	private Color black = new Color(0,0,0);
@@ -99,15 +99,15 @@ public class BookDetail implements Observer
 		gbc_lblTitel.gridy = 0;
 		panel.add(lblTitel, gbc_lblTitel);
 
-		txtTitel = new JTextField();
-		txtTitel.setEditable(false);
+		txtTitle = new JTextField();
+		txtTitle.setEditable(false);
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitel.gridx = 2;
 		gbc_txtTitel.gridy = 0;
-		panel.add(txtTitel, gbc_txtTitel);
-		txtTitel.setColumns(10);
+		panel.add(txtTitle, gbc_txtTitel);
+		txtTitle.setColumns(10);
 
 		JLabel lblAutor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
@@ -118,16 +118,16 @@ public class BookDetail implements Observer
 		gbc_lblAutor.gridy = 1;
 		panel.add(lblAutor, gbc_lblAutor);
 
-		txtAutor = new JTextField();
-		txtAutor.setEditable(false);
+		txtAuthor = new JTextField();
+		txtAuthor.setEditable(false);
 		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
 		gbc_txtAutor.gridheight = 2;
 		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
 		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAutor.gridx = 2;
 		gbc_txtAutor.gridy = 1;
-		panel.add(txtAutor, gbc_txtAutor);
-		txtAutor.setColumns(10);
+		panel.add(txtAuthor, gbc_txtAutor);
+		txtAuthor.setColumns(10);
 
 		JLabel lblVerlag = new JLabel("Verlag");
 		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
@@ -138,16 +138,16 @@ public class BookDetail implements Observer
 		gbc_lblVerlag.gridy = 3;
 		panel.add(lblVerlag, gbc_lblVerlag);
 
-		txtVerlag = new JTextField();
-		txtVerlag.setEditable(false);
+		txtPublisher = new JTextField();
+		txtPublisher.setEditable(false);
 		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
 		gbc_txtVerlag.gridheight = 2;
 		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
 		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtVerlag.gridx = 2;
 		gbc_txtVerlag.gridy = 3;
-		panel.add(txtVerlag, gbc_txtVerlag);
-		txtVerlag.setColumns(10);
+		panel.add(txtPublisher, gbc_txtVerlag);
+		txtPublisher.setColumns(10);
 
 		JLabel lblRegal = new JLabel("Regal");
 		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
@@ -158,14 +158,14 @@ public class BookDetail implements Observer
 		gbc_lblRegal.gridy = 5;
 		panel.add(lblRegal, gbc_lblRegal);
 
-		regalComboBox = new JComboBox();
+		comboBoxShelf = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 5;
-		regalComboBox.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));		
-		panel.add(regalComboBox, gbc_comboBox);
+		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));		
+		panel.add(comboBoxShelf, gbc_comboBox);
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -177,20 +177,20 @@ public class BookDetail implements Observer
 		gbl_panel_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
-		lblAnzahl = new JLabel("Anzahl: 1");
-		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
+		lblCount = new JLabel("Anzahl: 1");
+		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
 		gbc_lblAnzahl.anchor = GridBagConstraints.WEST;
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
-		panel_1.add(lblAnzahl, gbc_lblAnzahl);
+		panel_1.add(lblCount, gbc_lblAnzahl);
 		
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoCreateRowSorter(true);
 
-		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
+		String[] header = {"Inventar Nummer","VerfÃ¼gbarkeit","Zustand"};
 		copies = library.getCopiesOfBook(book);
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);
@@ -202,10 +202,10 @@ public class BookDetail implements Observer
 			{
 				if (table.getSelectedRows().length > 0)
 				{
-					btnAusgewaehlteEntfernen.setEnabled(true);
+					btnRemoveCopy.setEnabled(true);
 				} else
 				{
-					btnAusgewaehlteEntfernen.setEnabled(false);
+					btnRemoveCopy.setEnabled(false);
 				}
 			}
 		});
@@ -214,10 +214,10 @@ public class BookDetail implements Observer
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 		
-		ImageIcon iconAusgewaehlteEntfernen = new ImageIcon("icons/book_delete.png");
-		btnAusgewaehlteEntfernen = new JButton("Ausgew\u00E4hlte entfernen",iconAusgewaehlteEntfernen);
-		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
-		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
+		ImageIcon iconRemoveCopy = new ImageIcon("icons/book_delete.png");
+		btnRemoveCopy = new JButton("Ausgew\u00E4hlte entfernen",iconRemoveCopy);
+		btnRemoveCopy.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
+		btnRemoveCopy.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -233,32 +233,32 @@ public class BookDetail implements Observer
 					}
 					
 				}
-				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
+				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 			}
 		});
-		btnAusgewaehlteEntfernen.setEnabled(false);
-		GridBagConstraints gbc_btnAusgewaehlteEntfernen = new GridBagConstraints();
-		gbc_btnAusgewaehlteEntfernen.insets = new Insets(0, 0, 5, 5);
-		gbc_btnAusgewaehlteEntfernen.gridx = 1;
-		gbc_btnAusgewaehlteEntfernen.gridy = 0;
-		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
+		btnRemoveCopy.setEnabled(false);
+		GridBagConstraints gbc_btnRemoveCopy = new GridBagConstraints();
+		gbc_btnRemoveCopy.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRemoveCopy.gridx = 1;
+		gbc_btnRemoveCopy.gridy = 0;
+		panel_1.add(btnRemoveCopy, gbc_btnRemoveCopy);
 
 		
-		ImageIcon iconExemplarHinzufuegen = new ImageIcon("icons/book_add.png");
-		btnExemplarHinzufuegen = new JButton(" Exemplar hinzuf\u00FCgen",iconExemplarHinzufuegen);
-		btnExemplarHinzufuegen.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
-		btnExemplarHinzufuegen.addActionListener(new ActionListener()
+		ImageIcon iconAddCopy = new ImageIcon("icons/book_add.png");
+		btnAddCopy = new JButton(" Exemplar hinzuf\u00FCgen",iconAddCopy);
+		btnAddCopy.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
+		btnAddCopy.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				library.createAndAddCopy(book);
 			}
 		});
-		GridBagConstraints gbc_btnExemplarHinzufuegen = new GridBagConstraints();
-		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
-		gbc_btnExemplarHinzufuegen.gridx = 2;
-		gbc_btnExemplarHinzufuegen.gridy = 0;
-		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
+		GridBagConstraints gbc_btnAddCopy = new GridBagConstraints();
+		gbc_btnAddCopy.insets = new Insets(0, 0, 5, 0);
+		gbc_btnAddCopy.gridx = 2;
+		gbc_btnAddCopy.gridy = 0;
+		panel_1.add(btnAddCopy, gbc_btnAddCopy);
 		
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
@@ -288,19 +288,19 @@ public class BookDetail implements Observer
 	 */
 	void updateFields()
 	{
-		lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
+		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
 		if (book == null)
 		{
-			txtTitel.setText("");
-			txtAutor.setText("");
-			txtVerlag.setText("");
-			regalComboBox.setSelectedIndex(-1);
+			txtTitle.setText("");
+			txtAuthor.setText("");
+			txtPublisher.setText("");
+			comboBoxShelf.setSelectedIndex(-1);
 		} else
 		{
-			txtTitel.setText(book.getName());
-			txtAutor.setText(book.getAuthor());
-			txtVerlag.setText(book.getPublisher());
-			regalComboBox.setSelectedItem((book.getShelf().toString()));
+			txtTitle.setText(book.getName());
+			txtAuthor.setText(book.getAuthor());
+			txtPublisher.setText(book.getPublisher());
+			comboBoxShelf.setSelectedItem((book.getShelf().toString()));
 		}
 	}
 	public void addKeyboardListeners(final JFrame frame) {

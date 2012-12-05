@@ -17,7 +17,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	String[] headers;
 	List <Loan> loans;
 	ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
-	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "F�llig!");
+	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
 
 	public TableModelLoanMaster(Library library, String[] headers) {
 		this.library = library;
@@ -90,7 +90,6 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 
 	@Override
 	public String getColumnName(int column) {
-		// TODO Auto-generated method stub
 		return headers[column];
 	}
 

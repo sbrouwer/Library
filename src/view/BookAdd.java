@@ -43,23 +43,23 @@ import domain.Shelf;
 public class BookAdd implements Observer
 {
 
-	private JFrame frmBuchHinzufgen;
-	private JLabel lblTitel;
-	private JTextField txtTitel;
-	private JLabel lblAutor;
-	private JTextField txtAutor;
-	private JLabel lblVerlag;
-	private JTextField txtVerlag;
-	private JLabel lblAnzahl;
+	private JFrame frmBookAdd;
+	private JLabel lblTitle;
+	private JTextField txtTitle;
+	private JLabel lblAuthor;
+	private JTextField txtAuthor;
+	private JLabel lblPublisher;
+	private JTextField txtPublisher;
+	private JLabel lblCount;
 	private Book book = null;
 	private Library library;
 	private List<Copy> copies;
 	private List<Loan> lent;
-	private JLabel lblRegal;
-	private JComboBox regalComboBox;
+	private JLabel lblShelf;
+	private JComboBox comboBoxShelf;
 	private JTable table;
-	private JButton btnExemplarHinzufuegen;
-	private JButton btnAusgewaehlteEntfernen;
+	private JButton btnAddCopy;
+	private JButton btnRemoveCopy;
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
 	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
@@ -73,7 +73,7 @@ public class BookAdd implements Observer
 		this.library = library;
 		initialize();
 		updateFields();
-		frmBuchHinzufgen.setVisible(true);
+		frmBookAdd.setVisible(true);
 	}
 
 	/**
@@ -81,17 +81,17 @@ public class BookAdd implements Observer
 	 */
 	private void initialize()
 	{
-		frmBuchHinzufgen = new JFrame();
-		frmBuchHinzufgen.setBounds(100, 100, 450, 360);
-		frmBuchHinzufgen.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frmBuchHinzufgen.getContentPane().setLayout(new BoxLayout(frmBuchHinzufgen.getContentPane(), BoxLayout.Y_AXIS));
-		frmBuchHinzufgen.setTitle("Buch Hinzuf�gen");
+		frmBookAdd = new JFrame();
+		frmBookAdd.setBounds(100, 100, 450, 360);
+		frmBookAdd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmBookAdd.getContentPane().setLayout(new BoxLayout(frmBookAdd.getContentPane(), BoxLayout.Y_AXIS));
+		frmBookAdd.setTitle("Buch Hinzuf�gen");
 		Dimension d = new Dimension(450, 360);
-		frmBuchHinzufgen.setMinimumSize(d);
+		frmBookAdd.setMinimumSize(d);
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmBuchHinzufgen.getContentPane().add(panel);
+		frmBookAdd.getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_panel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -99,34 +99,34 @@ public class BookAdd implements Observer
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		lblTitel = new JLabel("Titel");
+		lblTitle = new JLabel("Titel");
 		GridBagConstraints gbc_lblTitel = new GridBagConstraints();
 		gbc_lblTitel.gridwidth = 2;
 		gbc_lblTitel.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTitel.gridx = 0;
 		gbc_lblTitel.gridy = 0;
-		panel.add(lblTitel, gbc_lblTitel);
+		panel.add(lblTitle, gbc_lblTitel);
 
-		txtTitel = new JTextField();
+		txtTitle = new JTextField();
 		GridBagConstraints gbc_txtTitel = new GridBagConstraints();
 		gbc_txtTitel.gridwidth = 2;
 		gbc_txtTitel.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTitel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTitel.gridx = 2;
 		gbc_txtTitel.gridy = 0;
-		panel.add(txtTitel, gbc_txtTitel);
-		txtTitel.setColumns(10);
+		panel.add(txtTitle, gbc_txtTitel);
+		txtTitle.setColumns(10);
 
-		lblAutor = new JLabel("Autor");
+		lblAuthor = new JLabel("Autor");
 		GridBagConstraints gbc_lblAutor = new GridBagConstraints();
 		gbc_lblAutor.gridheight = 2;
 		gbc_lblAutor.gridwidth = 2;
 		gbc_lblAutor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAutor.gridx = 0;
 		gbc_lblAutor.gridy = 1;
-		panel.add(lblAutor, gbc_lblAutor);
+		panel.add(lblAuthor, gbc_lblAutor);
 
-		txtAutor = new JTextField();
+		txtAuthor = new JTextField();
 		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
 		gbc_txtAutor.gridwidth = 2;
 		gbc_txtAutor.gridheight = 2;
@@ -134,19 +134,19 @@ public class BookAdd implements Observer
 		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtAutor.gridx = 2;
 		gbc_txtAutor.gridy = 1;
-		panel.add(txtAutor, gbc_txtAutor);
-		txtAutor.setColumns(10);
+		panel.add(txtAuthor, gbc_txtAutor);
+		txtAuthor.setColumns(10);
 
-		lblVerlag = new JLabel("Verlag");
+		lblPublisher = new JLabel("Verlag");
 		GridBagConstraints gbc_lblVerlag = new GridBagConstraints();
 		gbc_lblVerlag.gridheight = 2;
 		gbc_lblVerlag.gridwidth = 2;
 		gbc_lblVerlag.insets = new Insets(0, 0, 5, 5);
 		gbc_lblVerlag.gridx = 0;
 		gbc_lblVerlag.gridy = 3;
-		panel.add(lblVerlag, gbc_lblVerlag);
+		panel.add(lblPublisher, gbc_lblVerlag);
 
-		txtVerlag = new JTextField();
+		txtPublisher = new JTextField();
 		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
 		gbc_txtVerlag.gridwidth = 2;
 		gbc_txtVerlag.gridheight = 2;
@@ -154,26 +154,26 @@ public class BookAdd implements Observer
 		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtVerlag.gridx = 2;
 		gbc_txtVerlag.gridy = 3;
-		panel.add(txtVerlag, gbc_txtVerlag);
-		txtVerlag.setColumns(10);
+		panel.add(txtPublisher, gbc_txtVerlag);
+		txtPublisher.setColumns(10);
 
-		lblRegal = new JLabel("Regal");
+		lblShelf = new JLabel("Regal");
 		GridBagConstraints gbc_lblRegal = new GridBagConstraints();
 		gbc_lblRegal.gridwidth = 2;
 		gbc_lblRegal.insets = new Insets(0, 0, 5, 5);
 		gbc_lblRegal.gridx = 0;
 		gbc_lblRegal.gridy = 5;
-		panel.add(lblRegal, gbc_lblRegal);
+		panel.add(lblShelf, gbc_lblRegal);
 
-		regalComboBox = new JComboBox();
+		comboBoxShelf = new JComboBox();
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 5;
-		panel.add(regalComboBox, gbc_comboBox);
-		regalComboBox.setModel(new DefaultComboBoxModel(Shelf.values()));
+		panel.add(comboBoxShelf, gbc_comboBox);
+		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
 
 		ImageIcon icon = new ImageIcon("icons/book_add.png");
 		btnAddBook = new JButton("Buch Hinzufügen", icon);
@@ -185,15 +185,15 @@ public class BookAdd implements Observer
 			{
 				if (verifyFields())
 				{
-					book = library.createAndAddBook(txtTitel.getText());
-					book.setAuthor(txtAutor.getText());
-					book.setPublisher(txtVerlag.getText());
-					book.setShelf((Shelf) regalComboBox.getSelectedItem());
+					book = library.createAndAddBook(txtTitle.getText());
+					book.setAuthor(txtAuthor.getText());
+					book.setPublisher(txtPublisher.getText());
+					book.setShelf((Shelf) comboBoxShelf.getSelectedItem());
 					copies = library.getCopiesOfBook(book);
 					tableModel = new TableModelBookDetail(library, book, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
-					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugef�gt");
+					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
 					lblStatus.setForeground(new Color(0, 0, 0));
 				}
 			}
@@ -214,7 +214,7 @@ public class BookAdd implements Observer
 
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		frmBuchHinzufgen.getContentPane().add(panel_1);
+		frmBookAdd.getContentPane().add(panel_1);
 		GridBagLayout gbl_panel_1 = new GridBagLayout();
 		gbl_panel_1.columnWidths = new int[] { 0, 0, 0, 0 };
 		gbl_panel_1.rowHeights = new int[] { 0, 0, 0 };
@@ -222,10 +222,10 @@ public class BookAdd implements Observer
 		gbl_panel_1.rowWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		panel_1.setLayout(gbl_panel_1);
 
-		lblAnzahl = new JLabel("Anzahl: 0");
+		lblCount = new JLabel("Anzahl: 0");
 		if (book != null)
 		{
-			lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
+			lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 		}
 
 		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
@@ -233,7 +233,7 @@ public class BookAdd implements Observer
 		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
-		panel_1.add(lblAnzahl, gbc_lblAnzahl);
+		panel_1.add(lblCount, gbc_lblAnzahl);
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
@@ -248,10 +248,10 @@ public class BookAdd implements Observer
 			{
 				if (table.getSelectedRows().length > 0)
 				{
-					btnAusgewaehlteEntfernen.setEnabled(true);
+					btnRemoveCopy.setEnabled(true);
 				} else
 				{
-					btnAusgewaehlteEntfernen.setEnabled(false);
+					btnRemoveCopy.setEnabled(false);
 				}
 			}
 		});
@@ -260,10 +260,10 @@ public class BookAdd implements Observer
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
-		btnAusgewaehlteEntfernen = new JButton("Ausgewählte Entfernen");
-		btnAusgewaehlteEntfernen.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
+		btnRemoveCopy = new JButton("Ausgewählte Entfernen");
+		btnRemoveCopy.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 
-		btnAusgewaehlteEntfernen.addActionListener(new ActionListener()
+		btnRemoveCopy.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
 			{
@@ -273,19 +273,19 @@ public class BookAdd implements Observer
 					Copy copyToDelet = tableModel.getCopyAtRow(selected[i]);
 					library.removeCopy(copyToDelet);
 				}
-				lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
+				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 			}
 		});
-		btnAusgewaehlteEntfernen.setEnabled(false);
+		btnRemoveCopy.setEnabled(false);
 		GridBagConstraints gbc_btnAusgewaehlteEntfernen = new GridBagConstraints();
 		gbc_btnAusgewaehlteEntfernen.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAusgewaehlteEntfernen.gridx = 1;
 		gbc_btnAusgewaehlteEntfernen.gridy = 0;
-		panel_1.add(btnAusgewaehlteEntfernen, gbc_btnAusgewaehlteEntfernen);
+		panel_1.add(btnRemoveCopy, gbc_btnAusgewaehlteEntfernen);
 
-		btnExemplarHinzufuegen = new JButton(" Exemplar hinzufügen");
-		btnExemplarHinzufuegen.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
-		btnExemplarHinzufuegen.addActionListener(new ActionListener()
+		btnAddCopy = new JButton(" Exemplar hinzufügen");
+		btnAddCopy.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
+		btnAddCopy.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
@@ -295,7 +295,7 @@ public class BookAdd implements Observer
 				} else
 				{
 					library.createAndAddCopy(book);
-					lblAnzahl.setText("Anzahl: " + library.getCopiesOfBook(book).size());
+					lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 				}
 			}
 		});
@@ -303,7 +303,7 @@ public class BookAdd implements Observer
 		gbc_btnExemplarHinzufuegen.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExemplarHinzufuegen.gridx = 2;
 		gbc_btnExemplarHinzufuegen.gridy = 0;
-		panel_1.add(btnExemplarHinzufuegen, gbc_btnExemplarHinzufuegen);
+		panel_1.add(btnAddCopy, gbc_btnExemplarHinzufuegen);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setViewportView(table);
@@ -331,46 +331,46 @@ public class BookAdd implements Observer
 			lblStatus.setForeground(red);
 			return false;
 		}
-		if (txtTitel.getText().equals(""))
+		if (txtTitle.getText().equals(""))
 		{
 			lblStatus.setForeground(red);
-			lblTitel.setText("Titel*");
-			lblTitel.setForeground(red);
+			lblTitle.setText("Titel*");
+			lblTitle.setForeground(red);
 			ok = false;
-		} else if (lblTitel.getForeground().equals(red))
+		} else if (lblTitle.getForeground().equals(red))
 		{
-			lblTitel.setForeground(black);
-			lblTitel.setText("Titel");
+			lblTitle.setForeground(black);
+			lblTitle.setText("Titel");
 		}
-		if (txtAutor.getText().equals(""))
+		if (txtAuthor.getText().equals(""))
 		{
-			lblAutor.setText("Autor*");
-			lblAutor.setForeground(red);
+			lblAuthor.setText("Autor*");
+			lblAuthor.setForeground(red);
 			ok = false;
-		} else if (lblAutor.getForeground().equals(red))
+		} else if (lblAuthor.getForeground().equals(red))
 		{
-			lblAutor.setForeground(black);
-			lblAutor.setText("Autor");
+			lblAuthor.setForeground(black);
+			lblAuthor.setText("Autor");
 		}
-		if (txtVerlag.getText().equals(""))
+		if (txtPublisher.getText().equals(""))
 		{
-			lblVerlag.setText("Verlag*");
-			lblVerlag.setForeground(red);
+			lblPublisher.setText("Verlag*");
+			lblPublisher.setForeground(red);
 			ok = false;
-		} else if (lblVerlag.getForeground().equals(red))
+		} else if (lblPublisher.getForeground().equals(red))
 		{
-			lblVerlag.setForeground(black);
-			lblVerlag.setText("Verlag");
+			lblPublisher.setForeground(black);
+			lblPublisher.setText("Verlag");
 		}
-		if (regalComboBox.getSelectedIndex() == -1)
+		if (comboBoxShelf.getSelectedIndex() == -1)
 		{
-			lblRegal.setText("Regal*");
-			lblRegal.setForeground(red);
+			lblShelf.setText("Regal*");
+			lblShelf.setForeground(red);
 			ok = false;
-		} else if (lblRegal.getForeground().equals(red))
+		} else if (lblShelf.getForeground().equals(red))
 		{
-			lblRegal.setForeground(black);
-			lblRegal.setText("Regal");
+			lblShelf.setForeground(black);
+			lblShelf.setText("Regal");
 		}
 		if (ok)
 		{
@@ -388,7 +388,7 @@ public class BookAdd implements Observer
 		List<Book> books = library.getBooks();
 		for (Book b : books)
 		{
-			if (b.getName().equals(txtTitel.getText()))
+			if (b.getName().equals(txtTitle.getText()))
 			{
 				return true;
 			}
@@ -405,16 +405,16 @@ public class BookAdd implements Observer
 	{
 		if (book == null)
 		{
-			txtTitel.setText("");
-			txtAutor.setText("");
-			txtVerlag.setText("");
-			regalComboBox.setSelectedIndex(-1);
+			txtTitle.setText("");
+			txtAuthor.setText("");
+			txtPublisher.setText("");
+			comboBoxShelf.setSelectedIndex(-1);
 		} else
 		{
-			txtTitel.setText(book.getName());
-			txtAutor.setText(book.getAuthor());
-			txtVerlag.setText(book.getPublisher());
-			regalComboBox.setSelectedItem((book.getShelf()));
+			txtTitle.setText(book.getName());
+			txtAuthor.setText(book.getAuthor());
+			txtPublisher.setText(book.getPublisher());
+			comboBoxShelf.setSelectedItem((book.getShelf()));
 			System.out.println(book.getShelf().toString());
 		}
 	}
