@@ -169,6 +169,19 @@ public class Library extends Observable implements Observer
 		}
 		return retCopies;
 	}
+	
+	public List<Loan> getActualLoansByCustomer(Customer customer)
+	{
+		List<Loan> retLoans = new ArrayList<Loan>();
+		for (Loan l : getCustomerLoans(customer))
+		{
+			if (l.isLent())
+			{
+				retLoans.add(l);
+			}
+		}
+		return retLoans;
+	}
 
 	public List<Copy> getCopies()
 	{
