@@ -10,12 +10,12 @@ import domain.Customer;
 import domain.Library;
 import domain.Loan;
 
-public class TableModelCustomerMaster extends AbstractTableModel implements Observer
+public class TableModelTabCustomer extends AbstractTableModel implements Observer
 {
 	Library library;
 	String[] headers;
 
-	public TableModelCustomerMaster(Library library, String[] headers)
+	public TableModelTabCustomer(Library library, String[] headers)
 	{
 		this.library = library;
 		this.headers = headers;

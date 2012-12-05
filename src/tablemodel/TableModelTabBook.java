@@ -8,12 +8,12 @@ import javax.swing.table.AbstractTableModel;
 import domain.Book;
 import domain.Library;
 
-public class TableModelBookMaster extends AbstractTableModel implements Observer {
+public class TableModelTabBook extends AbstractTableModel implements Observer {
 
 	Library library;
 	String[] headers;
 
-	public TableModelBookMaster(Library library, String[] headers) {
+	public TableModelTabBook(Library library, String[] headers) {
 		this.library = library;
 		this.headers = headers;
 		this.library.addObserver(this);

@@ -32,23 +32,23 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 import javax.swing.UIManager;
 
-import tablemodel.TableModelBookMaster;
+import tablemodel.TableModelTabBook;
 
 import domain.Book;
 import domain.Library;
 
-public class BookMasterBooksTab extends JPanel implements Observer
+public class TabBook extends JPanel implements Observer
 {
 	private JTextField txtSearch;
 	private Library library;
 	private JLabel lblAmountOfBooks;
 	private JLabel lblAmountOfCopies;
 	private JTable table;
-	private TableModelBookMaster tableModel;
-	private TableRowSorter<TableModelBookMaster> sorter;
+	private TableModelTabBook tableModel;
+	private TableRowSorter<TableModelTabBook> sorter;
 	private JButton btnBookDetail;
 	
-	public BookMasterBooksTab(Library library)
+	public TabBook(Library library)
 	{
 		this.library = library;
 		library.addObserver(this);
@@ -267,14 +267,14 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		
-		tableModel = new TableModelBookMaster(library, new String[] { "Verfügbar", "Name", "Autor", "Verlag" });
+		tableModel = new TableModelTabBook(library, new String[] { "Verfügbar", "Name", "Autor", "Verlag" });
 		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		
 		scrollPane.setViewportView(table);	
 
-		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelTabBook>(tableModel);
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(true);
 		sorter.toggleSortOrder(1);
@@ -285,10 +285,10 @@ public class BookMasterBooksTab extends JPanel implements Observer
 	 */
 	private void addAvailableBooks()
 	{
-		sorter = new TableRowSorter<TableModelBookMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelTabBook>(tableModel);
 		table.setRowSorter(sorter);
-		RowFilter<TableModelBookMaster, Object> rf = null;
-		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
+		RowFilter<TableModelTabBook, Object> rf = null;
+		List<RowFilter<TableModelTabBook, Object>> filters = new ArrayList<RowFilter<TableModelTabBook, Object>>();
 		// If current expression doesn't parse, don't update.
 		try
 		{
@@ -302,14 +302,14 @@ public class BookMasterBooksTab extends JPanel implements Observer
 
 	private void search()
 	{
-		RowFilter<TableModelBookMaster, Object> rf = null;
-		List<RowFilter<TableModelBookMaster, Object>> filters = new ArrayList<RowFilter<TableModelBookMaster, Object>>();
+		RowFilter<TableModelTabBook, Object> rf = null;
+		List<RowFilter<TableModelTabBook, Object>> filters = new ArrayList<RowFilter<TableModelTabBook, Object>>();
 		// If current expression doesn't parse, don't update.
 		try
 		{
-			RowFilter<TableModelBookMaster, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
-			RowFilter<TableModelBookMaster, Object> rfAuthor = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelBookMaster, Object> rfPublisher = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 3);
+			RowFilter<TableModelTabBook, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelTabBook, Object> rfAuthor = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelTabBook, Object> rfPublisher = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 3);
 			filters.add(rfAuthor);
 			filters.add(rfTitle);
 			filters.add(rfPublisher);

@@ -25,22 +25,22 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
-import tablemodel.TableModelCustomerMaster;
+import tablemodel.TableModelTabCustomer;
 import domain.Book;
 import domain.Customer;
 import domain.Library;
 import javax.swing.JLabel;
 
-public class BookMasterCustomerTab extends JPanel
+public class TabCustomer extends JPanel
 {
 	private Library library;
 	private JTextField txtSearch;
-	TableModelCustomerMaster tableModel;
-	private TableRowSorter<TableModelCustomerMaster> sorter;
+	TableModelTabCustomer tableModel;
+	private TableRowSorter<TableModelTabCustomer> sorter;
 	JButton btnEditCustomer;
 	JTable table;
 
-	public BookMasterCustomerTab(Library library)
+	public TabCustomer(Library library)
 	{
 		this.library = library;
 		initialize();
@@ -187,7 +187,7 @@ public class BookMasterCustomerTab extends JPanel
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 
-		tableModel = new TableModelCustomerMaster(library, new String[] { "Kunden-ID", "Name", "Vorname", "Strasse", "PLZ", "Ort" });
+		tableModel = new TableModelTabCustomer(library, new String[] { "Kunden-ID", "Name", "Vorname", "Strasse", "PLZ", "Ort" });
 		table.setModel(tableModel);
 
 //		table.getColumnModel().getColumn(0).setMinWidth(80);
@@ -196,7 +196,7 @@ public class BookMasterCustomerTab extends JPanel
 
 		scrollPane.setViewportView(table);
 		
-		sorter = new TableRowSorter<TableModelCustomerMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelTabCustomer>(tableModel);
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(true);
 		sorter.toggleSortOrder(1);
@@ -204,21 +204,21 @@ public class BookMasterCustomerTab extends JPanel
 		}
 	
 	private void search() {
-		RowFilter<TableModelCustomerMaster, Object> rf = null;
-		List<RowFilter<TableModelCustomerMaster, Object>> filters = new ArrayList<RowFilter<TableModelCustomerMaster, Object>>();
+		RowFilter<TableModelTabCustomer, Object> rf = null;
+		List<RowFilter<TableModelTabCustomer, Object>> filters = new ArrayList<RowFilter<TableModelTabCustomer, Object>>();
 		// If current expression doesn't parse, don't update.
 		try {
-			RowFilter<TableModelCustomerMaster, Object> rfID = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfID = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 0);
-			RowFilter<TableModelCustomerMaster, Object> rfName = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfName = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 1);
-			RowFilter<TableModelCustomerMaster, Object> rfSurname = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfSurname = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelCustomerMaster, Object> rfStreet = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfStreet = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 3);
-			RowFilter<TableModelCustomerMaster, Object> rfPLZ = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfPLZ = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 4);
-			RowFilter<TableModelCustomerMaster, Object> rfOrt = RowFilter.regexFilter(
+			RowFilter<TableModelTabCustomer, Object> rfOrt = RowFilter.regexFilter(
 					"(?i)^.*" + txtSearch.getText() + ".*", 5);
 			
 			filters.add(rfID);

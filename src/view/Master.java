@@ -18,12 +18,12 @@ import javax.swing.KeyStroke;
 import domain.Library;
 import java.awt.Toolkit;
 
-public class BookMaster {
+public class Master {
 
 	private JFrame frmLibrary;
 	private Library library;
 
-	public BookMaster(Library library) {
+	public Master(Library library) {
 		this.library = library;
 		initialize();
 		frmLibrary.setVisible(true);
@@ -56,15 +56,15 @@ public class BookMaster {
 		gbc_bookMasterTabs.gridy = 0;
 		frmLibrary.getContentPane().add(bookMasterTabs, gbc_bookMasterTabs);
 			
-		JPanel booksTab = new BookMasterBooksTab(library);
+		JPanel booksTab = new TabBook(library);
 		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
 		bookMasterTabs.addTab("Bücher", iconBookTab, booksTab, "Übersicht der Bücher in der Bibliothek, möglichkeiten Bücher hinzuzufügen und zu entfernen");
 
-		JPanel loanTab = new BookMasterLoanTab(library);	
+		JPanel loanTab = new TabLoan(library);	
 		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
 		bookMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
 		
-		JPanel customerTab = new BookMasterCustomerTab(library);	
+		JPanel customerTab = new TabCustomer(library);	
 		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
 		bookMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
 	}

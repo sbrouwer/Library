@@ -13,7 +13,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import view.BookMaster;
+import view.Master;
 
 import domain.Copy;
 import domain.Customer;
@@ -30,7 +30,7 @@ public class LibraryApp
 	{
 		Library lib = new Library();
 		initLibrary(lib);
-		BookMaster bookMaster = new BookMaster(lib);
+		Master bookMaster = new Master(lib);
 	}
 
 	public static void initLibrary(Library library) throws ParserConfigurationException, SAXException, IOException, IllegalLoanOperationException

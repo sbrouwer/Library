@@ -32,12 +32,13 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
-import tablemodel.TableModelLoanMaster;
+import renderer.TabLoanRenderer;
+import tablemodel.TableModelTabLoan;
 import domain.Book;
 import domain.Library;
 import domain.Loan;
 
-public class BookMasterLoanTab extends JPanel implements Observer
+public class TabLoan extends JPanel implements Observer
 {
 	private Library library;
 	private JLabel lblAmountOfLoans;
@@ -45,9 +46,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private JLabel lblAmountOfOverdueLoans;
 	private JTextField txtSearch;
 	private JCheckBox chckbxOnlyOverdue;
-	private TableModelLoanMaster tableModel;
+	private TableModelTabLoan tableModel;
 	private JTable table;
-	private TableRowSorter<TableModelLoanMaster> sorter;
+	private TableRowSorter<TableModelTabLoan> sorter;
 	private JButton btnShowSelected;
 	private JButton btnAddLoan;
 	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
@@ -55,7 +56,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private JLabel lblLentLoans;
 	private JLabel lblOverdueLoans;
 
-	public BookMasterLoanTab(Library library)
+	public TabLoan(Library library)
 	{
 		this.library = library;
 		library.addObserver(this);
@@ -138,7 +139,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		gbc_lblAmountOfOverdueLoans.gridy = 0;
 		panel_statistics.add(lblAmountOfOverdueLoans, gbc_lblAmountOfOverdueLoans);
 
-		tableModel = new TableModelLoanMaster(library, header);
+		tableModel = new TableModelTabLoan(library, header);
 
 		JPanel panel_management = new JPanel();
 		panel_management.setBorder(new TitledBorder(null, "Ausleihenverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -297,7 +298,7 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
 		table.setModel(tableModel);
-		table.getColumnModel().getColumn(0).setCellRenderer(new IconAndTextRenderer());
+		table.getColumnModel().getColumn(0).setCellRenderer(new TabLoanRenderer());
 		table.getColumnModel().getColumn(0).setMinWidth(80);
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		scrollPane.setViewportView(table);
@@ -306,16 +307,16 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 	private void search()
 	{
-		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
 		table.setRowSorter(sorter);
-		RowFilter<TableModelLoanMaster, Object> rf = null;
-		List<RowFilter<TableModelLoanMaster, Object>> filters = new ArrayList<RowFilter<TableModelLoanMaster, Object>>();
+		RowFilter<TableModelTabLoan, Object> rf = null;
+		List<RowFilter<TableModelTabLoan, Object>> filters = new ArrayList<RowFilter<TableModelTabLoan, Object>>();
 		// If current expression doesn't parse, don't update.
 		try
 		{
-			RowFilter<TableModelLoanMaster, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
-			RowFilter<TableModelLoanMaster, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelLoanMaster, Object> rfCustomer = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
+			RowFilter<TableModelTabLoan, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelTabLoan, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelTabLoan, Object> rfCustomer = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
 			filters.add(rfID);
 			filters.add(rfTitle);
 			filters.add(rfCustomer);
@@ -329,9 +330,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 
 	private void addOverdueLoans()
 	{
-		sorter = new TableRowSorter<TableModelLoanMaster>(tableModel);
+		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
 		table.setRowSorter(sorter);
-		RowFilter<TableModelLoanMaster, Object> rf = null;
+		RowFilter<TableModelTabLoan, Object> rf = null;
 		// If current expression doesn't parse, don't update.
 		try
 		{

@@ -11,7 +11,7 @@ import javax.swing.table.AbstractTableModel;
 import domain.Library;
 import domain.Loan;
 
-public class TableModelLoanMaster extends AbstractTableModel implements Observer{
+public class TableModelTabLoan extends AbstractTableModel implements Observer{
 
 	Library library;
 	String[] headers;
@@ -19,7 +19,7 @@ public class TableModelLoanMaster extends AbstractTableModel implements Observer
 	ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
 	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
 
-	public TableModelLoanMaster(Library library, String[] headers) {
+	public TableModelTabLoan(Library library, String[] headers) {
 		this.library = library;
 		this.headers = headers;
 		this.addOnlyLent(library.getLoans());
