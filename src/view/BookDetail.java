@@ -159,12 +159,13 @@ public class BookDetail implements Observer
 		panel.add(lblRegal, gbc_lblRegal);
 
 		comboBoxShelf = new JComboBox();
+		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));	
+		comboBoxShelf.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 2;
 		gbc_comboBox.gridy = 5;
-		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));		
 		panel.add(comboBoxShelf, gbc_comboBox);
 
 		JPanel panel_1 = new JPanel();
