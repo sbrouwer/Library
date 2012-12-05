@@ -27,9 +27,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import renderer.IconAndDescriptionRenderer;
 import tablemodel.TableModelLoanDetail;
+import tablemodel.TableModelTabBook;
+import tablemodel.TableModelTabLoan;
 import domain.Copy.Condition;
 import domain.Customer;
 import domain.IllegalLoanOperationException;
@@ -44,6 +48,7 @@ public class LoanDetail implements Observer
 	private JTextField txtCopyInventoryNumber;
 	private JTextField txtReturnDate;
 	private JTable table;
+	private TableModel tableModel;
 	private Library library;
 	private Customer customer;
 	private JComboBox<Customer> customersComboBox;
@@ -56,6 +61,7 @@ public class LoanDetail implements Observer
 	ImageIcon iconInventoryNumberOK = new ImageIcon("icons/ok.png", "OK");
 	ImageIcon iconInventoryNumberWrong = new ImageIcon("icons/warning.png", "Falsche Inventarnummer");
 	private JButton btnSetLost;
+	private TableRowSorter<TableModelLoanDetail> sorter;
 
 	public LoanDetail(Library library)
 	{
@@ -218,15 +224,21 @@ public class LoanDetail implements Observer
 					// Falls Customer ausgewählt...
 					customer = library.getCustomers().get(customersComboBox.getSelectedIndex());
 					txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
-					table.setModel(new TableModelLoanDetail(library, customer, headers));
+					tableModel = new TableModelLoanDetail(library, customer, headers);
+					table.setModel(tableModel);
 					table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
 					lblLoanAmount.setText(String.valueOf(library.getCustomerLoans(customer).size()));
-
+					
+					sorter = new TableRowSorter<TableModelLoanDetail>((TableModelLoanDetail) tableModel);
+					table.setRowSorter(sorter);
+					sorter.setSortsOnUpdates(true);
+					sorter.toggleSortOrder(2);
 				} else
 				{
 					// Falls kein Customer ausgewählt...
 					txtCustomerIdentifier.setText("");
-					table.setModel(new TableModelLoanDetail(library, null, headers));
+					tableModel = new TableModelLoanDetail(library, null, headers);
+					table.setModel(tableModel);
 					lblLoanAmount.setText("0");
 				}
 			}
@@ -465,6 +477,7 @@ public class LoanDetail implements Observer
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoCreateRowSorter(true);
+		
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.insets = new Insets(0, 0, 0, 5);
 		gbc_table.fill = GridBagConstraints.BOTH;
@@ -479,6 +492,8 @@ public class LoanDetail implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		loanByCustomerTablePanel.add(scrollPane, gbc_scrollPane);
+		
+		
 	}
 
 	@Override
