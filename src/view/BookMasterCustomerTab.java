@@ -194,7 +194,6 @@ public class BookMasterCustomerTab extends JPanel
 //		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		//TODO UPDATE?
 
-		table.setBorder(new LineBorder(new Color(0, 0, 0)));
 		scrollPane.setViewportView(table);
 		
 		sorter = new TableRowSorter<TableModelCustomerMaster>(tableModel);
