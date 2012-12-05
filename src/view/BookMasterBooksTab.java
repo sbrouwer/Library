@@ -90,7 +90,7 @@ public class BookMasterBooksTab extends JPanel implements Observer
 		
 		lblAmountOfBooks = new JLabel("0");
 		GridBagConstraints gbc_lblAmountOfBooks = new GridBagConstraints();
-		gbc_lblAmountOfBooks.insets = new Insets(0, 0, 0, 5);
+		gbc_lblAmountOfBooks.insets = new Insets(0, 0, 0, 20);
 		gbc_lblAmountOfBooks.gridx = 1;
 		gbc_lblAmountOfBooks.gridy = 0;
 		panel_statistics.add(lblAmountOfBooks, gbc_lblAmountOfBooks);

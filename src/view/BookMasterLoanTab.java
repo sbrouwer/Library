@@ -51,6 +51,9 @@ public class BookMasterLoanTab extends JPanel implements Observer
 	private JButton btnShowSelected;
 	private JButton btnAddLoan;
 	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
+	private JLabel lblLoans;
+	private JLabel lblLentLoans;
+	private JLabel lblOverdueLoans;
 
 	public BookMasterLoanTab(Library library)
 	{
@@ -82,32 +85,55 @@ public class BookMasterLoanTab extends JPanel implements Observer
 		this.add(panel_statistics, gbc_panel_statistics);
 
 		GridBagLayout gbl_panel_statistics = new GridBagLayout();
-		gbl_panel_statistics.columnWidths = new int[] { 94, 106, 113, 0 };
+		gbl_panel_statistics.columnWidths = new int[] { 0, 0, 0, 0, 0, 113, 0 };
 		gbl_panel_statistics.rowHeights = new int[] { 14, 0 };
-		gbl_panel_statistics.columnWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gbl_panel_statistics.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel_statistics.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		panel_statistics.setLayout(gbl_panel_statistics);
-
-		lblAmountOfLoans = new JLabel("Anzahl Ausleihen: " + library.getLoans().size());
-		GridBagConstraints gbc_lblAmountOfLoans = new GridBagConstraints();
-		gbc_lblAmountOfLoans.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblAmountOfLoans.insets = new Insets(0, 0, 0, 5);
-		gbc_lblAmountOfLoans.gridx = 0;
-		gbc_lblAmountOfLoans.gridy = 0;
-		panel_statistics.add(lblAmountOfLoans, gbc_lblAmountOfLoans);
-
-		lblAmountOfLentLoans = new JLabel();
-		GridBagConstraints gbc_lblAmountOfLentLoans = new GridBagConstraints();
-		gbc_lblAmountOfLentLoans.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblAmountOfLentLoans.insets = new Insets(0, 0, 0, 5);
-		gbc_lblAmountOfLentLoans.gridx = 1;
-		gbc_lblAmountOfLentLoans.gridy = 0;
-		panel_statistics.add(lblAmountOfLentLoans, gbc_lblAmountOfLentLoans);
+				
+				lblLoans = new JLabel("Anzahl Ausleihen:");
+				GridBagConstraints gbc_lblLoans = new GridBagConstraints();
+				gbc_lblLoans.insets = new Insets(0, 0, 0, 5);
+				gbc_lblLoans.gridx = 0;
+				gbc_lblLoans.gridy = 0;
+				panel_statistics.add(lblLoans, gbc_lblLoans);
+		
+				lblAmountOfLoans = new JLabel("Anzahl Ausleihen: " + library.getLoans().size());
+				GridBagConstraints gbc_lblAmountOfLoans = new GridBagConstraints();
+				gbc_lblAmountOfLoans.anchor = GridBagConstraints.NORTHWEST;
+				gbc_lblAmountOfLoans.insets = new Insets(0, 0, 0, 20);
+				gbc_lblAmountOfLoans.gridx = 1;
+				gbc_lblAmountOfLoans.gridy = 0;
+				panel_statistics.add(lblAmountOfLoans, gbc_lblAmountOfLoans);
+				
+				lblLentLoans = new JLabel("Aktuelle Ausleihen:");
+				GridBagConstraints gbc_lblLentLoans = new GridBagConstraints();
+				gbc_lblLentLoans.anchor = GridBagConstraints.WEST;
+				gbc_lblLentLoans.insets = new Insets(0, 0, 0, 5);
+				gbc_lblLentLoans.gridx = 2;
+				gbc_lblLentLoans.gridy = 0;
+				panel_statistics.add(lblLentLoans, gbc_lblLentLoans);
+		
+				lblAmountOfLentLoans = new JLabel();
+				GridBagConstraints gbc_lblAmountOfLentLoans = new GridBagConstraints();
+				gbc_lblAmountOfLentLoans.anchor = GridBagConstraints.NORTHWEST;
+				gbc_lblAmountOfLentLoans.insets = new Insets(0, 0, 0, 20);
+				gbc_lblAmountOfLentLoans.gridx = 3;
+				gbc_lblAmountOfLentLoans.gridy = 0;
+				panel_statistics.add(lblAmountOfLentLoans, gbc_lblAmountOfLentLoans);
+		
+		lblOverdueLoans = new JLabel("Überfällige Ausleihen:");
+		GridBagConstraints gbc_lblOverdueLoans = new GridBagConstraints();
+		gbc_lblOverdueLoans.anchor = GridBagConstraints.WEST;
+		gbc_lblOverdueLoans.insets = new Insets(0, 0, 0, 5);
+		gbc_lblOverdueLoans.gridx = 4;
+		gbc_lblOverdueLoans.gridy = 0;
+		panel_statistics.add(lblOverdueLoans, gbc_lblOverdueLoans);
 
 		lblAmountOfOverdueLoans = new JLabel();
 		GridBagConstraints gbc_lblAmountOfOverdueLoans = new GridBagConstraints();
 		gbc_lblAmountOfOverdueLoans.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblAmountOfOverdueLoans.gridx = 2;
+		gbc_lblAmountOfOverdueLoans.gridx = 5;
 		gbc_lblAmountOfOverdueLoans.gridy = 0;
 		panel_statistics.add(lblAmountOfOverdueLoans, gbc_lblAmountOfOverdueLoans);
 
