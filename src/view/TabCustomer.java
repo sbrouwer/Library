@@ -208,8 +208,10 @@ public class TabCustomer extends JPanel
 		tableModel = new TableModelTabCustomer(library, new String[] { "Kunden-ID", "Name", "Vorname", "Strasse", "PLZ", "Ort" });
 		table.setModel(tableModel);
 
-//		table.getColumnModel().getColumn(0).setMinWidth(80);
-//		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		table.getColumnModel().getColumn(0).setMinWidth(80);
+		table.getColumnModel().getColumn(0).setMaxWidth(80);
+		table.getColumnModel().getColumn(4).setMinWidth(50);
+		table.getColumnModel().getColumn(4).setMaxWidth(50);
 		//TODO UPDATE?
 
 		scrollPane.setViewportView(table);
