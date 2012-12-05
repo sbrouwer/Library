@@ -76,8 +76,8 @@ public class BookDetail implements Observer
 		frame.setBounds(100, 100, 450, 360);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buch Detail Ansicht");
-		Dimension d = new Dimension(450, 360);
-		frame.setMinimumSize(d);
+		frame.setMinimumSize(new Dimension(450, 360));
+		frame.setMaximumSize(new Dimension(749, 659));
 		
 		addKeyboardListeners(frame);
 
