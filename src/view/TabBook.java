@@ -24,6 +24,7 @@ import java.util.Observer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -235,6 +236,19 @@ public class TabBook extends JPanel implements Observer
 		panel_management.add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
+		table.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if(arg0.getKeyCode() == 10){
+					if(table.getSelectedRow() != -1){
+						table.setRowSelectionInterval(table.getSelectedRow() -1, table.getSelectedRow() -1);
+						openBookDetail();
+					}
+				}
+			}
+		});
+		
 		table.getTableHeader().setReorderingAllowed(false);
 		table.addMouseListener(new MouseAdapter()
 		{
@@ -338,6 +352,7 @@ public class TabBook extends JPanel implements Observer
 		}
 		sorter.setRowFilter(rf);
 	}
+	
 
 	@Override
 	public void update(Observable o, Object arg)
