@@ -270,7 +270,7 @@ public class BookDetail implements Observer {
 
 		frame.setVisible(true);
 		
-		setUpSportColumn(table, table.getColumnModel().getColumn(2));
+		setUpConditionColumn(table, table.getColumnModel().getColumn(2));
 
 		sorter = new TableRowSorter<TableModelBookDetail>((TableModelBookDetail) tableModel);
 		table.setRowSorter(sorter);
@@ -296,7 +296,7 @@ public class BookDetail implements Observer {
 
 	}
 
-	public void setUpSportColumn(JTable table, TableColumn conditionColumn) {
+	public void setUpConditionColumn(JTable table, TableColumn conditionColumn) {
 		// Set up the editor for the sport cells.
 		JComboBox<Condition> comboBox = new JComboBox<Condition>();
 		comboBox.setModel(new DefaultComboBoxModel<Condition>(Condition.values()));
@@ -304,7 +304,7 @@ public class BookDetail implements Observer {
 
 		// Set up tool tips for the sport cells.
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-		renderer.setToolTipText("Click for combo box");
+		renderer.setToolTipText("Klicken um Zustand zu ändern");
 		conditionColumn.setCellRenderer(renderer);
 	}
 
