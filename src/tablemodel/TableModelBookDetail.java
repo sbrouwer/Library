@@ -3,6 +3,7 @@ package tablemodel;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ComboBoxEditor;
 import javax.swing.table.AbstractTableModel;
 
 import domain.Book;
@@ -33,7 +34,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 		case 1:
 			return String.class;
 		case 2: 
-			return Condition.class;
+			return ComboBoxEditor.class;
 		default:
 			return null;
 		}
@@ -66,6 +67,19 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 			return null;
 		}
 	}
+	
+	public boolean isCellEditable(int row, int col) {
+        if (col == 2) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+	
+	 public void setValueAt(Object value, int row, int col) {
+		 library.getCopiesOfBook(book).get(row).setCondition((Condition) value);
+         fireTableCellUpdated(row, col);
+     }
 
 	public Copy getCopyAtRow(int row) {
 		return library.getCopiesOfBook(book).get(row);

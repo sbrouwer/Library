@@ -14,6 +14,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,16 +28,18 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelBookDetail;
 import domain.Book;
 import domain.Copy;
+import domain.Copy.Condition;
 import domain.Library;
 import domain.Shelf;
 
-public class BookDetail implements Observer
-{
+public class BookDetail implements Observer {
 	private Book book;
 	private Library library;
 	private JFrame frame;
@@ -54,8 +57,7 @@ public class BookDetail implements Observer
 	/**
 	 * Create the application.
 	 */
-	public BookDetail(Book book, Library library)
-	{
+	public BookDetail(Book book, Library library) {
 		this.book = book;
 		this.library = library;
 		initialize();
@@ -66,19 +68,19 @@ public class BookDetail implements Observer
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize()
-	{
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 360);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
 		frame.setTitle("Buchdetail");
 		frame.setMinimumSize(new Dimension(500, 360));
 		frame.setMaximumSize(new Dimension(749, 659));
-		
+
 		addKeyboardListeners(frame);
 
 		JPanel panel_book = new JPanel();
-		panel_book.setBorder(new TitledBorder(null, "Buchinformationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_book.setBorder(new TitledBorder(null, "Buchinformationen", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_book);
 		GridBagLayout gbl_panel_book = new GridBagLayout();
 		gbl_panel_book.columnWidths = new int[] { 0, 0, 0 };
@@ -155,7 +157,7 @@ public class BookDetail implements Observer
 		panel_book.add(lblShelf, gbc_lblShelf);
 
 		comboBoxShelf = new JComboBox<Shelf>();
-		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));	
+		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));
 		comboBoxShelf.setEnabled(false);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
@@ -163,11 +165,12 @@ public class BookDetail implements Observer
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 5;
 		panel_book.add(comboBoxShelf, gbc_comboBox);
-		
+
 		setInformation();
 
 		JPanel panel_copies = new JPanel();
-		panel_copies.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_copies.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP,
+				null, null));
 		frame.getContentPane().add(panel_copies);
 		GridBagLayout gbl_panel_copies = new GridBagLayout();
 		gbl_panel_copies.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -184,48 +187,46 @@ public class BookDetail implements Observer
 		gbc_lblAnzahl.gridx = 0;
 		gbc_lblAnzahl.gridy = 0;
 		panel_copies.add(lblCount, gbc_lblAnzahl);
-		
+
 		table = new JTable();
-		table.addMouseListener(new MouseAdapter()
-		{
+		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				if (table.getSelectedRows().length > 0)
-				{
+			public void mouseReleased(MouseEvent arg0) {
+				if (table.getSelectedRows().length > 0) {
 					btnRemoveCopy.setEnabled(true);
-				} else
-				{
+				} else {
 					btnRemoveCopy.setEnabled(false);
 				}
 			}
 		});
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoCreateRowSorter(true);
-		String[] header = {"Inventar Nummer","Verfügbarkeit","Zustand"};
+		String[] header = { "Inventar Nummer", "Verfügbarkeit", "Zustand" };
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
-		table.setModel(tableModel);	
-		
+		table.setModel(tableModel);
+
 		ImageIcon iconRemoveCopy = new ImageIcon("icons/book_delete.png");
-		btnRemoveCopy = new JButton("Ausgew\u00E4hlte entfernen",iconRemoveCopy);
-		btnRemoveCopy.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
-		btnRemoveCopy.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		btnRemoveCopy = new JButton("Ausgew\u00E4hlte entfernen", iconRemoveCopy);
+		btnRemoveCopy
+				.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
+		btnRemoveCopy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				int selected[] = table.getSelectedRows();
-				//Von hinten nach vorne die Elemente entfernen, ansosnten index out of bounds exeception!
-				for (int i = selected.length - 1; i >= 0; i--)
-				{
+				// Von hinten nach vorne die Elemente entfernen, ansosnten index
+				// out of bounds exeception!
+				for (int i = selected.length - 1; i >= 0; i--) {
 					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
-					if(!library.isCopyLent(copyToDelet)){
+					if (!library.isCopyLent(copyToDelet)) {
 						library.removeCopy(copyToDelet);
-					}else{
+					} else {
 						lblError.setForeground(Color.BLACK);
 						lblError.setText("Das Exemplar ist noch ausgeliehen und kann deshalb nicht entfernt werden!");
-					}	
+					}
 				}
-				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); //Label Anzahl Kopien updaten
+				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
+																						// Anzahl
+																						// Kopien
+																						// updaten
 			}
 		});
 		btnRemoveCopy.setEnabled(false);
@@ -236,12 +237,10 @@ public class BookDetail implements Observer
 		panel_copies.add(btnRemoveCopy, gbc_btnRemoveCopy);
 
 		ImageIcon iconAddCopy = new ImageIcon("icons/book_add.png");
-		btnAddCopy = new JButton(" Exemplar hinzuf\u00FCgen",iconAddCopy);
+		btnAddCopy = new JButton(" Exemplar hinzuf\u00FCgen", iconAddCopy);
 		btnAddCopy.setToolTipText("F\u00FCgt der Bibliothek ein neues Exemplar des angezeigten Buches hinzu");
-		btnAddCopy.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
+		btnAddCopy.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				library.createAndAddCopy(book);
 			}
 		});
@@ -250,7 +249,7 @@ public class BookDetail implements Observer
 		gbc_btnAddCopy.gridx = 2;
 		gbc_btnAddCopy.gridy = 0;
 		panel_copies.add(btnAddCopy, gbc_btnAddCopy);
-		
+
 		lblError = new JLabel("");
 		GridBagConstraints gbc_lblError = new GridBagConstraints();
 		gbc_lblError.anchor = GridBagConstraints.EAST;
@@ -271,38 +270,50 @@ public class BookDetail implements Observer
 
 		frame.setVisible(true);
 		
+		setUpSportColumn(table, table.getColumnModel().getColumn(2));
+
 		sorter = new TableRowSorter<TableModelBookDetail>((TableModelBookDetail) tableModel);
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(true);
 		sorter.toggleSortOrder(0);
 	}
 
-	private void setInformation()
-	{
+	private void setInformation() {
 		txtTitle.setText(book.getName());
 		txtAuthor.setText(book.getAuthor());
 		txtPublisher.setText(book.getPublisher());
 	}
-	
+
 	public void addKeyboardListeners(final JFrame frame) {
-	    ActionListener escListener = new ActionListener() {
-	        @Override
-	        public void actionPerformed(ActionEvent e) {
-	            frame.dispose();
-	        }
-	    };
-	    frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-	
+		ActionListener escListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		};
+		frame.getRootPane().registerKeyboardAction(escListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
+	}
+
+	public void setUpSportColumn(JTable table, TableColumn conditionColumn) {
+		// Set up the editor for the sport cells.
+		JComboBox<Condition> comboBox = new JComboBox<Condition>();
+		comboBox.setModel(new DefaultComboBoxModel<Condition>(Condition.values()));
+		conditionColumn.setCellEditor(new DefaultCellEditor(comboBox));
+
+		// Set up tool tips for the sport cells.
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setToolTipText("Click for combo box");
+		conditionColumn.setCellRenderer(renderer);
 	}
 
 	@Override
-	public void update(Observable o, Object arg)
-	{
+	public void update(Observable o, Object arg) {
 		updateFields();
 	}
 
-	void updateFields()
-	{
+	void updateFields() {
 		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
 	}
 
