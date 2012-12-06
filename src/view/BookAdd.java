@@ -46,8 +46,6 @@ public class BookAdd implements Observer
 	private JLabel lblCount;
 	private Book book = null;
 	private Library library;
-	private List<Copy> copies;
-	private List<Loan> lent;
 	private JLabel lblShelf;
 	private JComboBox comboBoxShelf;
 	private JTable table;
@@ -92,7 +90,7 @@ public class BookAdd implements Observer
 		gbl_panel.rowWeights = new double[] { 1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panel.setLayout(gbl_panel);
 
-		lblTitle = new JLabel("Titel");
+		lblTitle = new JLabel("Titel:");
 		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
 		gbc_lblTitle.anchor = GridBagConstraints.WEST;
 		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
@@ -110,7 +108,7 @@ public class BookAdd implements Observer
 		panel.add(txtTitle, gbc_txtTitle);
 		txtTitle.setColumns(10);
 
-		lblAuthor = new JLabel("Autor");
+		lblAuthor = new JLabel("Autor:");
 		GridBagConstraints gbc_lblAuthor = new GridBagConstraints();
 		gbc_lblAuthor.anchor = GridBagConstraints.WEST;
 		gbc_lblAuthor.gridheight = 2;
@@ -130,7 +128,7 @@ public class BookAdd implements Observer
 		panel.add(txtAuthor, gbc_txtAuthor);
 		txtAuthor.setColumns(10);
 
-		lblPublisher = new JLabel("Verlag");
+		lblPublisher = new JLabel("Verlag:");
 		GridBagConstraints gbc_lblPublisher = new GridBagConstraints();
 		gbc_lblPublisher.anchor = GridBagConstraints.WEST;
 		gbc_lblPublisher.gridheight = 2;
@@ -150,7 +148,7 @@ public class BookAdd implements Observer
 		panel.add(txtPublisher, gbc_txtPublisher);
 		txtPublisher.setColumns(10);
 
-		lblShelf = new JLabel("Regal");
+		lblShelf = new JLabel("Regal:");
 		GridBagConstraints gbc_lblShelf = new GridBagConstraints();
 		gbc_lblShelf.anchor = GridBagConstraints.WEST;
 		gbc_lblShelf.insets = new Insets(0, 0, 5, 5);
@@ -173,7 +171,6 @@ public class BookAdd implements Observer
 		btnAddBook.setToolTipText("Fügt der Bibliothek ein neues Buch hinzu (alle Felder müssen ausgefüllt sein!)");
 		btnAddBook.addActionListener(new ActionListener()
 		{
-
 			public void actionPerformed(ActionEvent arg0)
 			{
 				if (verifyFields())
@@ -182,7 +179,6 @@ public class BookAdd implements Observer
 					book.setAuthor(txtAuthor.getText());
 					book.setPublisher(txtPublisher.getText());
 					book.setShelf((Shelf) comboBoxShelf.getSelectedItem());
-					copies = library.getCopiesOfBook(book);
 					tableModel = new TableModelBookDetail(library, book, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
@@ -232,10 +228,6 @@ public class BookAdd implements Observer
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-
-		tableModel = new TableModelBookDetail(library, book, header);
-		table.setModel(tableModel);
-
 		table.addMouseListener(new MouseAdapter()
 		{
 			@Override
@@ -250,12 +242,13 @@ public class BookAdd implements Observer
 				}
 			}
 		});
-
+		tableModel = new TableModelBookDetail(library, book, header);
+		table.setModel(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(105);
 		table.getColumnModel().getColumn(0).setMinWidth(30);
 		table.getColumnModel().getColumn(0).setMaxWidth(105);
 
-		btnRemoveCopy = new JButton("Ausgewählte Entfernen");
+		btnRemoveCopy = new JButton("Ausgewählte entfernen");
 		btnRemoveCopy.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 
 		btnRemoveCopy.addActionListener(new ActionListener()
@@ -278,7 +271,7 @@ public class BookAdd implements Observer
 		gbc_btnRemoveCopy.gridy = 0;
 		panel_1.add(btnRemoveCopy, gbc_btnRemoveCopy);
 
-		btnAddCopy = new JButton(" Exemplar hinzufügen");
+		btnAddCopy = new JButton("Exemplar hinzufügen");
 		btnAddCopy.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
 		btnAddCopy.addActionListener(new ActionListener()
 		{
@@ -286,7 +279,7 @@ public class BookAdd implements Observer
 			{
 				if (book == null)
 				{
-					System.out.println("Zuesrt Buch erstellen, dann Kopie hinzufügen");
+					System.out.println("Zuerst Buch erstellen, dann Kopie hinzufügen");
 				} else
 				{
 					library.createAndAddCopy(book);
@@ -308,11 +301,7 @@ public class BookAdd implements Observer
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
-		if (book != null)
-		{
-			copies = library.getCopiesOfBook(book);
-			lent = library.getLentCopiesOfBook(book);
-		}
+		
 	}
 
 	private boolean verifyFields()

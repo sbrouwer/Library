@@ -10,6 +10,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -39,10 +42,9 @@ import domain.Copy.Condition;
 import domain.Library;
 import domain.Shelf;
 
-public class BookDetail implements Observer {
+public class BookDetail extends JFrame implements Observer {
 	private Book book;
 	private Library library;
-	private JFrame frame;
 	private JTextField txtTitle;
 	private JTextField txtAuthor;
 	private JTextField txtPublisher;
@@ -69,19 +71,17 @@ public class BookDetail implements Observer {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 360);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-		frame.setTitle("Buchdetail");
-		frame.setMinimumSize(new Dimension(500, 360));
-		frame.setMaximumSize(new Dimension(749, 659));
+		setBounds(100, 100, 450, 360);
+		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
+		setTitle("Buchdetail");
+		setMinimumSize(new Dimension(500, 360));
+		setMaximumSize(new Dimension(749, 659));
 
-		addKeyboardListeners(frame);
+		addKeyboardListeners(this);
 
 		JPanel panel_book = new JPanel();
-		panel_book.setBorder(new TitledBorder(null, "Buchinformationen", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-		frame.getContentPane().add(panel_book);
+		panel_book.setBorder(new TitledBorder(null, "Buchinformationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		getContentPane().add(panel_book);
 		GridBagLayout gbl_panel_book = new GridBagLayout();
 		gbl_panel_book.columnWidths = new int[] { 0, 0, 0 };
 		gbl_panel_book.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -169,9 +169,8 @@ public class BookDetail implements Observer {
 		setInformation();
 
 		JPanel panel_copies = new JPanel();
-		panel_copies.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
-		frame.getContentPane().add(panel_copies);
+		panel_copies.setBorder(new TitledBorder(null, "Exemplare", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		getContentPane().add(panel_copies);
 		GridBagLayout gbl_panel_copies = new GridBagLayout();
 		gbl_panel_copies.columnWidths = new int[] { 0, 0, 0, 0 };
 		gbl_panel_copies.rowHeights = new int[] { 0, 0, 0, 0, 0 };
@@ -204,11 +203,10 @@ public class BookDetail implements Observer {
 		String[] header = { "Inventar Nummer", "Verfügbarkeit", "Zustand" };
 		final TableModelBookDetail tableModel = new TableModelBookDetail(library, book, header);
 		table.setModel(tableModel);
-
+		
 		ImageIcon iconRemoveCopy = new ImageIcon("icons/book_delete.png");
 		btnRemoveCopy = new JButton("Ausgew\u00E4hlte entfernen", iconRemoveCopy);
-		btnRemoveCopy
-				.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
+		btnRemoveCopy.setToolTipText("Entfernt das in der Tabelle markierte Buch, falls es nicht ausgeliehen ist");
 		btnRemoveCopy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selected[] = table.getSelectedRows();
@@ -268,7 +266,7 @@ public class BookDetail implements Observer {
 		gbc_scrollPane.gridy = 3;
 		panel_copies.add(scrollPane, gbc_scrollPane);
 
-		frame.setVisible(true);
+		setVisible(true);
 		
 		setUpConditionColumn(table, table.getColumnModel().getColumn(2));
 

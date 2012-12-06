@@ -13,7 +13,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -46,11 +49,13 @@ public class TabBook extends JPanel implements Observer
 	private TableModelTabBook tableModel;
 	private TableRowSorter<TableModelTabBook> sorter;
 	private JButton btnBookDetail;
+	private HashMap<Book, BookDetail> openOnce;
 	
 	public TabBook(Library library)
 	{
 		this.library = library;
 		library.addObserver(this);
+		openOnce = new HashMap<Book, BookDetail>();
 		initialize();
 		updateStatistics();
 	}
@@ -87,7 +92,7 @@ public class TabBook extends JPanel implements Observer
 		gbc_lblBooks.gridy = 0;
 		panel_statistics.add(lblBooks, gbc_lblBooks);
 		
-		lblAmountOfBooks = new JLabel("0");
+		lblAmountOfBooks = new JLabel();
 		GridBagConstraints gbc_lblAmountOfBooks = new GridBagConstraints();
 		gbc_lblAmountOfBooks.insets = new Insets(0, 0, 0, 20);
 		gbc_lblAmountOfBooks.gridx = 1;
@@ -102,7 +107,7 @@ public class TabBook extends JPanel implements Observer
 		gbc_lblCopies.gridy = 0;
 		panel_statistics.add(lblCopies, gbc_lblCopies);
 		
-		lblAmountOfCopies = new JLabel("0");
+		lblAmountOfCopies = new JLabel();
 		GridBagConstraints gbc_lblAmountOfCopies = new GridBagConstraints();
 		gbc_lblAmountOfCopies.anchor = GridBagConstraints.WEST;
 		gbc_lblAmountOfCopies.gridx = 3;
@@ -196,12 +201,7 @@ public class TabBook extends JPanel implements Observer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				int selected[] = table.getSelectedRows();
-				for (int i : selected)
-				{
-					Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
-					new BookDetail(book, library);
-				}
+				openBookDetail();
 			}
 		});
 		GridBagConstraints gbc_btnBookDetail = new GridBagConstraints();
@@ -254,12 +254,7 @@ public class TabBook extends JPanel implements Observer
 			{
 				if (e.getClickCount() == 2)
 				{
-					int selected[] = table.getSelectedRows();
-					for (int i : selected)
-					{
-						Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
-						new BookDetail(book, library);
-					}
+					openBookDetail();
 				}
 			}
 		});
@@ -279,9 +274,33 @@ public class TabBook extends JPanel implements Observer
 		sorter.toggleSortOrder(1);
 	}
 	
-	/**
-	 * Adds only Available Books from the Library to the Inventary Table
-	 */
+	private void openBookDetail(){
+		int selected[] = table.getSelectedRows();
+		for (int i : selected)
+		{
+			Book book = tableModel.getBookAtRow(table.convertRowIndexToModel(i));
+			if (openOnce.containsKey(book))
+			{
+				openOnce.get(book).setVisible(true);
+				openOnce.get(book).toFront();
+			}
+			else {
+				
+				final Book bookToRemove = book;
+				BookDetail bookDetail = new BookDetail(book, library);
+				bookDetail.addWindowListener(new WindowAdapter(){		
+					 
+					public void windowClosing(WindowEvent e)
+					{
+						openOnce.remove(bookToRemove);
+					}
+					
+				});
+				openOnce.put(book, bookDetail);
+			}
+		}
+	}
+
 	private void addAvailableBooks()
 	{
 		sorter = new TableRowSorter<TableModelTabBook>(tableModel);
