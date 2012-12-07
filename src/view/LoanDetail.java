@@ -239,9 +239,7 @@ public class LoanDetail implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				if (customersComboBox.getSelectedIndex() > -1) {
 					if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
-						// check InventoryNr
 						if (library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))) {
-							// check if is Lent
 							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
 						} else if (!checkCustomerLoanAmount()) {
@@ -250,8 +248,7 @@ public class LoanDetail implements Observer {
 						} else if (checkCustomerHasOverdueLoans()) {
 							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat eine überfällige Ausleihe!");
-						} else if (library.getCopyByInventoryNumber(
-								Long.parseLong(txtCopyInventoryNumber.getText())).getCondition() == Condition.LOST) {
+						} else if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())).getCondition() == Condition.LOST) {
 							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
 						} else {
