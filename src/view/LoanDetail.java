@@ -237,19 +237,16 @@ public class LoanDetail implements Observer {
 		btnAddLoan.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				lblError.setForeground(Color.RED);
 				if (customersComboBox.getSelectedIndex() > -1) {
-					if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
-						if (library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))) {
-							lblError.setForeground(Color.RED);
+					if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {		
+						if (library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))) {							
 							lblError.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
 						} else if (!checkCustomerLoanAmount()) {
-							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits 3 Bücher ausgeliehen!");
 						} else if (checkCustomerHasOverdueLoans()) {
-							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat eine überfällige Ausleihe!");
 						} else if (library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())).getCondition() == Condition.LOST) {
-							lblError.setForeground(Color.RED);
 							lblError.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
 						} else {
 							Loan l = library.createAndAddLoan(customer, library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())));
@@ -260,13 +257,11 @@ public class LoanDetail implements Observer {
 								lblError.setForeground(Color.BLACK);
 								lblError.setText("Exemplar wurde erfolgreich ausgeliehen");
 							} else {
-								lblError.setForeground(Color.RED);
 								lblError.setText("Exemplar konnte nicht ausgelehnt werden");
 							}
 						}
 					}
 				} else {
-					lblError.setForeground(Color.RED);
 					lblError.setText("Es muss ein Kunde ausgewählt sein, bevor ein Buch ausgeliehen werden kann!");
 				}
 			}
