@@ -167,7 +167,7 @@ public class TabBook extends JPanel implements Observer
 		gbc_txtSearch.gridy = 0;
 		panel_management.add(txtSearch, gbc_txtSearch);
 		
-		JCheckBox chckbxOnlyAvailable = new JCheckBox("Nur Verfügbare");
+		JCheckBox chckbxOnlyAvailable = new JCheckBox("Nur verfügbare");
 		chckbxOnlyAvailable.setToolTipText("Falls markiert, werden nur Bücher mit verfügbaren Exemplaren angezeigt");
 		chckbxOnlyAvailable.addItemListener(new ItemListener()
 		{
@@ -195,7 +195,7 @@ public class TabBook extends JPanel implements Observer
 		panel_management.add(chckbxOnlyAvailable, gbc_chckbxOnlyAvailable);
 		
 		ImageIcon iconBookDetail = new ImageIcon("icons/book.png");
-		btnBookDetail = new JButton("Buchdetail anzeigen", iconBookDetail);
+		btnBookDetail = new JButton("Selektiertes anzeigen", iconBookDetail);
 		btnBookDetail.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Buch in einer Detailansicht an");
 		btnBookDetail.setEnabled(false);
 		btnBookDetail.addActionListener(new ActionListener()

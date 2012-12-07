@@ -73,7 +73,7 @@ public class BookDetail extends JFrame implements Observer {
 	private void initialize() {
 		setBounds(100, 100, 450, 360);
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		setTitle("Buchdetail");
+		setTitle("Buch");
 		setMinimumSize(new Dimension(500, 360));
 		setMaximumSize(new Dimension(749, 659));
 

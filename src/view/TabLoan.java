@@ -247,7 +247,7 @@ public class TabLoan extends JPanel implements Observer
 		panel_management.add(btnShowSelected, gbc_btnShowSelected);
 
 		ImageIcon iconAddLoan = new ImageIcon("icons/book_go.png");
-		btnAddLoan = new JButton("Neue Ausleihe erfassen", iconAddLoan);
+		btnAddLoan = new JButton("Neue Ausleihe", iconAddLoan);
 		btnAddLoan.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
 		btnAddLoan.addActionListener(new ActionListener()
 		{

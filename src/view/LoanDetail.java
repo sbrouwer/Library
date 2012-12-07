@@ -145,7 +145,7 @@ public class LoanDetail implements Observer {
 		final String[] headers = { "Status", "Exemplar-ID", "Titel", "Autor" };
 
 		frmLoanDetail = new JFrame();
-		frmLoanDetail.setTitle("Ausleihe Detail");
+		frmLoanDetail.setTitle("Ausleihe");
 		frmLoanDetail.setBounds(100, 100, 550, 380);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0 };

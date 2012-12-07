@@ -76,7 +76,7 @@ public class BookAdd implements Observer
 		frmBookAdd.setBounds(100, 100, 450, 360);
 		frmBookAdd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmBookAdd.getContentPane().setLayout(new BoxLayout(frmBookAdd.getContentPane(), BoxLayout.Y_AXIS));
-		frmBookAdd.setTitle("Buch Hinzufügen");
+		frmBookAdd.setTitle("Buch erfassen");
 		Dimension d = new Dimension(450, 360);
 		frmBookAdd.setMinimumSize(d);
 
@@ -167,7 +167,7 @@ public class BookAdd implements Observer
 		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
 
 		ImageIcon iconAddBook = new ImageIcon("icons/book_add.png");
-		btnAddBook = new JButton("Buch Hinzufügen", iconAddBook);
+		btnAddBook = new JButton("Buch erfassen", iconAddBook);
 		btnAddBook.setToolTipText("Fügt der Bibliothek ein neues Buch hinzu (alle Felder müssen ausgefüllt sein!)");
 		btnAddBook.addActionListener(new ActionListener()
 		{
@@ -279,7 +279,7 @@ public class BookAdd implements Observer
 			{
 				if (book == null)
 				{
-					System.out.println("Zuerst Buch erstellen, dann Kopie hinzufügen");
+					System.out.println("Zuerst Buch erfassen, dann Kopie hinzufügen");
 				} else
 				{
 					library.createAndAddCopy(book);
