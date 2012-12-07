@@ -165,80 +165,6 @@ public class LoanDetail implements Observer {
 
 		addKeyboardListeners(frmLoanDetail);
 
-		JPanel panel_customer = new JPanel();
-		panel_customer.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-		GridBagConstraints gbc_panel_customer = new GridBagConstraints();
-		gbc_panel_customer.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_customer.fill = GridBagConstraints.BOTH;
-		gbc_panel_customer.gridx = 0;
-		gbc_panel_customer.gridy = 0;
-		frmLoanDetail.getContentPane().add(panel_customer, gbc_panel_customer);
-		GridBagLayout gbl_panel_customer = new GridBagLayout();
-		gbl_panel_customer.columnWidths = new int[] { 100, 0, 0 };
-		gbl_panel_customer.rowHeights = new int[] { 0, 0, 0 };
-		gbl_panel_customer.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
-		gbl_panel_customer.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
-		panel_customer.setLayout(gbl_panel_customer);
-
-		JLabel lblCustomerIdenfifier = new JLabel("Kennung:");
-		GridBagConstraints gbc_lblError = new GridBagConstraints();
-		gbc_lblError.anchor = GridBagConstraints.WEST;
-		gbc_lblError.insets = new Insets(0, 0, 5, 5);
-		gbc_lblError.gridx = 0;
-		gbc_lblError.gridy = 0;
-		panel_customer.add(lblCustomerIdenfifier, gbc_lblError);
-
-		txtCustomerIdentifier = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 0);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 0;
-		panel_customer.add(txtCustomerIdentifier, gbc_textField);
-		txtCustomerIdentifier.setColumns(10);
-
-		JLabel lblKunde = new JLabel("Kunde:");
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
-		gbc_lblNewLabel_1.gridx = 0;
-		gbc_lblNewLabel_1.gridy = 1;
-		panel_customer.add(lblKunde, gbc_lblNewLabel_1);
-
-		customersComboBox = new JComboBox<Customer>();
-		customersComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (customersComboBox.getSelectedIndex() != -1) {
-					// Falls Customer ausgewählt...
-					customer = (Customer) customersComboBox.getSelectedItem();
-					txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
-					tableModel = new TableModelLoanDetail(library, customer, headers);
-					table.setModel(tableModel);
-					table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
-					lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
-
-					sorter = new TableRowSorter<TableModelLoanDetail>((TableModelLoanDetail) tableModel);
-					table.setRowSorter(sorter);
-					sorter.setSortsOnUpdates(true);
-					sorter.toggleSortOrder(2);
-				} else {
-					// Falls kein Customer ausgewählt...
-					txtCustomerIdentifier.setText("");
-					tableModel = new TableModelLoanDetail(library, null, headers);
-					table.setModel(tableModel);
-					lblAmountOfLoansByCustomer.setText("0");
-				}
-			}
-		});
-
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 1;
-
-		panel_customer.add(customersComboBox, gbc_comboBox);
-
 		JPanel panel_newLoan = new JPanel();
 		panel_newLoan.setBorder(new TitledBorder(null, "Neues Exemplar ausleihen", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
@@ -246,7 +172,7 @@ public class LoanDetail implements Observer {
 		gbc_panel_newLoan.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_newLoan.fill = GridBagConstraints.BOTH;
 		gbc_panel_newLoan.gridx = 0;
-		gbc_panel_newLoan.gridy = 1;
+		gbc_panel_newLoan.gridy = 0;
 		frmLoanDetail.getContentPane().add(panel_newLoan, gbc_panel_newLoan);
 		GridBagLayout gbl_panel_newLoan = new GridBagLayout();
 		gbl_panel_newLoan.columnWidths = new int[] { 100, 0, 0, 0, 0, 0 };
@@ -397,6 +323,80 @@ public class LoanDetail implements Observer {
 		gbc_lblError2.gridx = 0;
 		gbc_lblError2.gridy = 2;
 		panel_newLoan.add(lblError, gbc_lblError2);
+		
+				JPanel panel_customer = new JPanel();
+				panel_customer.setBorder(new TitledBorder(null, "Kundenauswahl", TitledBorder.LEADING,
+						TitledBorder.TOP, null, null));
+				GridBagConstraints gbc_panel_customer = new GridBagConstraints();
+				gbc_panel_customer.insets = new Insets(0, 0, 5, 0);
+				gbc_panel_customer.fill = GridBagConstraints.BOTH;
+				gbc_panel_customer.gridx = 0;
+				gbc_panel_customer.gridy = 1;
+				frmLoanDetail.getContentPane().add(panel_customer, gbc_panel_customer);
+				GridBagLayout gbl_panel_customer = new GridBagLayout();
+				gbl_panel_customer.columnWidths = new int[] { 100, 0, 0 };
+				gbl_panel_customer.rowHeights = new int[] { 0, 0, 0 };
+				gbl_panel_customer.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
+				gbl_panel_customer.rowWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+				panel_customer.setLayout(gbl_panel_customer);
+				
+						JLabel lblCustomerIdenfifier = new JLabel("Kennung:");
+						GridBagConstraints gbc_lblError = new GridBagConstraints();
+						gbc_lblError.anchor = GridBagConstraints.WEST;
+						gbc_lblError.insets = new Insets(0, 0, 5, 5);
+						gbc_lblError.gridx = 0;
+						gbc_lblError.gridy = 0;
+						panel_customer.add(lblCustomerIdenfifier, gbc_lblError);
+						
+								txtCustomerIdentifier = new JTextField();
+								GridBagConstraints gbc_textField = new GridBagConstraints();
+								gbc_textField.insets = new Insets(0, 0, 5, 0);
+								gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+								gbc_textField.gridx = 1;
+								gbc_textField.gridy = 0;
+								panel_customer.add(txtCustomerIdentifier, gbc_textField);
+								txtCustomerIdentifier.setColumns(10);
+								
+										JLabel lblKunde = new JLabel("Kunde:");
+										GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
+										gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
+										gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
+										gbc_lblNewLabel_1.gridx = 0;
+										gbc_lblNewLabel_1.gridy = 1;
+										panel_customer.add(lblKunde, gbc_lblNewLabel_1);
+										
+												customersComboBox = new JComboBox<Customer>();
+												customersComboBox.addActionListener(new ActionListener() {
+													public void actionPerformed(ActionEvent e) {
+														if (customersComboBox.getSelectedIndex() != -1) {
+															// Falls Customer ausgewählt...
+															customer = (Customer) customersComboBox.getSelectedItem();
+															txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
+															tableModel = new TableModelLoanDetail(library, customer, headers);
+															table.setModel(tableModel);
+															table.getColumnModel().getColumn(0).setCellRenderer(new IconAndDescriptionRenderer());
+															lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
+
+															sorter = new TableRowSorter<TableModelLoanDetail>((TableModelLoanDetail) tableModel);
+															table.setRowSorter(sorter);
+															sorter.setSortsOnUpdates(true);
+															sorter.toggleSortOrder(2);
+														} else {
+															// Falls kein Customer ausgewählt...
+															txtCustomerIdentifier.setText("");
+															tableModel = new TableModelLoanDetail(library, null, headers);
+															table.setModel(tableModel);
+															lblAmountOfLoansByCustomer.setText("0");
+														}
+													}
+												});
+												
+														GridBagConstraints gbc_comboBox = new GridBagConstraints();
+														gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+														gbc_comboBox.gridx = 1;
+														gbc_comboBox.gridy = 1;
+														
+																panel_customer.add(customersComboBox, gbc_comboBox);
 
 		JPanel panel_loansByCustomer = new JPanel();
 		panel_loansByCustomer.setBorder(new TitledBorder(null, "Ausleihen von Kunde", TitledBorder.LEADING,
