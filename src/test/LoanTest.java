@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 import domain.Book;
 import domain.Copy;
 import domain.Customer;
-import domain.IllegalLoanOperationException;
 import domain.Loan;
+import exception.IllegalLoanOperationException;
 
 public class LoanTest extends TestCase {
 

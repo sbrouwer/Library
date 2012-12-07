@@ -30,7 +30,6 @@ import tablemodel.TableModelBookDetail;
 import domain.Book;
 import domain.Copy;
 import domain.Library;
-import domain.Loan;
 import domain.Shelf;
 
 public class BookAdd implements Observer

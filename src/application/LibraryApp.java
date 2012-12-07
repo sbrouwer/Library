@@ -17,10 +17,10 @@ import view.Master;
 import domain.Book;
 import domain.Copy;
 import domain.Customer;
-import domain.IllegalLoanOperationException;
 import domain.Library;
 import domain.Loan;
 import domain.Shelf;
+import exception.IllegalLoanOperationException;
 
 public class LibraryApp
 {

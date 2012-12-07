@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Observable;
 
+import exception.IllegalLoanOperationException;
+
 public class Loan extends Observable {
 
 	private Copy copy;
