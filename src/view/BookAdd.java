@@ -184,6 +184,7 @@ public class BookAdd implements Observer
 					tableModel.fireTableDataChanged();
 					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
 					lblStatus.setForeground(new Color(0, 0, 0));
+					btnAddCopy.setEnabled(true);
 				}
 			}
 		});
@@ -273,13 +274,15 @@ public class BookAdd implements Observer
 
 		btnAddCopy = new JButton("Exemplar hinzufügen");
 		btnAddCopy.setToolTipText("Fügt ein neues Exemplar des angezeigten Buches hinzu");
+		btnAddCopy.setEnabled(false);
 		btnAddCopy.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
 				if (book == null)
 				{
-					System.out.println("Zuerst Buch erfassen, dann Kopie hinzufügen");
+					lblStatus.setForeground(Color.RED);
+					lblStatus.setText("Zuerst Buch erfassen, dann Kopie hinzufügen");
 				} else
 				{
 					library.createAndAddCopy(book);

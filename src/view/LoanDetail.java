@@ -453,6 +453,29 @@ public class LoanDetail implements Observer {
 		panel_loansByCustomer.add(scrollPane, gbc_scrollPane);
 
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				long inventoryNumber = (Long) tableModel.getValueAt(
+						table.convertRowIndexToModel(table.getSelectedRow()), 1);
+				txtCopyInventoryNumber.setText(Long.toString(inventoryNumber));
+				if (checkIfInventoryNumberExists(Long.toString(inventoryNumber))) {
+					Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(inventoryNumber));
+					if (l != null) {
+						if (l.isLent()) {
+							btnReturnLoan.setEnabled(true);
+							btnAddLoan.setEnabled(false);
+						} else {
+							btnReturnLoan.setEnabled(false);
+							btnAddLoan.setEnabled(true);
+						}
+					} else{
+						btnReturnLoan.setEnabled(false);
+						btnAddLoan.setEnabled(true);
+					}
+				}
+			}
+		});
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setAutoCreateRowSorter(true);
 		GridBagConstraints gbc_table = new GridBagConstraints();

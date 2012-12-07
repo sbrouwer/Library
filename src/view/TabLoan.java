@@ -203,7 +203,8 @@ public class TabLoan extends JPanel implements Observer
 				// deleteTableRows(table);
 				if (arg0.getStateChange() == 1)
 				{ // If hook is set, add only
-					addOverdueLoans(); // entries with available
+					addOverdueLoans();
+					btnShowSelected.setEnabled(false);// entries with available
 					// Copies
 					// (Number of Copies -
 					// Number of Lent Copies)
@@ -211,6 +212,7 @@ public class TabLoan extends JPanel implements Observer
 				} else
 				{ // if hook is not set, add all Books
 					sorter.setRowFilter(null);
+					btnShowSelected.setEnabled(false);
 				}
 			}
 

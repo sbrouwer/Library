@@ -181,10 +181,12 @@ public class TabBook extends JPanel implements Observer
 					// If hook is set, add only entries with available Copies
 					// (Number of Copies - Number of Lent Copies)
 					addAvailableBooks();
+					btnBookDetail.setEnabled(false);
 				} else
 				{ 
 					// if hook is not set, add all Books
 					sorter.setRowFilter(null);
+					btnBookDetail.setEnabled(false);
 				}
 			}
 		});
