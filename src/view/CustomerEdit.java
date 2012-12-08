@@ -163,9 +163,10 @@ public class CustomerEdit extends JFrame {
 
 		lblStatus = new JLabel();
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
+		gbc_lblStatus.gridwidth = 2;
 		gbc_lblStatus.anchor = GridBagConstraints.WEST;
 		gbc_lblStatus.insets = new Insets(0, 0, 0, 5);
-		gbc_lblStatus.gridx = 1;
+		gbc_lblStatus.gridx = 0;
 		gbc_lblStatus.gridy = 5;
 		contentPane.add(lblStatus, gbc_lblStatus);
 
@@ -241,14 +242,18 @@ public class CustomerEdit extends JFrame {
 	}
 
 	private boolean checkZip() {
-		if (Integer.parseInt(txtZip.getText()) < 0 || Integer.parseInt(txtZip.getText()) > 10000
-				|| txtZip.getText().length() != 4) {
-			lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
-			lblZip.setText("PLZ*");
-			lblZip.setForeground(new Color(255, 0, 0));
-			return false;
-		}
-		return true;
+		if (txtZip.getText().matches("[0-9]+")) {
+	        if (Integer.parseInt(txtZip.getText()) > 0 
+	                && Integer.parseInt(txtZip.getText()) < 10000
+	                && txtZip.getText().length() == 4) {
+	            return true;				
+	        }
+	    }
+		lblStatus.setForeground(Color.RED);
+	    lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
+	    lblZip.setText("PLZ*");
+	    lblZip.setForeground(Color.RED);
+	    return false;
 	}
 
 }
