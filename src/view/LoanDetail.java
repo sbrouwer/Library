@@ -458,19 +458,20 @@ public class LoanDetail implements Observer {
     private void setButtonsAfterID(){
         if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
             lblCheck.setIcon(iconInventoryNumberOK);
-            Copy copy = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
-            if (library.isCopyLent(copy)) {
+            Copy c = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
+            if (library.isCopyLent(c)) {
+                Loan l = library.getLoanOfCopy(c);
+                txtReturnDate.setText(l.getDueDateString() + " noch " + l.getDaysTilDue() + " Tage");
+                
                 btnAddLoan.setEnabled(false);
                 btnReturnLoan.setEnabled(true);
-               
-                txtReturnDate.setText(library.getLoanOfCopy(copy).getDueDateString() + " noch " + library.getLoanOfCopy(copy).getDaysTilDue() + " Tage");
             } else {
-                btnAddLoan.setEnabled(true);
-                btnReturnLoan.setEnabled(false);
-                
                 GregorianCalendar returnDate = new GregorianCalendar();
                 returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
                 txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " noch " + Loan.DAYS_TO_RETURN_BOOK + " Tage");
+                
+                btnAddLoan.setEnabled(true);
+                btnReturnLoan.setEnabled(false);
             }
         } else {
             lblCheck.setIcon(iconInventoryNumberWrong);
