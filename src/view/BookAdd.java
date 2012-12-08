@@ -7,6 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -18,12 +19,14 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import tablemodel.TableModelBookDetail;
@@ -172,19 +175,7 @@ public class BookAdd implements Observer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (verifyFields())
-				{
-					book = library.createAndAddBook(txtTitle.getText());
-					book.setAuthor(txtAuthor.getText());
-					book.setPublisher(txtPublisher.getText());
-					book.setShelf((Shelf) comboBoxShelf.getSelectedItem());
-					tableModel = new TableModelBookDetail(library, book, header);
-					table.setModel(tableModel);
-					tableModel.fireTableDataChanged();
-					lblStatus.setText("Das Buch wurde erfolgreich erfasst");
-					lblStatus.setForeground(Color.BLACK);
-					btnAddCopy.setEnabled(true);
-				}
+				addBook();
 			}
 		});
 
@@ -304,6 +295,8 @@ public class BookAdd implements Observer
 		gbc_scrollPane.gridy = 1;
 		panel_1.add(scrollPane, gbc_scrollPane);
 		
+		addKeyboardListeners(frmBookAdd);
+		
 	}
 
 	private boolean verifyFields()
@@ -368,6 +361,22 @@ public class BookAdd implements Observer
 		}
 		return ok;
 	}
+	
+	private void addBook(){
+		if (verifyFields())
+		{
+			book = library.createAndAddBook(txtTitle.getText());
+			book.setAuthor(txtAuthor.getText());
+			book.setPublisher(txtPublisher.getText());
+			book.setShelf((Shelf) comboBoxShelf.getSelectedItem());
+			tableModel = new TableModelBookDetail(library, book, header);
+			table.setModel(tableModel);
+			tableModel.fireTableDataChanged();
+			lblStatus.setText("Das Buch wurde erfolgreich erfasst");
+			lblStatus.setForeground(Color.BLACK);
+			btnAddCopy.setEnabled(true);
+		}
+	}
 
 	private boolean bookExists()
 	{
@@ -409,6 +418,27 @@ public class BookAdd implements Observer
 	public void update(Observable o, Object arg)
 	{
 		updateFields();
+	}
+	
+	public void addKeyboardListeners(final JFrame frame) {
+		ActionListener escListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		};
+
+		ActionListener enterListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addBook();
+			}
+		};
+		frame.getRootPane().registerKeyboardAction(escListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		frame.getRootPane().registerKeyboardAction(enterListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 
 }
