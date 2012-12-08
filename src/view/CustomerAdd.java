@@ -6,20 +6,22 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import domain.Customer;
 import domain.Library;
 
-public class CustomerAdd extends JFrame
-{
+public class CustomerAdd extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblName;
@@ -40,19 +42,18 @@ public class CustomerAdd extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public CustomerAdd(Library library)
-	{
+	public CustomerAdd(Library library) {
 		this.library = library;
 		initalize();
 	}
 
-	private void initalize()
-	{
+	private void initalize() {
 		setTitle("Kunde erfassen");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBorder(new TitledBorder(null, "Kundendaten", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		contentPane.setBorder(new TitledBorder(null, "Kundendaten", TitledBorder.LEADING, TitledBorder.TOP,
+				null, null));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[] { 0, 0, 0, 0 };
@@ -152,18 +153,11 @@ public class CustomerAdd extends JFrame
 		txtCity.setColumns(10);
 
 		btnAddCustomer = new JButton("Kunde erfassen");
-		btnAddCustomer.addActionListener(new ActionListener()
-		{
+		btnAddCustomer.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0)
-			{
-				if (verifyFields())
-				{
-					Customer c = library.createAndAddCustomer(txtName.getText(), txtSurname.getText());
-					c.setAdress(txtStreet.getText(), Integer.valueOf(txtZip.getText()), txtCity.getText());
-					lblStatus.setText("Kunde wurde erfolgreich erfasst");
-				}
+			public void actionPerformed(ActionEvent arg0) {
+				addCustomer();
 			}
 
 		});
@@ -180,110 +174,125 @@ public class CustomerAdd extends JFrame
 		gbc_btnAddCustomer.gridx = 2;
 		gbc_btnAddCustomer.gridy = 5;
 		contentPane.add(btnAddCustomer, gbc_btnAddCustomer);
+		
+		addKeyboardListeners(this);
 
 		setVisible(true);
 
 	}
 
-	private boolean verifyFields()
-	{
+	private boolean verifyFields() {
 		boolean ok = true;
 		Color red = new Color(255, 0, 0);
 		Color black = new Color(0, 0, 0);
-		if (customerExists())
-		{
-			lblStatus.setText("Buch existiert bereits!");
+		if (customerExists()) {
+			lblStatus.setText("Kunde existiert bereits!");
 			lblStatus.setForeground(red);
 			return false;
 		}
-		if (txtName.getText().equals(""))
-		{
+		if (txtName.getText().equals("")) {
 			lblStatus.setForeground(red);
 			lblName.setText("Name*");
 			lblName.setForeground(red);
 			ok = false;
-		} else if (lblName.getForeground().equals(red))
-		{
+		} else if (lblName.getForeground().equals(red)) {
 			lblName.setForeground(black);
 			lblName.setText("Name");
 		}
-		if (txtSurname.getText().equals(""))
-		{
+		if (txtSurname.getText().equals("")) {
 			lblSurename.setText("Vorname*");
 			lblSurename.setForeground(red);
 			ok = false;
-		} else if (lblSurename.getForeground().equals(red))
-		{
+		} else if (lblSurename.getForeground().equals(red)) {
 			lblSurename.setForeground(black);
 			lblSurename.setText("Vorname");
 		}
-		if (txtStreet.getText().equals(""))
-		{
+		if (txtStreet.getText().equals("")) {
 			lblStreet.setText("Strasse*");
 			lblStreet.setForeground(red);
 			ok = false;
-		} else if (lblStreet.getForeground().equals(red))
-		{
+		} else if (lblStreet.getForeground().equals(red)) {
 			lblStreet.setForeground(black);
 			lblStreet.setText("Strasse");
 		}
-		if (txtZip.getText().equals(""))
-		{
+		if (txtZip.getText().equals("")) {
 			lblZip.setText("PLZ*");
 			lblZip.setForeground(red);
 			ok = false;
-		} else if (!checkZip())
-		{
+		} else if (!checkZip()) {
 			return false;
-		} else if (lblZip.getForeground().equals(red))
-		{
+		} else if (lblZip.getForeground().equals(red)) {
 			lblZip.setForeground(black);
 			lblZip.setText("PLZ");
 		}
-		if (txtCity.getText().equals(""))
-		{
+		if (txtCity.getText().equals("")) {
 			lblCity.setText("Ort*");
 			lblCity.setForeground(red);
 			ok = false;
-		} else if (lblCity.getForeground().equals(red))
-		{
+		} else if (lblCity.getForeground().equals(red)) {
 			lblCity.setForeground(black);
 			lblCity.setText("Ort");
 		}
-		if (ok)
-		{
+		if (ok) {
 			lblStatus.setText(" ");
-		} else
-		{
+		} else {
 			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
 			lblStatus.setForeground(red);
 		}
 		return ok;
 	}
 
-	private boolean customerExists()
-	{
+	private boolean customerExists() {
 		List<Customer> customers = library.getCustomers();
-		for (Customer c : customers)
-		{
-			if (c.getName().equals(txtName.getText()) && c.getSurname().equals(txtSurname.getText()))
-			{
+		for (Customer c : customers) {
+			if (c.getName().equals(txtName.getText()) && c.getSurname().equals(txtSurname.getText())) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean checkZip()
-	{
-		if (Integer.parseInt(txtZip.getText()) < 0 || Integer.parseInt(txtZip.getText()) > 10000 || txtZip.getText().length() != 4)
-		{
-			lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
-			lblZip.setText("PLZ*");
-			lblZip.setForeground(new Color(255, 0, 0));
-			return false;
+	private boolean checkZip() {
+		if (txtZip.getText().matches("[0-9]+")) {
+			if (Integer.parseInt(txtZip.getText()) > 0 && Integer.parseInt(txtZip.getText()) < 10000
+					&& txtZip.getText().length() == 4) {
+				return true;				
+			}
 		}
-		return true;
+		lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
+		lblZip.setText("PLZ*");
+		lblZip.setForeground(Color.RED);
+		return false;
+	}
+
+	private void addCustomer() {
+		if (verifyFields()) {
+			Customer c = library.createAndAddCustomer(txtName.getText(), txtSurname.getText());
+			c.setAdress(txtStreet.getText(), Integer.valueOf(txtZip.getText()), txtCity.getText());
+			lblStatus.setForeground(Color.BLACK);
+			lblStatus.setText("Kunde wurde erfolgreich erfasst");
+		}
+	}
+
+	public void addKeyboardListeners(final JFrame frame) {
+		ActionListener escListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		};
+
+		ActionListener enterListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addCustomer();
+			}
+		};
+		frame.getRootPane().registerKeyboardAction(escListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		frame.getRootPane().registerKeyboardAction(enterListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 
 }
