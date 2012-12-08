@@ -183,65 +183,77 @@ public class CustomerAdd extends JFrame {
 
 	private boolean verifyFields() {
 		boolean ok = true;
-		Color red = new Color(255, 0, 0);
-		Color black = new Color(0, 0, 0);
 		if (customerExists()) {
 			lblStatus.setText("Kunde existiert bereits!");
-			lblStatus.setForeground(red);
+			lblStatus.setForeground(Color.RED);
 			return false;
 		}
 		if (txtName.getText().equals("")) {
-			lblStatus.setForeground(red);
+			lblStatus.setForeground(Color.RED);
 			lblName.setText("Name*");
-			lblName.setForeground(red);
+			lblName.setForeground(Color.RED);
 			ok = false;
-		} else if (lblName.getForeground().equals(red)) {
-			lblName.setForeground(black);
+		} else if (lblName.getForeground().equals(Color.RED)) {
+			lblName.setForeground(Color.BLACK);
 			lblName.setText("Name");
 		}
 		if (txtSurname.getText().equals("")) {
 			lblSurename.setText("Vorname*");
-			lblSurename.setForeground(red);
+			lblSurename.setForeground(Color.RED);
 			ok = false;
-		} else if (lblSurename.getForeground().equals(red)) {
-			lblSurename.setForeground(black);
+		} else if (lblSurename.getForeground().equals(Color.RED)) {
+			lblSurename.setForeground(Color.BLACK);
 			lblSurename.setText("Vorname");
 		}
 		if (txtStreet.getText().equals("")) {
 			lblStreet.setText("Strasse*");
-			lblStreet.setForeground(red);
+			lblStreet.setForeground(Color.RED);
 			ok = false;
-		} else if (lblStreet.getForeground().equals(red)) {
-			lblStreet.setForeground(black);
+		} else if (lblStreet.getForeground().equals(Color.RED)) {
+			lblStreet.setForeground(Color.BLACK);
 			lblStreet.setText("Strasse");
 		}
 		if (txtZip.getText().equals("")) {
 			lblZip.setText("PLZ*");
-			lblZip.setForeground(red);
+			lblZip.setForeground(Color.RED);
 			ok = false;
 		} else if (!checkZip()) {
 			return false;
-		} else if (lblZip.getForeground().equals(red)) {
-			lblZip.setForeground(black);
+		} else if (lblZip.getForeground().equals(Color.RED)) {
+			lblZip.setForeground(Color.BLACK);
 			lblZip.setText("PLZ");
 		}
 		if (txtCity.getText().equals("")) {
 			lblCity.setText("Ort*");
-			lblCity.setForeground(red);
+			lblCity.setForeground(Color.RED);
 			ok = false;
-		} else if (lblCity.getForeground().equals(red)) {
-			lblCity.setForeground(black);
+		} else if (lblCity.getForeground().equals(Color.RED)) {
+			lblCity.setForeground(Color.BLACK);
 			lblCity.setText("Ort");
 		}
 		if (ok) {
 			lblStatus.setText(" ");
 		} else {
 			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
-			lblStatus.setForeground(red);
+			lblStatus.setForeground(Color.RED);
 		}
 		return ok;
 	}
 
+	private boolean checkZip() {
+	    if (txtZip.getText().matches("[0-9]+")) {
+	        if (Integer.parseInt(txtZip.getText()) > 0 
+	                && Integer.parseInt(txtZip.getText()) < 10000
+	                && txtZip.getText().length() == 4) {
+	            return true;				
+	        }
+	    }
+	    lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
+	    lblZip.setText("PLZ*");
+	    lblZip.setForeground(Color.RED);
+	    return false;
+	}
+	
 	private boolean customerExists() {
 		List<Customer> customers = library.getCustomers();
 		for (Customer c : customers) {
@@ -249,19 +261,6 @@ public class CustomerAdd extends JFrame {
 				return true;
 			}
 		}
-		return false;
-	}
-
-	private boolean checkZip() {
-		if (txtZip.getText().matches("[0-9]+")) {
-			if (Integer.parseInt(txtZip.getText()) > 0 && Integer.parseInt(txtZip.getText()) < 10000
-					&& txtZip.getText().length() == 4) {
-				return true;				
-			}
-		}
-		lblStatus.setText("Die PLZ muss eine vierstellige Zahl sein");
-		lblZip.setText("PLZ*");
-		lblZip.setForeground(Color.RED);
 		return false;
 	}
 
