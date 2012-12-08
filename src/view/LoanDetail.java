@@ -223,14 +223,14 @@ public class LoanDetail implements Observer {
                             Loan l = library.createAndAddLoan(customer, copy);
                             if (l != null) {
                                 lblStatus.setForeground(Color.BLACK);
-                                lblStatus.setText("Exemplar wurde erfolgreich ausgeliehen");
+                                lblStatus.setText("Buch wurde erfolgreich ausgeliehen");
                             } else {
-                                lblStatus.setText("Exemplar konnte nicht ausgelehnt werden");
+                                lblStatus.setText("Buch konnte nicht ausgelehnt werden");
                             }
                         }
                     }
                 } else {
-                    lblStatus.setText("Es muss ein Kunde ausgewählt sein, bevor ein Buch ausgeliehen werden kann!");
+                    lblStatus.setText("Buch konnte nicht ausgeliehen werden, es muss ein Kunde ausgewählt sein!");
                 }
             }
         });
@@ -461,7 +461,7 @@ public class LoanDetail implements Observer {
             Copy c = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
             if (library.isCopyLent(c)) {
                 Loan l = library.getLoanOfCopy(c);
-                txtReturnDate.setText(l.getDueDateString() + " noch " + l.getDaysTilDue() + " Tage");
+                txtReturnDate.setText(l.getDueDateString() + " noch " + l.getDaysTilDue() + " Tage");  
                 
                 btnAddLoan.setEnabled(false);
                 btnReturnLoan.setEnabled(true);
@@ -504,16 +504,17 @@ public class LoanDetail implements Observer {
                         if (l.isOverdue()) {
                             l.returnCopy(new GregorianCalendar());
                             initializeForExistingLoan(l);
-                            lblStatus.setText("Exemplar wurde zurückgegeben, Ausleihe war überfällig!");
+                            lblStatus.setForeground(Color.RED);
+                            lblStatus.setText("Buch wurde zurückgegeben, Ausleihe war überfällig!");
                         } else {
                             l.returnCopy(new GregorianCalendar());
                             initializeForExistingLoan(l);
-                            lblStatus.setText("Exemplar wurde zurückgegeben");
+                            lblStatus.setText("Buch wurde zurückgegeben");
                         }
                         library.update(null, null);
                     }
                 } else {
-                    System.out.println("Loan war null");
+                	lblStatus.setText("Buch konnte nicht zurückgegeben werden");
                 }
 
             } catch (NumberFormatException e) {
