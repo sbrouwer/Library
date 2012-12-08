@@ -6,12 +6,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import domain.Customer;
@@ -151,13 +154,7 @@ public class CustomerEdit extends JFrame {
 		btnMutateCustomer.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if (verifyFields()) {
-					customer.setName(txtName.getText());
-					customer.setSurname(txtSurname.getText());
-					customer.setStreet(txtStreet.getText());
-					customer.setZip(Integer.valueOf(txtZip.getText()));
-					customer.setCity(txtCity.getText());
-				}
+				editCustomer();
 			}
 		});
 
@@ -176,6 +173,7 @@ public class CustomerEdit extends JFrame {
 		gbc_btnMutateCustomer.gridy = 5;
 		contentPane.add(btnMutateCustomer, gbc_btnMutateCustomer);
 
+		addKeyboardListeners(this);
 		setVisible(true);
 	}
 
@@ -254,6 +252,37 @@ public class CustomerEdit extends JFrame {
 	    lblZip.setText("PLZ*");
 	    lblZip.setForeground(Color.RED);
 	    return false;
+	}
+	
+	private void editCustomer(){
+		if (verifyFields()) {
+			customer.setName(txtName.getText());
+			customer.setSurname(txtSurname.getText());
+			customer.setStreet(txtStreet.getText());
+			customer.setZip(Integer.valueOf(txtZip.getText()));
+			customer.setCity(txtCity.getText());
+		}
+	}
+	
+	public void addKeyboardListeners(final JFrame frame) {
+		ActionListener escListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+			}
+		};
+
+		ActionListener enterListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				editCustomer();
+			}
+		};
+		frame.getRootPane().registerKeyboardAction(escListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		frame.getRootPane().registerKeyboardAction(enterListener,
+				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 	}
 
 }
