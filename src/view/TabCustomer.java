@@ -11,8 +11,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -27,23 +32,28 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelTabCustomer;
+import domain.Book;
 import domain.Customer;
 import domain.Library;
 
-public class TabCustomer extends JPanel
+public class TabCustomer extends JPanel implements Observer
 {
 	private Library library;
 	private JTextField txtSearch;
-	TableModelTabCustomer tableModel;
+	private TableModelTabCustomer tableModel;
 	private TableRowSorter<TableModelTabCustomer> sorter;
-	JButton btnEditCustomer;
-	JTable table;
+	private JButton btnEditCustomer;
+	private JTable table;
+	private JLabel lblAmountOfCustomers;
+	private HashMap<Customer, CustomerEdit> openOnce;
 
 	public TabCustomer(Library library)
 	{
 		this.library = library;
+	    library.addObserver(this);
+	    openOnce = new HashMap<Customer, CustomerEdit>();
 		initialize();
-		
+	    updateStatistics();
 	}
 
 	private void initialize()
@@ -77,7 +87,7 @@ public class TabCustomer extends JPanel
 		gbc_lblCustomers.gridy = 0;
 		panel_statistics.add(lblCustomers, gbc_lblCustomers);
 		
-		JLabel lblAmountOfCustomers = new JLabel(String.valueOf(library.getCustomers().size()));
+		lblAmountOfCustomers = new JLabel();
 		GridBagConstraints gbc_lblAmountOfCustomers = new GridBagConstraints();
 		gbc_lblAmountOfCustomers.anchor = GridBagConstraints.WEST;
 		gbc_lblAmountOfCustomers.gridx = 1;
@@ -140,11 +150,7 @@ public class TabCustomer extends JPanel
 		btnEditCustomer.setEnabled(false);
 		btnEditCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int selected[] = table.getSelectedRows();
-				for (int i : selected) {
-					Customer customer = tableModel.getCustomerAtRow(table.convertRowIndexToModel(i));
-					CustomerEdit customerEdit = new CustomerEdit(customer, library);
-				}
+			    openCustomerEditForAllSelectedCustomers();
 			}
 		});
 		
@@ -159,7 +165,7 @@ public class TabCustomer extends JPanel
 		btnNewCustomer.setToolTipText("Öffnet ein Fenster um einen neuen Kunden zu erfassen");
 		btnNewCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CustomerAdd customerAdd = new CustomerAdd(library);
+				new CustomerAdd(library);
 			}
 		});
 
@@ -179,8 +185,7 @@ public class TabCustomer extends JPanel
 		
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new MouseAdapter() {
-			
+		table.addMouseListener(new MouseAdapter() {			
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
 				if (table.getSelectedRows().length > 0) {
@@ -188,16 +193,11 @@ public class TabCustomer extends JPanel
 				} else {
 					btnEditCustomer.setEnabled(false);
 				}
-			}
-			
+			}			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2){
-					int selected[] = table.getSelectedRows();
-					for (int i : selected) {
-						Customer customer = tableModel.getCustomerAtRow(table.convertRowIndexToModel(i));
-						CustomerEdit customerEdit = new CustomerEdit(customer,library);
-					}
+				    openCustomerEditForAllSelectedCustomers();
 				}
 			}
 		});
@@ -212,7 +212,6 @@ public class TabCustomer extends JPanel
 		table.getColumnModel().getColumn(0).setMaxWidth(80);
 		table.getColumnModel().getColumn(4).setMinWidth(50);
 		table.getColumnModel().getColumn(4).setMaxWidth(50);
-		//TODO UPDATE?
 
 		scrollPane.setViewportView(table);
 		
@@ -255,4 +254,45 @@ public class TabCustomer extends JPanel
 		sorter.setRowFilter(rf);
 	}
 
+    @Override
+    public void update(Observable o, Object arg)
+    {
+        updateFields();
+    }
+    
+    private void updateFields() {
+        updateStatistics();
+    }
+    
+    private void updateStatistics()
+    {
+        lblAmountOfCustomers.setText(String.valueOf(library.getCustomers().size()));
+    }
+
+    private void openCustomerEdit(Customer customerToEdit) {
+        if (openOnce.containsKey(customerToEdit)) {
+            openOnce.get(customerToEdit).setVisible(true);
+            openOnce.get(customerToEdit).toFront();
+        } else {
+            final Customer customerToRemove = customerToEdit;
+            CustomerEdit customerEdit = new CustomerEdit(customerToEdit, library);
+            customerEdit.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    openOnce.remove(customerToRemove);
+                }
+            });
+            openOnce.put(customerToEdit, customerEdit);
+        }
+
+    }
+    
+    private void openCustomerEditForAllSelectedCustomers(){
+        int selected[] = table.getSelectedRows();
+        for (int i : selected)
+        {
+            Customer c = tableModel.getCustomerAtRow(table.convertRowIndexToModel(i));
+            openCustomerEdit(c);
+        }
+    }
+    
 }

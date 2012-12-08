@@ -85,9 +85,7 @@ public class Loan extends Observable {
 
 	public int getDaysOfLoanDuration() {
 		if (returnDate != null)
-			return (int) (returnDate.getTimeInMillis() - pickupDate
-					.getTimeInMillis())
-					/ 1000 / 60 / 60 / 24;
+			return (int) (returnDate.getTimeInMillis() - pickupDate.getTimeInMillis()) / 1000 / 60 / 60 / 24;
 		return -1;
 	}
 	
@@ -97,8 +95,7 @@ public class Loan extends Observable {
 		
 		GregorianCalendar dueDate = (GregorianCalendar) pickupDate.clone();
 		dueDate.add(GregorianCalendar.DAY_OF_YEAR, DAYS_TO_RETURN_BOOK);
-		return (int) (new GregorianCalendar().getTimeInMillis() - 
-				dueDate.getTimeInMillis())/ 1000 /60 /60 /24;
+		return (int) (new GregorianCalendar().getTimeInMillis() - dueDate.getTimeInMillis()) / 1000 /60 /60 /24;
 	}
 	
 	public boolean isOverdue() {
