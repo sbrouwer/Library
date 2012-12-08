@@ -31,8 +31,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelTabBook;
@@ -50,6 +55,7 @@ public class TabBook extends JPanel implements Observer
 	private TableRowSorter<TableModelTabBook> sorter;
 	private JButton btnBookDetail;
 	private HashMap<Book, BookDetail> openOnce;
+	private int selectedRow = 0;
 	
 	public TabBook(Library library)
 	{
@@ -204,6 +210,7 @@ public class TabBook extends JPanel implements Observer
 			public void actionPerformed(ActionEvent arg0)
 			{
 				openBookDetail();
+				
 			}
 		});
 		GridBagConstraints gbc_btnBookDetail = new GridBagConstraints();
@@ -270,6 +277,7 @@ public class TabBook extends JPanel implements Observer
 				if (e.getClickCount() == 2)
 				{
 					openBookDetail();
+					
 				}
 			}
 		});
@@ -287,6 +295,33 @@ public class TabBook extends JPanel implements Observer
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(true);
 		sorter.toggleSortOrder(1);
+		
+		
+		
+		
+		// Save selected row table
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        selectedRow = e.getFirstIndex();
+		    }
+		});
+
+		// Restore selected raw table
+		tableModel.addTableModelListener(new TableModelListener() {      
+		    @Override
+		    public void tableChanged(TableModelEvent e) {
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	System.out.println(selectedRow);
+		                if (selectedRow >= 0) {
+		                            table.setRowSelectionInterval(selectedRow, selectedRow);
+		                }
+		             }
+		        });
+		    }
+		});
 	}
 	
 	private void openBookDetail(){

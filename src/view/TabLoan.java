@@ -28,8 +28,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.TableRowSorter;
 
 import renderer.IconAndDescriptionRenderer;
@@ -54,6 +59,7 @@ public class TabLoan extends JPanel implements Observer {
 	private JLabel lblLoans;
 	private JLabel lblLentLoans;
 	private JLabel lblOverdueLoans;
+	private int selectedRow = 0;
 
 	public TabLoan(Library library) {
 		this.library = library;
@@ -313,6 +319,30 @@ public class TabLoan extends JPanel implements Observer {
 		sorter.setSortsOnUpdates(true);
 		sorter.toggleSortOrder(2);
 
+		
+		// Save selected row table
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+		    @Override
+		    public void valueChanged(ListSelectionEvent e) {
+		        selectedRow = e.getFirstIndex();
+		    }
+		});
+
+		// Restore selected raw table
+		tableModel.addTableModelListener(new TableModelListener() {      
+		    @Override
+		    public void tableChanged(TableModelEvent e) {
+		        SwingUtilities.invokeLater(new Runnable() {
+		            @Override
+		            public void run() {
+		            	System.out.println(selectedRow);
+		                if (selectedRow >= 0) {
+		                            table.setRowSelectionInterval(selectedRow, selectedRow);
+		                }
+		             }
+		        });
+		    }
+		});
 	}
 
 	private void search() {
