@@ -11,6 +11,7 @@ public class Library extends Observable implements Observer
 	private List<Customer> customers;
 	private List<Loan> loans;
 	private List<Book> books;
+	public final static int MAX_AMOUNT_OF_LOANS = 3;
 
 	public Library()
 	{
@@ -234,4 +235,38 @@ public class Library extends Observable implements Observer
 		setChanged();
 		notifyObservers();
 	}
+	
+    public boolean checkMaxLoanAmount(Customer customer) {
+        return getActualLoansByCustomer(customer).size() < Library.MAX_AMOUNT_OF_LOANS;
+    }
+    
+    public boolean checkInventoryNumberExists(String potentialInventoryNumber) {
+        try {
+            if ((Long.parseLong(potentialInventoryNumber) < 0) || getCopyByInventoryNumber(Long.parseLong(potentialInventoryNumber)) == null) {
+                return false;
+            }
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean checkHasOverdueLoans(Customer customer) {
+        for (Loan l : getCustomerLoans(customer)) {
+            if (l.isOverdue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public List<Loan> getOverdueLoans(Customer customer) {
+        List<Loan> customerOverdueLoans = new ArrayList<Loan>();     
+        for (Loan l : getCustomerLoans(customer)) {
+            if (l.isOverdue()) {
+                customerOverdueLoans.add(l);
+            }
+        }
+        return customerOverdueLoans;
+    }
 }
