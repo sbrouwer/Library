@@ -416,21 +416,7 @@ public class LoanDetail implements Observer {
             public void mouseReleased(MouseEvent arg0) {
                 long inventoryNumber = (Long) tableModel.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 1);
                 txtCopyInventoryNumber.setText(Long.toString(inventoryNumber));
-                if (checkIfInventoryNumberExists(Long.toString(inventoryNumber))) {
-                    Loan l = library.getLoanOfCopy(library.getCopyByInventoryNumber(inventoryNumber));
-                    if (l != null) {
-                        if (l.isLent()) {
-                            btnReturnLoan.setEnabled(true);
-                            btnAddLoan.setEnabled(false);
-                        } else {
-                            btnReturnLoan.setEnabled(false);
-                            btnAddLoan.setEnabled(true);
-                        }
-                    } else {
-                        btnReturnLoan.setEnabled(false);
-                        btnAddLoan.setEnabled(true);
-                    }
-                }
+                setButtonsAfterID();
             }
         });
         table.getTableHeader().setReorderingAllowed(false);
@@ -472,16 +458,19 @@ public class LoanDetail implements Observer {
     private void setButtonsAfterID(){
         if (checkIfInventoryNumberExists(txtCopyInventoryNumber.getText())) {
             lblCheck.setIcon(iconInventoryNumberOK);
-            if (library.isCopyLent(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText())))) {
+            Copy copy = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
+            if (library.isCopyLent(copy)) {
                 btnAddLoan.setEnabled(false);
                 btnReturnLoan.setEnabled(true);
-                txtReturnDate.setText(String.valueOf(library.getLoanOfCopy(library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()))).getDueDateString()));
+               
+                txtReturnDate.setText(library.getLoanOfCopy(copy).getDueDateString() + " noch " + library.getLoanOfCopy(copy).getDaysTilDue() + " Tage");
             } else {
                 btnAddLoan.setEnabled(true);
                 btnReturnLoan.setEnabled(false);
+                
                 GregorianCalendar returnDate = new GregorianCalendar();
                 returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
-                txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " noch 30 Tage");
+                txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " noch " + Loan.DAYS_TO_RETURN_BOOK + " Tage");
             }
         } else {
             lblCheck.setIcon(iconInventoryNumberWrong);
@@ -520,8 +509,6 @@ public class LoanDetail implements Observer {
                             initializeForExistingLoan(l);
                             lblStatus.setText("Exemplar wurde zurückgegeben");
                         }
-                        btnAddLoan.setEnabled(true);
-                        btnReturnLoan.setEnabled(false);
                         library.update(null, null);
                     }
                 } else {
