@@ -181,8 +181,8 @@ public class BookAdd implements Observer
 					tableModel = new TableModelBookDetail(library, book, header);
 					table.setModel(tableModel);
 					tableModel.fireTableDataChanged();
-					lblStatus.setText("Ihr Buch wurde der Bibliothek hinzugefügt");
-					lblStatus.setForeground(new Color(0, 0, 0));
+					lblStatus.setText("Das Buch wurde erfolgreich erfasst");
+					lblStatus.setForeground(Color.BLACK);
 					btnAddCopy.setEnabled(true);
 				}
 			}
@@ -281,7 +281,7 @@ public class BookAdd implements Observer
 				if (book == null)
 				{
 					lblStatus.setForeground(Color.RED);
-					lblStatus.setText("Zuerst Buch erfassen, dann Kopie hinzufügen");
+					lblStatus.setText("Es muss zuerst ein Buch erfasst werden!");
 				} else
 				{
 					library.createAndAddCopy(book);
@@ -313,7 +313,7 @@ public class BookAdd implements Observer
 		Color black = new Color(0, 0, 0);
 		if (bookExists())
 		{
-			lblStatus.setText("Buch Existiert bereits!");
+			lblStatus.setText("Das Buch existiert bereits!");
 			lblStatus.setForeground(red);
 			return false;
 		}
