@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,7 +17,7 @@ import javax.swing.border.TitledBorder;
 import domain.Customer;
 import domain.Library;
 
-public class CustomerEdit extends JFrame implements Observer {
+public class CustomerEdit extends JFrame {
 
 	private JPanel contentPane;
 	private JLabel lblName;
@@ -43,7 +41,6 @@ public class CustomerEdit extends JFrame implements Observer {
 		this.customer = customer;
 		initialize();
 		updateFields();
-		customer.addObserver(this);
 	}
 
 	private void initialize() {
@@ -164,7 +161,7 @@ public class CustomerEdit extends JFrame implements Observer {
 			}
 		});
 
-		lblStatus = new JLabel("");
+		lblStatus = new JLabel();
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
 		gbc_lblStatus.anchor = GridBagConstraints.WEST;
 		gbc_lblStatus.insets = new Insets(0, 0, 0, 5);
@@ -181,11 +178,6 @@ public class CustomerEdit extends JFrame implements Observer {
 		setVisible(true);
 	}
 
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		updateFields();
-	}
-
 	private void updateFields() {
 		txtSurname.setText(customer.getSurname());
 		txtName.setText(customer.getName());
@@ -196,56 +188,56 @@ public class CustomerEdit extends JFrame implements Observer {
 
 	private boolean verifyFields() {
 		boolean ok = true;
-		Color red = new Color(255, 0, 0);
-		Color black = new Color(0, 0, 0);
+		Color colorError = Color.RED;
+		Color colorMessage = Color.BLACK;
 		if (txtName.getText().equals("")) {
-			lblStatus.setForeground(red);
+			lblStatus.setForeground(colorError);
 			lblName.setText("Name*");
-			lblName.setForeground(red);
+			lblName.setForeground(colorError);
 			ok = false;
-		} else if (lblName.getForeground().equals(red)) {
-			lblName.setForeground(black);
+		} else if (lblName.getForeground().equals(colorError)) {
+			lblName.setForeground(colorMessage);
 			lblName.setText("Name");
 		}
 		if (txtSurname.getText().equals("")) {
 			lblSurename.setText("Vorname*");
-			lblSurename.setForeground(red);
+			lblSurename.setForeground(colorError);
 			ok = false;
-		} else if (lblSurename.getForeground().equals(red)) {
-			lblSurename.setForeground(black);
+		} else if (lblSurename.getForeground().equals(colorError)) {
+			lblSurename.setForeground(colorMessage);
 			lblSurename.setText("Vorname");
 		}
 		if (txtStreet.getText().equals("")) {
 			lblStreet.setText("Strasse*");
-			lblStreet.setForeground(red);
+			lblStreet.setForeground(colorError);
 			ok = false;
-		} else if (lblStreet.getForeground().equals(red)) {
-			lblStreet.setForeground(black);
+		} else if (lblStreet.getForeground().equals(colorError)) {
+			lblStreet.setForeground(colorMessage);
 			lblStreet.setText("Strasse");
 		}
 		if (txtZip.getText().equals("")) {
 			lblZip.setText("PLZ*");
-			lblZip.setForeground(red);
+			lblZip.setForeground(colorError);
 			ok = false;
 		} else if (!checkZip()) {
 			return false;
-		} else if (lblZip.getForeground().equals(red)) {
-			lblZip.setForeground(black);
+		} else if (lblZip.getForeground().equals(colorError)) {
+			lblZip.setForeground(colorMessage);
 			lblZip.setText("PLZ");
 		}
 		if (txtCity.getText().equals("")) {
 			lblCity.setText("Ort*");
-			lblCity.setForeground(red);
+			lblCity.setForeground(colorError);
 			ok = false;
-		} else if (lblCity.getForeground().equals(red)) {
-			lblCity.setForeground(black);
+		} else if (lblCity.getForeground().equals(colorError)) {
+			lblCity.setForeground(colorMessage);
 			lblCity.setText("Ort");
 		}
 		if (ok) {
-			lblStatus.setText(" ");
+			lblStatus.setText("");
 		} else {
 			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
-			lblStatus.setForeground(red);
+			lblStatus.setForeground(colorError);
 		}
 		return ok;
 	}

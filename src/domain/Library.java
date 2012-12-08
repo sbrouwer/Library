@@ -39,6 +39,7 @@ public class Library extends Observable implements Observer
 	{
 		Customer c = new Customer(name, surname);
 		customers.add(c);
+		c.addObserver(this);
 		libraryChanged();
 		return c;
 	}

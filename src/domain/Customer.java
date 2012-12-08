@@ -22,6 +22,7 @@ public class Customer extends Observable
 		this.street = street;
 		this.zip = zip;
 		this.city = city;
+		sometingChanged();
 	}
 
 	public String getName()
@@ -32,6 +33,7 @@ public class Customer extends Observable
 	public void setName(String name)
 	{
 		this.name = name;
+		sometingChanged();
 	}
 
 	public String getSurname()
@@ -42,6 +44,7 @@ public class Customer extends Observable
 	public void setSurname(String surname)
 	{
 		this.surname = surname;
+		sometingChanged();
 	}
 
 	public String getStreet()
@@ -52,6 +55,7 @@ public class Customer extends Observable
 	public void setStreet(String street)
 	{
 		this.street = street;
+		sometingChanged();
 	}
 
 	public String getCity()
@@ -62,6 +66,7 @@ public class Customer extends Observable
 	public void setCity(String city)
 	{
 		this.city = city;
+		sometingChanged();
 	}
 
 	public int getZip()
@@ -72,6 +77,7 @@ public class Customer extends Observable
 	public void setZip(int zip)
 	{
 		this.zip = zip;
+		sometingChanged();
 	}
 
 	@Override
@@ -83,6 +89,11 @@ public class Customer extends Observable
 	public long getIdentifier()
 	{
 		return identifier;
+	}
+	
+	private void sometingChanged() {
+	    setChanged();
+	    notifyObservers();
 	}
 
 }
