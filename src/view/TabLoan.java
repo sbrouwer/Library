@@ -37,8 +37,7 @@ import tablemodel.TableModelTabLoan;
 import domain.Library;
 import domain.Loan;
 
-public class TabLoan extends JPanel implements Observer
-{
+public class TabLoan extends JPanel implements Observer {
 	private Library library;
 	private JLabel lblAmountOfLoans;
 	private JLabel lblAmountOfLentLoans;
@@ -50,21 +49,20 @@ public class TabLoan extends JPanel implements Observer
 	private TableRowSorter<TableModelTabLoan> sorter;
 	private JButton btnShowSelected;
 	private JButton btnAddLoan;
-	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
+	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis",
+			"Ausgeliehen An" };
 	private JLabel lblLoans;
 	private JLabel lblLentLoans;
 	private JLabel lblOverdueLoans;
 
-	public TabLoan(Library library)
-	{
+	public TabLoan(Library library) {
 		this.library = library;
 		library.addObserver(this);
 		initialize();
 		updateStatistics();
 	}
 
-	private void initialize()
-	{
+	private void initialize() {
 		GridBagLayout gbl_booksTab = new GridBagLayout();
 		gbl_booksTab.columnWidths = new int[] { 0, 0 };
 		gbl_booksTab.rowHeights = new int[] { 0, 0, 0 };
@@ -73,8 +71,8 @@ public class TabLoan extends JPanel implements Observer
 		this.setLayout(gbl_booksTab);
 
 		JPanel panel_statistics = new JPanel();
-		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistiken", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
+		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"),
+				"Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		GridBagConstraints gbc_panel_statistics = new GridBagConstraints();
 		gbc_panel_statistics.anchor = GridBagConstraints.NORTH;
@@ -141,7 +139,8 @@ public class TabLoan extends JPanel implements Observer
 		tableModel = new TableModelTabLoan(library, header);
 
 		JPanel panel_management = new JPanel();
-		panel_management.setBorder(new TitledBorder(null, "Ausleihenverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_management.setBorder(new TitledBorder(null, "Ausleihenverwaltung", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_management = new GridBagConstraints();
 		gbc_panel_management.fill = GridBagConstraints.BOTH;
 		gbc_panel_management.gridx = 0;
@@ -156,31 +155,26 @@ public class TabLoan extends JPanel implements Observer
 
 		txtSearch = new JTextField();
 		txtSearch.setText("Suche");
-		txtSearch.addFocusListener(new FocusAdapter()
-		{
+		txtSearch.addFocusListener(new FocusAdapter() {
 			@Override
-			public void focusGained(FocusEvent arg0)
-			{
-				if (txtSearch.getText().contains("Suche"))
-				{
+			public void focusGained(FocusEvent arg0) {
+				if (txtSearch.getText().contains("Suche")) {
 					txtSearch.setText("");
 				}
 			}
+
 			@Override
-			public void focusLost(FocusEvent arg0)
-			{
-				if (txtSearch.getText().contains(""))
-				{
+			public void focusLost(FocusEvent arg0) {
+				if (txtSearch.getText().contains("")) {
 					txtSearch.setText("Suche");
 				}
 			}
 		});
-		txtSearch.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
-		txtSearch.addKeyListener(new KeyAdapter()
-		{
+		txtSearch
+				.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
+		txtSearch.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyReleased(KeyEvent arg0)
-			{
+			public void keyReleased(KeyEvent arg0) {
 				search();
 			}
 		});
@@ -194,23 +188,19 @@ public class TabLoan extends JPanel implements Observer
 		panel_management.add(txtSearch, gbc_txtSearch);
 
 		chckbxOnlyOverdue = new JCheckBox("Nur überfällige");
-		chckbxOnlyOverdue.addItemListener(new ItemListener()
-		{
-			public void itemStateChanged(ItemEvent arg0)
-			{
+		chckbxOnlyOverdue.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
 				// 1 = Selected, 2 = Not Selected
 				// remove all entries
 				// deleteTableRows(table);
-				if (arg0.getStateChange() == 1)
-				{ // If hook is set, add only
+				if (arg0.getStateChange() == 1) { // If hook is set, add only
 					addOverdueLoans();
 					btnShowSelected.setEnabled(false);// entries with available
 					// Copies
 					// (Number of Copies -
 					// Number of Lent Copies)
 
-				} else
-				{ // if hook is not set, add all Books
+				} else { // if hook is not set, add all Books
 					sorter.setRowFilter(null);
 					btnShowSelected.setEnabled(false);
 				}
@@ -227,15 +217,13 @@ public class TabLoan extends JPanel implements Observer
 
 		ImageIcon iconShowSelected = new ImageIcon("icons/book.png");
 		btnShowSelected = new JButton("Selektiertes Anzeigen", iconShowSelected);
-		btnShowSelected.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
+		btnShowSelected
+				.setToolTipText("Zeigt das in der untenstehenden Tabelle ausgewählte Exemplar in einer Detailansicht an");
 		btnShowSelected.setEnabled(false);
-		btnShowSelected.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent arg0)
-			{
+		btnShowSelected.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 				int selected[] = table.getSelectedRows();
-				for (int i : selected)
-				{
+				for (int i : selected) {
 					Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
 					new LoanDetail(library, loan);
 				}
@@ -251,10 +239,8 @@ public class TabLoan extends JPanel implements Observer
 		ImageIcon iconAddLoan = new ImageIcon("icons/book_go.png");
 		btnAddLoan = new JButton("Neue Ausleihe", iconAddLoan);
 		btnAddLoan.setToolTipText("Öffnet ein Fenster um eine neue Ausleihe zu tätigen");
-		btnAddLoan.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
+		btnAddLoan.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
 				new LoanDetail(library);
 			}
 		});
@@ -275,29 +261,36 @@ public class TabLoan extends JPanel implements Observer
 
 		table = new JTable();
 		table.getTableHeader().setReorderingAllowed(false);
-		table.addMouseListener(new MouseAdapter()
-		{
+		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(MouseEvent arg0)
-			{
-				if (table.getSelectedRows().length > 0)
-				{
+			public void mouseReleased(MouseEvent arg0) {
+				if (table.getSelectedRows().length > 0) {
 					btnShowSelected.setEnabled(true);
-				} else
-				{
+				} else {
 					btnShowSelected.setEnabled(false);
 				}
 			}
 
 			@Override
-			public void mouseClicked(MouseEvent e)
-			{
-				if (e.getClickCount() == 2)
-				{
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
 					int selected[] = table.getSelectedRows();
-					for (int i : selected)
-					{
+					for (int i : selected) {
 						Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(i));
+						new LoanDetail(library, loan);
+					}
+				}
+			}
+		});
+
+		table.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				if (arg0.getKeyCode() == 10) {
+					if (table.getSelectedRow() != -1) {
+						table.setRowSelectionInterval(table.getSelectedRow() - 1, table.getSelectedRow() - 1);
+						Loan loan = tableModel.getLoanAtRow(table.convertRowIndexToModel(table.getSelectedRow()));
 						new LoanDetail(library, loan);
 					}
 				}
@@ -314,7 +307,7 @@ public class TabLoan extends JPanel implements Observer
 		table.getColumnModel().getColumn(2).setMinWidth(350);
 		table.getColumnModel().getColumn(2).setMaxWidth(350);
 		scrollPane.setViewportView(table);
-		
+
 		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
 		table.setRowSorter(sorter);
 		sorter.setSortsOnUpdates(true);
@@ -322,58 +315,52 @@ public class TabLoan extends JPanel implements Observer
 
 	}
 
-	private void search()
-	{
+	private void search() {
 		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelTabLoan, Object> rf = null;
 		List<RowFilter<TableModelTabLoan, Object>> filters = new ArrayList<RowFilter<TableModelTabLoan, Object>>();
 		// If current expression doesn't parse, don't update.
-		try
-		{
-			RowFilter<TableModelTabLoan, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
-			RowFilter<TableModelTabLoan, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelTabLoan, Object> rfCustomer = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
+		try {
+			RowFilter<TableModelTabLoan, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText()
+					+ ".*", 1);
+			RowFilter<TableModelTabLoan, Object> rfTitle = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelTabLoan, Object> rfCustomer = RowFilter.regexFilter(
+					"(?i)^.*" + txtSearch.getText() + ".*", 4);
 			filters.add(rfID);
 			filters.add(rfTitle);
 			filters.add(rfCustomer);
 			rf = RowFilter.orFilter(filters);
-		} catch (java.util.regex.PatternSyntaxException e)
-		{
+		} catch (java.util.regex.PatternSyntaxException e) {
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
-	private void addOverdueLoans()
-	{
+	private void addOverdueLoans() {
 		sorter = new TableRowSorter<TableModelTabLoan>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelTabLoan, Object> rf = null;
 		// If current expression doesn't parse, don't update.
-		try
-		{
+		try {
 			rf = RowFilter.regexFilter("(?i)^.*Fällig.*", 0);
-		} catch (java.util.regex.PatternSyntaxException e)
-		{
+		} catch (java.util.regex.PatternSyntaxException e) {
 			return;
 		}
 		sorter.setRowFilter(rf);
 	}
 
 	@Override
-	public void update(Observable o, Object arg)
-	{
+	public void update(Observable o, Object arg) {
 		updateFields();
 	}
 
-	private void updateFields()
-	{
+	private void updateFields() {
 		updateStatistics();
 	}
 
-	private void updateStatistics()
-	{
+	private void updateStatistics() {
 		lblAmountOfLoans.setText(String.valueOf(library.getLoans().size()));
 		lblAmountOfLentLoans.setText(String.valueOf(library.getLentOutCopies().size()));
 		lblAmountOfOverdueLoans.setText(String.valueOf(library.getOverdueLoans().size()));
