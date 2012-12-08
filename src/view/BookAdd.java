@@ -79,8 +79,8 @@ public class BookAdd implements Observer
 		frmBookAdd.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmBookAdd.getContentPane().setLayout(new BoxLayout(frmBookAdd.getContentPane(), BoxLayout.Y_AXIS));
 		frmBookAdd.setTitle("Buch erfassen");
-		Dimension d = new Dimension(450, 360);
-		frmBookAdd.setMinimumSize(d);
+		frmBookAdd.setMinimumSize(new Dimension(450, 360));
+		frmBookAdd.setMaximumSize(new Dimension(750, 560));
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Buch Informationen", TitledBorder.LEADING, TitledBorder.TOP, null, null));

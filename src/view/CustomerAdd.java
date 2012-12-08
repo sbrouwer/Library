@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -50,7 +51,7 @@ public class CustomerAdd extends JFrame {
 	private void initalize() {
 		setTitle("Kunde erfassen");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 500, 250);
 		contentPane = new JPanel();
 		contentPane.setBorder(new TitledBorder(null, "Kundendaten", TitledBorder.LEADING, TitledBorder.TOP,
 				null, null));
@@ -61,6 +62,10 @@ public class CustomerAdd extends JFrame {
 		gbl_contentPane.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		gbl_contentPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		contentPane.setLayout(gbl_contentPane);
+		
+		
+		this.setMinimumSize(new Dimension(500,250));
+		this.setMaximumSize(new Dimension(750,650));
 
 		lblName = new JLabel("Name:");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
