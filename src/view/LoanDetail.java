@@ -143,8 +143,8 @@ public class LoanDetail implements Observer {
         gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
         gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
         frmLoanDetail.getContentPane().setLayout(gridBagLayout);
-        Dimension d = new Dimension(550, 380);
-        frmLoanDetail.setMinimumSize(d);
+        frmLoanDetail.setMinimumSize(new Dimension(500, 360));
+        frmLoanDetail.setMaximumSize(new Dimension(749, 659));
 
         addKeyboardListeners(frmLoanDetail);
 
