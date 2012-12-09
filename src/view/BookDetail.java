@@ -210,8 +210,7 @@ public class BookDetail extends JFrame implements Observer {
 		btnRemoveCopy.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selected[] = table.getSelectedRows();
-				// Von hinten nach vorne die Elemente entfernen, ansosnten index
-				// out of bounds exeception!
+				// Von hinten nach vorne die Elemente entfernen, ansosnten indexout of bounds exeception!
 				for (int i = selected.length - 1; i >= 0; i--) {
 					Copy copyToDelet = tableModel.getCopyAtRow(table.convertRowIndexToModel(selected[i]));
 					if (!library.isCopyLent(copyToDelet)) {
@@ -221,10 +220,6 @@ public class BookDetail extends JFrame implements Observer {
 						lblError.setText("Das Exemplar ist noch ausgeliehen und kann deshalb nicht entfernt werden!");
 					}
 				}
-				lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size()); // Label
-																						// Anzahl
-																						// Kopien
-																						// updaten
 			}
 		});
 		btnRemoveCopy.setEnabled(false);
@@ -290,8 +285,7 @@ public class BookDetail extends JFrame implements Observer {
 				frame.dispose();
 			}
 		};
-		frame.getRootPane().registerKeyboardAction(escListener,
-				KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+		frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 	}
 
