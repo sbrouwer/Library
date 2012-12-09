@@ -69,7 +69,7 @@ public class LoanDetail implements Observer {
     private JLabel lblAmountOfActualLoansByCustomer;
     private JLabel lblOverdueLoansByCustomer;
     private JLabel lblAmountOfOverdueLoansByCustomer;
-    public static final Color NICE_ORANGE = new Color(255, 150, 0);
+    public final static Color NICE_ORANGE = new Color(255, 150, 0);
 
     public LoanDetail(Library library) {
         this(library, null);
