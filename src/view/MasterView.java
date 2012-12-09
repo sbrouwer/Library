@@ -1,6 +1,9 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,7 +11,12 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Arc2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,47 +26,46 @@ import javax.swing.KeyStroke;
 
 import domain.Library;
 
-public class MasterView {
+public class MasterView extends JFrame{
 
-	private JFrame frmLibrary;
 	private Library library;
 	private JTabbedPane bookMasterTabs;
+    private BufferedImage img;
 
 	public MasterView(Library library) {
 		this.library = library;
 		initialize();
-		frmLibrary.setVisible(true);
+		setVisible(true);
 	}
 
 	private void initialize() {
 
-		frmLibrary = new JFrame();
-		frmLibrary.setIconImage(Toolkit.getDefaultToolkit().getImage("icons/books_stack.png"));
-		frmLibrary.setBounds(100, 100, 644, 516);
-		frmLibrary.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmLibrary.setTitle("Bibliothek");
+		setIconImage(Toolkit.getDefaultToolkit().getImage("icons/books_stack.png"));
+		setBounds(100, 100, 644, 516);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Bibliothek");
 		Dimension d = new Dimension(900, 600);
-		frmLibrary.setMinimumSize(d);
+		setMinimumSize(d);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 545, 0 };
 		gridBagLayout.rowHeights = new int[] { 237, 5, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
-		frmLibrary.getContentPane().setLayout(gridBagLayout);
-		addEscListener(frmLibrary);
-		addBookShortcutListener(frmLibrary);
-		addLoanShortcutListener(frmLibrary);
-		addCustomerShortcutListener(frmLibrary);
+		getContentPane().setLayout(gridBagLayout);
+		addEscListener(this);
+		addBookShortcutListener(this);
+		addLoanShortcutListener(this);
+		addCustomerShortcutListener(this);
 
 		bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_bookMasterTabs = new GridBagConstraints();
+		gbc_bookMasterTabs.insets = new Insets(50, 0, 0, 0);
 		gbc_bookMasterTabs.gridheight = 2;
-		gbc_bookMasterTabs.insets = new Insets(0, 5, 5, 0);
 		gbc_bookMasterTabs.fill = GridBagConstraints.BOTH;
 		gbc_bookMasterTabs.gridx = 0;
 		gbc_bookMasterTabs.gridy = 0;
-		frmLibrary.getContentPane().add(bookMasterTabs, gbc_bookMasterTabs);
+		getContentPane().add(bookMasterTabs, gbc_bookMasterTabs);
 			
 		JPanel booksTab = new TabBook(library);
 		ImageIcon iconBookTab = new ImageIcon("icons/book.png");
@@ -72,7 +79,11 @@ public class MasterView {
 		JPanel customerTab = new TabCustomer(library);	
 		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
 		bookMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
-		
+
+		try {
+		    img = ImageIO.read(new File("pictures/logo.gif"));
+		} catch (IOException e) {
+		}
 		
 	}
 	
@@ -123,5 +134,8 @@ public class MasterView {
 	            KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 	
-	
+	public void paint(Graphics g) {
+	    super.paint(g);
+	    g.drawImage(img, this.getWidth()-200, 30, null);
+    }
 }
