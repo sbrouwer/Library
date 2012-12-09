@@ -261,31 +261,7 @@ public class LoanDetail implements Observer {
         btnAddLoan.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                lblStatus.setForeground(Color.RED);
-                if (customersComboBox.getSelectedIndex() > -1) {
-                    if (library.checkInventoryNumberExists(txtCopyInventoryNumber.getText())) {
-                        Copy copy = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
-                        if (library.isCopyLent(copy)) {
-                            lblStatus.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
-                        } else if (!library.checkMaxLoanAmount(customer)) {
-                            lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits " + Library.MAX_AMOUNT_OF_LOANS + " Bücher ausgeliehen!");
-                        } else if (library.checkHasOverdueLoans(customer)) {
-                            lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat überfällige Ausleihen!");
-                        } else if (copy.getCondition() == Condition.LOST) {
-                            lblStatus.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
-                        } else {
-                            Loan l = library.createAndAddLoan(customer, copy);
-                            if (l != null) {
-                                lblStatus.setForeground(Color.BLACK);
-                                lblStatus.setText("Buch wurde erfolgreich ausgeliehen");
-                            } else {
-                                lblStatus.setText("Buch konnte nicht ausgelehnt werden");
-                            }
-                        }
-                    }
-                } else {
-                    lblStatus.setText("Buch konnte nicht ausgeliehen werden, es muss ein Kunde ausgewählt sein!");
-                }
+            	addLoan();
             }
         });
         
@@ -502,6 +478,34 @@ public class LoanDetail implements Observer {
             }
         }
     }
+    
+    private void addLoan(){
+    	 lblStatus.setForeground(Color.RED);
+         if (customersComboBox.getSelectedIndex() > -1) {
+             if (library.checkInventoryNumberExists(txtCopyInventoryNumber.getText())) {
+                 Copy copy = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
+                 if (library.isCopyLent(copy)) {
+                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
+                 } else if (!library.checkMaxLoanAmount(customer)) {
+                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits " + Library.MAX_AMOUNT_OF_LOANS + " Bücher ausgeliehen!");
+                 } else if (library.checkHasOverdueLoans(customer)) {
+                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat überfällige Ausleihen!");
+                 } else if (copy.getCondition() == Condition.LOST) {
+                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, das Buch ist als verloren markiert!");
+                 } else {
+                     Loan l = library.createAndAddLoan(customer, copy);
+                     if (l != null) {
+                         lblStatus.setForeground(Color.BLACK);
+                         lblStatus.setText("Buch wurde erfolgreich ausgeliehen");
+                     } else {
+                         lblStatus.setText("Buch konnte nicht ausgelehnt werden");
+                     }
+                 }
+             }
+         } else {
+             lblStatus.setText("Buch konnte nicht ausgeliehen werden, es muss ein Kunde ausgewählt sein!");
+         }
+    }
 
     public void addKeyboardListeners(final JFrame frame) {
         ActionListener escListener = new ActionListener() {
@@ -513,7 +517,11 @@ public class LoanDetail implements Observer {
         ActionListener enterListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                returnLoan();
+            	if(btnAddLoan.isEnabled()){
+            		addLoan();
+            	} else if(btnReturnLoan.isEnabled()){
+            		returnLoan();
+            	}             
             }
         };
         frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
