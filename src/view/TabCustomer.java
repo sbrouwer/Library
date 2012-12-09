@@ -238,28 +238,19 @@ public class TabCustomer extends JPanel implements Observer {
 	private void search() {
 		RowFilter<TableModelTabCustomer, Object> rf = null;
 		List<RowFilter<TableModelTabCustomer, Object>> filters = new ArrayList<RowFilter<TableModelTabCustomer, Object>>();
-		// If current expression doesn't parse, don't update.
 		try {
-			RowFilter<TableModelTabCustomer, Object> rfID = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 0);
-			RowFilter<TableModelTabCustomer, Object> rfName = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 1);
-			RowFilter<TableModelTabCustomer, Object> rfSurname = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelTabCustomer, Object> rfStreet = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 3);
-			RowFilter<TableModelTabCustomer, Object> rfPLZ = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 4);
-			RowFilter<TableModelTabCustomer, Object> rfOrt = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 5);
-
+			RowFilter<TableModelTabCustomer, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 0);
+			RowFilter<TableModelTabCustomer, Object> rfName = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelTabCustomer, Object> rfSurname = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelTabCustomer, Object> rfStreet = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 3);
+			RowFilter<TableModelTabCustomer, Object> rfPLZ = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
+			RowFilter<TableModelTabCustomer, Object> rfOrt = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 5);
 			filters.add(rfID);
 			filters.add(rfSurname);
 			filters.add(rfName);
 			filters.add(rfStreet);
 			filters.add(rfPLZ);
 			filters.add(rfOrt);
-
 			rf = RowFilter.orFilter(filters);
 		} catch (java.util.regex.PatternSyntaxException e) {
 			return;
@@ -294,7 +285,6 @@ public class TabCustomer extends JPanel implements Observer {
 			});
 			openOnce.put(customerToEdit, customerEdit);
 		}
-
 	}
 
 	private void openCustomerEditForAllSelectedCustomers() {

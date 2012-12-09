@@ -34,7 +34,6 @@ public class LibraryApp
 
 	public static void initLibrary(Library library) throws ParserConfigurationException, SAXException, IOException, IllegalLoanOperationException
 	{
-
 		DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 
 		loadCustomersFromXml(library, builder, new File("data/customers.xml"));

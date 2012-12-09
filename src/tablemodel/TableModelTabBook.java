@@ -39,7 +39,6 @@ public class TableModelTabBook extends AbstractTableModel implements Observer {
 	}
 
 	public Object getValueAt(int row, int colum) {	
-		
 		Book book = library.getBooks().get(row);
 		switch (colum) {
 		case 0:

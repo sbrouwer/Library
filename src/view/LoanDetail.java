@@ -181,7 +181,6 @@ public class LoanDetail implements Observer {
         customersComboBox.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (customersComboBox.getSelectedIndex() != -1) {
-                    // Falls Customer ausgewählt
                     customer = (Customer) customersComboBox.getSelectedItem();
                     txtCustomerIdentifier.setText(String.valueOf(customer.getIdentifier()));
                     tableModel = new TableModelLoanDetail(library, customer, headers);
@@ -195,7 +194,6 @@ public class LoanDetail implements Observer {
                     
                     updateFields();
                 } else {
-                    // Falls kein Customer ausgewählt
                     txtCustomerIdentifier.setText("");
                     tableModel = new TableModelLoanDetail(library, null, headers);
                     table.setModel(tableModel);

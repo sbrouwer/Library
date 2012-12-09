@@ -198,17 +198,10 @@ public class TabLoan extends JPanel implements Observer {
 		chckbxOnlyOverdue = new JCheckBox("Nur überfällige");
 		chckbxOnlyOverdue.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
-				// 1 = Selected, 2 = Not Selected
-				// remove all entries
-				// deleteTableRows(table);
-				if (arg0.getStateChange() == 1) { // If hook is set, add only
+				if (arg0.getStateChange() == 1) {
 					addOverdueLoans();
-					btnShowSelected.setEnabled(false);// entries with available
-					// Copies
-					// (Number of Copies -
-					// Number of Lent Copies)
-
-				} else { // if hook is not set, add all Books
+					btnShowSelected.setEnabled(false);
+				} else {
 					sorter.setRowFilter(null);
 					btnShowSelected.setEnabled(false);
 				}
@@ -351,14 +344,10 @@ public class TabLoan extends JPanel implements Observer {
 		table.setRowSorter(sorter);
 		RowFilter<TableModelTabLoan, Object> rf = null;
 		List<RowFilter<TableModelTabLoan, Object>> filters = new ArrayList<RowFilter<TableModelTabLoan, Object>>();
-		// If current expression doesn't parse, don't update.
 		try {
-			RowFilter<TableModelTabLoan, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText()
-					+ ".*", 1);
-			RowFilter<TableModelTabLoan, Object> rfTitle = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 2);
-			RowFilter<TableModelTabLoan, Object> rfCustomer = RowFilter.regexFilter(
-					"(?i)^.*" + txtSearch.getText() + ".*", 4);
+			RowFilter<TableModelTabLoan, Object> rfID = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
+			RowFilter<TableModelTabLoan, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 2);
+			RowFilter<TableModelTabLoan, Object> rfCustomer = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 4);
 			filters.add(rfID);
 			filters.add(rfTitle);
 			filters.add(rfCustomer);

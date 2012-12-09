@@ -182,18 +182,12 @@ public class TabBook extends JPanel implements Observer
 		{
 			public void itemStateChanged(ItemEvent arg0)
 			{
-				// 1 = Selected, 2 = Not Selected
-				// remove all entries
-				// deleteTableRows(table);
 				if (arg0.getStateChange() == 1)
 				{ 
-					// If hook is set, add only entries with available Copies
-					// (Number of Copies - Number of Lent Copies)
 					addAvailableBooks();
 					btnBookDetail.setEnabled(false);
 				} else
 				{ 
-					// if hook is not set, add all Books
 					sorter.setRowFilter(null);
 					btnBookDetail.setEnabled(false);
 				}
@@ -369,7 +363,6 @@ public class TabBook extends JPanel implements Observer
 	{
 		RowFilter<TableModelTabBook, Object> rf = null;
 		List<RowFilter<TableModelTabBook, Object>> filters = new ArrayList<RowFilter<TableModelTabBook, Object>>();
-		// If current expression doesn't parse, don't update.
 		try
 		{
 			RowFilter<TableModelTabBook, Object> rfTitle = RowFilter.regexFilter("(?i)^.*" + txtSearch.getText() + ".*", 1);
