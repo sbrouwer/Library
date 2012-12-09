@@ -26,9 +26,11 @@ import javax.swing.KeyStroke;
 
 import domain.Library;
 
-public class MasterView extends JFrame{
+public class MasterView extends JFrame {
 
-	private Library library;
+    private static final long serialVersionUID = -17355645369925349L;
+    
+    private Library library;
 	private JTabbedPane bookMasterTabs;
     private BufferedImage img;
 
@@ -60,7 +62,7 @@ public class MasterView extends JFrame{
 
 		bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_bookMasterTabs = new GridBagConstraints();
-		gbc_bookMasterTabs.insets = new Insets(50, 0, 0, 0);
+		gbc_bookMasterTabs.insets = new Insets(34, 0, 0, 0);
 		gbc_bookMasterTabs.gridheight = 2;
 		gbc_bookMasterTabs.fill = GridBagConstraints.BOTH;
 		gbc_bookMasterTabs.gridx = 0;
@@ -81,7 +83,8 @@ public class MasterView extends JFrame{
 		bookMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
 
 		try {
-		    img = ImageIO.read(new File("pictures/logo.gif"));
+            //img = ImageIO.read(new File("pictures/logo.gif"));
+            img = ImageIO.read(new File("pictures/logo_verysmall2.bmp"));
 		} catch (IOException e) {
 		}
 		
@@ -93,8 +96,7 @@ public class MasterView extends JFrame{
 	        public void actionPerformed(ActionEvent e) {
 	            frame.dispose();
 	        }        
-	    };
-	    
+	    };	    
 	    frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 	    
@@ -104,8 +106,7 @@ public class MasterView extends JFrame{
 	        public void actionPerformed(ActionEvent e) {
 	            bookMasterTabs.setSelectedIndex(0);
 	        }        
-	    };
-	    
+	    };    
 	    frame.getRootPane().registerKeyboardAction(bookShortcutListener, 
 	            KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);    
 	}
@@ -136,6 +137,6 @@ public class MasterView extends JFrame{
 	
 	public void paint(Graphics g) {
 	    super.paint(g);
-	    g.drawImage(img, this.getWidth()-200, 30, null);
+	    g.drawImage(img, this.getWidth()-40, 30, null);
     }
 }
