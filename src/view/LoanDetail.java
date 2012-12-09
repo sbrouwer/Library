@@ -287,15 +287,15 @@ public class LoanDetail implements Observer {
         });
 
         lblReturnAt = new JLabel("Zurück am:");
-        GridBagConstraints gbc_lblZurckAm = new GridBagConstraints();
-        gbc_lblZurckAm.anchor = GridBagConstraints.WEST;
-        gbc_lblZurckAm.insets = new Insets(0, 0, 5, 5);
-        gbc_lblZurckAm.gridx = 0;
-        gbc_lblZurckAm.gridy = 1;
-        panel_newLoan.add(lblReturnAt, gbc_lblZurckAm);
+        GridBagConstraints gbc_lblReturnAt = new GridBagConstraints();
+        gbc_lblReturnAt.anchor = GridBagConstraints.WEST;
+        gbc_lblReturnAt.insets = new Insets(0, 0, 5, 5);
+        gbc_lblReturnAt.gridx = 0;
+        gbc_lblReturnAt.gridy = 1;
+        panel_newLoan.add(lblReturnAt, gbc_lblReturnAt);
         
         txtReturnDate = new JTextField();
-        txtReturnDate.setEnabled(false);
+        txtReturnDate.setEditable(false);
         GridBagConstraints gbc_txtAsdasd = new GridBagConstraints();
         gbc_txtAsdasd.gridwidth = 4;
         gbc_txtAsdasd.insets = new Insets(0, 0, 5, 5);
@@ -306,12 +306,12 @@ public class LoanDetail implements Observer {
         txtReturnDate.setColumns(10);
         
         lblStatus = new JLabel();
-        GridBagConstraints gbc_lblError2 = new GridBagConstraints();
-        gbc_lblError2.anchor = GridBagConstraints.EAST;
-        gbc_lblError2.gridwidth = 5;
-        gbc_lblError2.gridx = 0;
-        gbc_lblError2.gridy = 2;
-        panel_newLoan.add(lblStatus, gbc_lblError2);
+        GridBagConstraints gbc_lblStatus = new GridBagConstraints();
+        gbc_lblStatus.anchor = GridBagConstraints.EAST;
+        gbc_lblStatus.gridwidth = 5;
+        gbc_lblStatus.gridx = 0;
+        gbc_lblStatus.gridy = 2;
+        panel_newLoan.add(lblStatus, gbc_lblStatus);
 
         JPanel panel_loansByCustomer = new JPanel();
         panel_loansByCustomer.setBorder(new TitledBorder(null, "Ausleihen von Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -437,10 +437,9 @@ public class LoanDetail implements Observer {
                     if (l.getDaysOverdue() == 1) {
                         txtReturnDate.setText(l.getDueDateString() + " (Seit 1 Tag überfällig!)");                          
                     } else {
-                        txtReturnDate.setText(l.getDueDateString() + " (Seit " + l.getDaysTilDue() + " Tagen überfällig!)");  
+                        txtReturnDate.setText(l.getDueDateString() + " (Seit " + l.getDaysOverdue() + " Tagen überfällig!)");  
                     }
-                }
-                
+                }               
                 btnAddLoan.setEnabled(false);
                 btnReturnLoan.setEnabled(true);
             } else {
