@@ -67,7 +67,7 @@ public class MasterView {
 
 		JPanel loanTab = new TabLoan(library);	
 		ImageIcon iconLoanTab = new ImageIcon("icons/book_go.png");
-		bookMasterTabs.addTab("Ausleihe", iconLoanTab, loanTab, null);
+		bookMasterTabs.addTab("Ausleihen", iconLoanTab, loanTab, null);
 		
 		JPanel customerTab = new TabCustomer(library);	
 		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
