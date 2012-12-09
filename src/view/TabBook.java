@@ -78,7 +78,8 @@ public class TabBook extends JPanel implements Observer
 		setLayout(gridBagLayout);
 		
 		JPanel panel_statistics = new JPanel();
-		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_statistics.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+		        "Statistiken", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_statistics = new GridBagConstraints();
 		gbc_panel_statistics.insets = new Insets(0, 0, 5, 0);
 		gbc_panel_statistics.fill = GridBagConstraints.BOTH;
@@ -123,7 +124,8 @@ public class TabBook extends JPanel implements Observer
 		panel_statistics.add(lblAmountOfCopies, gbc_lblAmountOfCopies);
 		
 		JPanel panel_management = new JPanel();
-		panel_management.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "B\u00FCcherverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_management.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+		        "B\u00FCcherverwaltung", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_panel_management = new GridBagConstraints();
 		gbc_panel_management.fill = GridBagConstraints.BOTH;
 		gbc_panel_management.gridx = 0;

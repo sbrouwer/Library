@@ -112,13 +112,13 @@ public class BookDetail extends JFrame implements Observer {
 
 		txtAuthor = new JTextField();
 		txtAuthor.setEditable(false);
-		GridBagConstraints gbc_txtAutor = new GridBagConstraints();
-		gbc_txtAutor.gridheight = 2;
-		gbc_txtAutor.insets = new Insets(0, 0, 5, 0);
-		gbc_txtAutor.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtAutor.gridx = 1;
-		gbc_txtAutor.gridy = 1;
-		panel_book.add(txtAuthor, gbc_txtAutor);
+		GridBagConstraints gbc_txtAuthor = new GridBagConstraints();
+		gbc_txtAuthor.gridheight = 2;
+		gbc_txtAuthor.insets = new Insets(0, 0, 5, 0);
+		gbc_txtAuthor.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtAuthor.gridx = 1;
+		gbc_txtAuthor.gridy = 1;
+		panel_book.add(txtAuthor, gbc_txtAuthor);
 		txtAuthor.setColumns(10);
 
 		JLabel lblPublisher = new JLabel("Verlag:");
@@ -132,13 +132,13 @@ public class BookDetail extends JFrame implements Observer {
 
 		txtPublisher = new JTextField();
 		txtPublisher.setEditable(false);
-		GridBagConstraints gbc_txtVerlag = new GridBagConstraints();
-		gbc_txtVerlag.gridheight = 2;
-		gbc_txtVerlag.insets = new Insets(0, 0, 5, 0);
-		gbc_txtVerlag.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtVerlag.gridx = 1;
-		gbc_txtVerlag.gridy = 3;
-		panel_book.add(txtPublisher, gbc_txtVerlag);
+		GridBagConstraints gbc_txtPublisher = new GridBagConstraints();
+		gbc_txtPublisher.gridheight = 2;
+		gbc_txtPublisher.insets = new Insets(0, 0, 5, 0);
+		gbc_txtPublisher.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtPublisher.gridx = 1;
+		gbc_txtPublisher.gridy = 3;
+		panel_book.add(txtPublisher, gbc_txtPublisher);
 		txtPublisher.setColumns(10);
 
 		JLabel lblShelf = new JLabel("Regal:");
@@ -174,12 +174,12 @@ public class BookDetail extends JFrame implements Observer {
 
 		lblCount = new JLabel();
 		lblCount.setText("Anzahl: " + library.getCopiesOfBook(book).size());
-		GridBagConstraints gbc_lblAnzahl = new GridBagConstraints();
-		gbc_lblAnzahl.anchor = GridBagConstraints.WEST;
-		gbc_lblAnzahl.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAnzahl.gridx = 0;
-		gbc_lblAnzahl.gridy = 0;
-		panel_copies.add(lblCount, gbc_lblAnzahl);
+		GridBagConstraints gbc_lblCount = new GridBagConstraints();
+		gbc_lblCount.anchor = GridBagConstraints.WEST;
+		gbc_lblCount.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCount.gridx = 0;
+		gbc_lblCount.gridy = 0;
+		panel_copies.add(lblCount, gbc_lblCount);
 
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {
@@ -210,7 +210,7 @@ public class BookDetail extends JFrame implements Observer {
 					if (!library.isCopyLent(copyToDelet)) {
 						library.removeCopy(copyToDelet);
 					} else {
-						lblError.setForeground(Color.BLACK);
+						lblError.setForeground(Color.RED);
 						lblError.setText("Das Exemplar ist noch ausgeliehen und kann deshalb nicht entfernt werden!");
 					}
 				}
@@ -279,8 +279,9 @@ public class BookDetail extends JFrame implements Observer {
 				frame.dispose();
 			}
 		};
-		frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
-
+		frame.getRootPane().registerKeyboardAction(escListener, 
+		        KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), 
+		        JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 
 	public void setUpConditionColumn(JTable table, TableColumn conditionColumn) {

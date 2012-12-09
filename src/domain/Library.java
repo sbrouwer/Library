@@ -241,14 +241,15 @@ public class Library extends Observable implements Observer
     }
     
     public boolean checkInventoryNumberExists(String potentialInventoryNumber) {
+        boolean result = true;
         try {
             if ((Long.parseLong(potentialInventoryNumber) < 0) || getCopyByInventoryNumber(Long.parseLong(potentialInventoryNumber)) == null) {
-                return false;
+                result = false;
             }
         } catch (NumberFormatException nfe) {
-            return false;
+            result = false;
         }
-        return true;
+        return result;
     }
     
     public boolean checkHasOverdueLoans(Customer customer) {

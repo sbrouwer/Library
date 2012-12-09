@@ -178,8 +178,8 @@ public class TabLoan extends JPanel implements Observer {
 				}
 			}
 		});
-		txtSearch
-				.setToolTipText("Geben Sie hier die Exemplar Nummer, den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
+		txtSearch.setToolTipText("Geben Sie hier die Exemplar Nummer, " +
+				"den Titel des Buches oder den Namen des Kundes ein, nach dem Sie suchen möchten");
 		txtSearch.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {

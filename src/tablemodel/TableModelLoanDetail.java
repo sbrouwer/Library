@@ -98,19 +98,21 @@ public class TableModelLoanDetail extends AbstractTableModel implements Observer
 
 	private ImageIcon getLoanStatus(Loan l)
 	{
+	    ImageIcon result;
 		if (l.isLent())
 		{
 			if (l.isOverdue())
 			{
-				return iconOverdue;
+			    result = iconOverdue;
 			} else
 			{
-				return iconLent;
+			    result = iconLent;
 			}
 		} else
 		{
-			return iconReturned;
+		    result = iconReturned;
 		}
+		return result;
 	}
 
 }
