@@ -363,7 +363,7 @@ public class BookAdd implements Observer
 			lblStatus.setText(" ");
 		} else
 		{
-			lblStatus.setText("Bitte füllen Sie die Markierten Felder aus");
+			lblStatus.setText("Bitte füllen Sie die markierten Felder aus");
 			lblStatus.setForeground(red);
 		}
 		return ok;

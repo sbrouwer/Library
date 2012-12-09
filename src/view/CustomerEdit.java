@@ -164,7 +164,7 @@ public class CustomerEdit extends JFrame {
 		lblStatus = new JLabel();
 		GridBagConstraints gbc_lblStatus = new GridBagConstraints();
 		gbc_lblStatus.gridwidth = 2;
-		gbc_lblStatus.anchor = GridBagConstraints.WEST;
+		gbc_lblStatus.anchor = GridBagConstraints.EAST;
 		gbc_lblStatus.insets = new Insets(0, 0, 0, 5);
 		gbc_lblStatus.gridx = 0;
 		gbc_lblStatus.gridy = 5;
