@@ -22,6 +22,7 @@ public class MasterView {
 
 	private JFrame frmLibrary;
 	private Library library;
+	private JTabbedPane bookMasterTabs;
 
 	public MasterView(Library library) {
 		this.library = library;
@@ -47,7 +48,7 @@ public class MasterView {
 		frmLibrary.getContentPane().setLayout(gridBagLayout);
 		addKeyboardListeners(frmLibrary);
 
-		JTabbedPane bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
+		bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_bookMasterTabs = new GridBagConstraints();
 		gbc_bookMasterTabs.gridheight = 2;
 		gbc_bookMasterTabs.insets = new Insets(0, 5, 5, 0);
@@ -67,17 +68,42 @@ public class MasterView {
 		JPanel customerTab = new TabCustomer(library);	
 		ImageIcon iconCustomerTab = new ImageIcon("icons/customer.png");
 		bookMasterTabs.addTab("Kunden", iconCustomerTab, customerTab, null);
+		
+		
 	}
 	
 	private void addKeyboardListeners(final JFrame frame) {
 	    ActionListener escListener = new ActionListener() {
-
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	            frame.dispose();
-	        }
+	        }        
+	    };
+	    
+	    ActionListener BookShortcutListener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            bookMasterTabs.setSelectedIndex(0);
+	        }        
+	    };
+	    
+	    ActionListener LoanShortcutListener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            bookMasterTabs.setSelectedIndex(1);
+	        }	        
+	    };
+	    
+	    ActionListener CustomerShortcutListener = new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            bookMasterTabs.setSelectedIndex(2);
+	        }        
 	    };
 	    
 	    frame.getRootPane().registerKeyboardAction(escListener, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    frame.getRootPane().registerKeyboardAction(BookShortcutListener, KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    frame.getRootPane().registerKeyboardAction(LoanShortcutListener, KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
+	    frame.getRootPane().registerKeyboardAction(CustomerShortcutListener, KeyStroke.getKeyStroke(KeyEvent.VK_K, ActionEvent.ALT_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
 	}
 }
