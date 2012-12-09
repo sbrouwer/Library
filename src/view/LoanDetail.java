@@ -237,7 +237,7 @@ public class LoanDetail implements Observer {
         txtCopyInventoryNumber.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent arg0) {
-               setButtonsAndCheck();
+               setButtonsAndReturnDate();
             }
         });
         txtCopyInventoryNumber.setText("");
@@ -389,7 +389,7 @@ public class LoanDetail implements Observer {
             public void mouseReleased(MouseEvent arg0) {
                 long inventoryNumber = (Long) tableModel.getValueAt(table.convertRowIndexToModel(table.getSelectedRow()), 1);
                 txtCopyInventoryNumber.setText(Long.toString(inventoryNumber));
-                setButtonsAndCheck();
+                setButtonsAndReturnDate();
             }
         });
         table.getTableHeader().setReorderingAllowed(false);
@@ -420,24 +420,33 @@ public class LoanDetail implements Observer {
             lblOverdueLoansByCustomer.setVisible(false);
             lblAmountOfOverdueLoansByCustomer.setVisible(false);
         }
-        setButtonsAndCheck();
+        setButtonsAndReturnDate();
         
     }
     
-    private void setButtonsAndCheck(){
+    private void setButtonsAndReturnDate(){
         if (library.checkInventoryNumberExists(txtCopyInventoryNumber.getText())) {
             lblCheck.setIcon(iconInventoryNumberOK);
             Copy c = library.getCopyByInventoryNumber(Long.parseLong(txtCopyInventoryNumber.getText()));
             if (library.isCopyLent(c)) {
+                
                 Loan l = library.getLoanOfCopy(c);
-                txtReturnDate.setText(l.getDueDateString() + " noch " + l.getDaysTilDue() + " Tage");  
+                if (!l.isOverdue()) {
+                    txtReturnDate.setText(l.getDueDateString() + " (Noch maximal " + l.getDaysTilDue() + " Tage bis zur Rückgabe)");  
+                } else {
+                    if (l.getDaysOverdue() == 1) {
+                        txtReturnDate.setText(l.getDueDateString() + " (Seit 1 Tag überfällig!)");                          
+                    } else {
+                        txtReturnDate.setText(l.getDueDateString() + " (Seit " + l.getDaysTilDue() + " Tagen überfällig!)");  
+                    }
+                }
                 
                 btnAddLoan.setEnabled(false);
                 btnReturnLoan.setEnabled(true);
             } else {
                 GregorianCalendar returnDate = new GregorianCalendar();
                 returnDate.add(GregorianCalendar.DAY_OF_YEAR, Loan.DAYS_TO_RETURN_BOOK);
-                txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " noch " + Loan.DAYS_TO_RETURN_BOOK + " Tage");
+                txtReturnDate.setText(Loan.getFormattedDate(returnDate) + " (Ab jetzt " + Loan.DAYS_TO_RETURN_BOOK + " Tage ausleihbar)");
                 
                 btnAddLoan.setEnabled(true);
                 btnReturnLoan.setEnabled(false);
