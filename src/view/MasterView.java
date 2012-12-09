@@ -54,7 +54,7 @@ public class MasterView {
         bookMasterTabs = new JTabbedPane(JTabbedPane.TOP);
         GridBagConstraints gbc_bookMasterTabs = new GridBagConstraints();
         gbc_bookMasterTabs.gridheight = 2;
-        gbc_bookMasterTabs.insets = new Insets(1, 5, 5, 0);
+        gbc_bookMasterTabs.insets = new Insets(1, 3, 3, 3);
         gbc_bookMasterTabs.fill = GridBagConstraints.BOTH;
         gbc_bookMasterTabs.gridx = 0;
         gbc_bookMasterTabs.gridy = 0;
