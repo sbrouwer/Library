@@ -409,6 +409,13 @@ public class LoanDetail implements Observer {
     }
 
     private void updateFields() {
+        if (library.getActualLoansByCustomer(customer).size() == Library.MAX_AMOUNT_OF_LOANS) {
+            lblActualLoansByCustomer.setForeground(new Color(255, 150, 0));
+            lblAmountOfActualLoansByCustomer.setForeground(new Color(255, 150, 0));
+        } else {
+            lblActualLoansByCustomer.setForeground(Color.DARK_GRAY);
+            lblAmountOfActualLoansByCustomer.setForeground(Color.DARK_GRAY);
+        }
         lblAmountOfActualLoansByCustomer.setText(String.valueOf(library.getActualLoansByCustomer(customer).size()));
         lblAmountOfLoansByCustomer.setText(String.valueOf(library.getCustomerLoans(customer).size()));
         if (library.checkHasOverdueLoans(customer)) {
