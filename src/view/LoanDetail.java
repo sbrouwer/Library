@@ -71,64 +71,47 @@ public class LoanDetail implements Observer {
     private JLabel lblAmountOfOverdueLoansByCustomer;
 
     public LoanDetail(Library library) {
-        this.library = library;
-        customer = null;
-        library.addObserver(this);
-        initialize();
-        initializeForNewLoan();
-        frmLoanDetail.setVisible(true);
+        this(library, null);
     }
 
     public LoanDetail(Library library, Loan loan) {
         this.library = library;
-        customer = loan.getCustomer();
         library.addObserver(this);
         initialize();
-        initializeForExistingLoan(loan);
+        if (loan == null) {
+            initializeForNewLoan();
+        } else {
+            initializeForExistingLoan(loan);
+        }
+        updateFields();
         frmLoanDetail.setVisible(true);
+        
     }
-    
-//    public LoanDetail(Library library) {
-//        this(library, null);
-//    }
-//
-//    public LoanDetail(Library library, Loan loan) {
-//        this.library = library;
-//        library.addObserver(this);
-//        if (loan == null) {
-//            customer = null;
-//        } else {
-//            customer = loan.getCustomer();
-//        }
-//        initialize();
-//        if (customer == null) {
-//            initializeForExistingLoan(loan);            
-//        } else {
-//            initializeForNewLoan();
-//        }
-//        frmLoanDetail.setVisible(true);
-//    }
 
     private void initializeForExistingLoan(Loan loan) {
+        customer = loan.getCustomer();
         txtCustomerIdentifier.setText(String.valueOf(loan.getCustomer().getIdentifier()));
-
-        Customer[] carr = library.getCustomers().toArray(new Customer[library.getCustomers().size()]);
-        Arrays.sort(carr, new CustomerComperator());
-        customersComboBox.setModel(new DefaultComboBoxModel<Customer>(carr));
+        txtCopyInventoryNumber.setText(String.valueOf(loan.getCopy().getInventoryNumber()));
+        
+        fillCustomersComboBox();
+        
         customersComboBox.setSelectedItem(loan.getCustomer());
-
-        updateFields();
     }
 
     private void initializeForNewLoan() {
+        customer = null;
         txtCustomerIdentifier.setText("");
+        txtCopyInventoryNumber.setText("");
+        
+        fillCustomersComboBox();
+        
+        customersComboBox.setSelectedIndex(-1);
+    }
 
+    private void fillCustomersComboBox() {
         Customer[] carr = library.getCustomers().toArray(new Customer[library.getCustomers().size()]);
         Arrays.sort(carr, new CustomerComperator());
         customersComboBox.setModel(new DefaultComboBoxModel<Customer>(carr));
-        customersComboBox.setSelectedIndex(-1);
-
-        updateFields();
     }
 
     private void initialize() {

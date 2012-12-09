@@ -32,7 +32,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelTabCustomer;
-import domain.Book;
 import domain.Customer;
 import domain.Library;
 
