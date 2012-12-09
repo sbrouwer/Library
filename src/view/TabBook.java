@@ -314,7 +314,6 @@ public class TabBook extends JPanel implements Observer
 		        SwingUtilities.invokeLater(new Runnable() {
 		            @Override
 		            public void run() {
-		            	System.out.println(selectedRow);
 		                if (selectedRow >= 0) {
 		                            table.setRowSelectionInterval(selectedRow, selectedRow);
 		                }
