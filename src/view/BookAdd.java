@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -28,10 +29,14 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableRowSorter;
 
 import tablemodel.TableModelBookDetail;
 import domain.Book;
 import domain.Copy;
+import domain.Copy.Condition;
 import domain.Library;
 import domain.Shelf;
 
@@ -55,8 +60,9 @@ public class BookAdd implements Observer
 	private JButton btnRemoveCopy;
 	private JButton btnAddBook;
 	private TableModelBookDetail tableModel;
-	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit" };
+	private final String[] header = new String[] { "Inventar Nummer", "Verfügbarkeit", "Zustand" };
 	private JLabel lblStatus;
+	private TableRowSorter<TableModelBookDetail> sorter;
 
 	/**
 	 * Create the application.
@@ -297,6 +303,8 @@ public class BookAdd implements Observer
 		
 		addKeyboardListeners(frmBookAdd);
 		
+		
+		
 	}
 
 	private boolean verifyFields()
@@ -371,6 +379,12 @@ public class BookAdd implements Observer
 			book.setShelf((Shelf) comboBoxShelf.getSelectedItem());
 			tableModel = new TableModelBookDetail(library, book, header);
 			table.setModel(tableModel);
+			setUpConditionColumn(table, table.getColumnModel().getColumn(2));
+			
+			sorter = new TableRowSorter<TableModelBookDetail>((TableModelBookDetail) tableModel);
+			table.setRowSorter(sorter);
+			sorter.setSortsOnUpdates(true);
+			sorter.toggleSortOrder(0);
 			tableModel.fireTableDataChanged();
 			lblStatus.setText("Das Buch wurde erfolgreich erfasst");
 			lblStatus.setForeground(Color.BLACK);
@@ -410,7 +424,6 @@ public class BookAdd implements Observer
 			txtAuthor.setText(book.getAuthor());
 			txtPublisher.setText(book.getPublisher());
 			comboBoxShelf.setSelectedItem((book.getShelf()));
-			System.out.println(book.getShelf().toString());
 		}
 	}
 
@@ -439,6 +452,18 @@ public class BookAdd implements Observer
 		frame.getRootPane().registerKeyboardAction(enterListener,
 				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
+	}
+	
+	public void setUpConditionColumn(JTable table, TableColumn conditionColumn) {
+		// Set up the editor for the sport cells.
+		JComboBox<Condition> comboBox = new JComboBox<Condition>();
+		comboBox.setModel(new DefaultComboBoxModel<Condition>(Condition.values()));
+		conditionColumn.setCellEditor(new DefaultCellEditor(comboBox));
+
+		// Set up tool tips for the sport cells.
+		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		renderer.setToolTipText("Klicken um Zustand zu ändern");
+		conditionColumn.setCellRenderer(renderer);
 	}
 
 }
