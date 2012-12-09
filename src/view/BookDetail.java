@@ -56,9 +56,6 @@ public class BookDetail extends JFrame implements Observer {
 	private JTable table;
 	private TableRowSorter<TableModelBookDetail> sorter;
 
-	/**
-	 * Create the application.
-	 */
 	public BookDetail(Book book, Library library) {
 		this.book = book;
 		this.library = library;
@@ -67,13 +64,10 @@ public class BookDetail extends JFrame implements Observer {
 		library.addObserver(this);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		setBounds(100, 100, 450, 360);
 		setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
-		setTitle("Buch");
+		setTitle("Buchdetail");
 		setMinimumSize(new Dimension(500, 360));
 		setMaximumSize(new Dimension(749, 659));
 

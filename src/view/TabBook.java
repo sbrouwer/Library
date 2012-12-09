@@ -211,8 +211,7 @@ public class TabBook extends JPanel implements Observer
 		{
 			public void actionPerformed(ActionEvent arg0)
 			{
-				openBookDetail();
-				
+				openBookDetail();			
 			}
 		});
 		GridBagConstraints gbc_btnBookDetail = new GridBagConstraints();
@@ -335,17 +334,14 @@ public class TabBook extends JPanel implements Observer
 				openOnce.get(book).setVisible(true);
 				openOnce.get(book).toFront();
 			}
-			else {
-				
+			else {		
 				final Book bookToRemove = book;
 				BookDetail bookDetail = new BookDetail(book, library);
-				bookDetail.addWindowListener(new WindowAdapter(){		
-					 
+				bookDetail.addWindowListener(new WindowAdapter(){							 
 					public void windowClosing(WindowEvent e)
 					{
 						openOnce.remove(bookToRemove);
-					}
-					
+					}				
 				});
 				openOnce.put(book, bookDetail);
 			}
