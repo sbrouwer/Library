@@ -53,7 +53,7 @@ public class BookAdd implements Observer
 	private Book book = null;
 	private Library library;
 	private JLabel lblShelf;
-	private JComboBox comboBoxShelf;
+	private JComboBox<Shelf> comboBoxShelf;
 	private JTable table;
 	private JButton btnAddCopy;
 	private JButton btnRemoveCopy;
@@ -163,8 +163,8 @@ public class BookAdd implements Observer
 		gbc_lblShelf.gridy = 5;
 		panel.add(lblShelf, gbc_lblShelf);
 
-		comboBoxShelf = new JComboBox();    
-		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
+		comboBoxShelf = new JComboBox<Shelf>();    
+		comboBoxShelf.setModel(new DefaultComboBoxModel<Shelf>(Shelf.values()));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
