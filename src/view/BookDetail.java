@@ -280,6 +280,7 @@ public class BookDetail extends JFrame implements Observer {
 		txtTitle.setText(book.getName());
 		txtAuthor.setText(book.getAuthor());
 		txtPublisher.setText(book.getPublisher());
+		comboBoxShelf.setSelectedItem(book.getShelf());
 	}
 
 	public void addKeyboardListeners(final JFrame frame) {
