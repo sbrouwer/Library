@@ -29,7 +29,7 @@ public class LibraryApp
 	{
 		Library lib = new Library();
 		initLibrary(lib);
-		Master bookMaster = new Master(lib);
+		new Master(lib);
 	}
 
 	public static void initLibrary(Library library) throws ParserConfigurationException, SAXException, IOException, IllegalLoanOperationException
