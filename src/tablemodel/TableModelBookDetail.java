@@ -14,9 +14,11 @@ import domain.Loan;
 
 public class TableModelBookDetail extends AbstractTableModel implements Observer {
 
-	Library library;
-	String[] headers;
-	Book book;
+    private static final long serialVersionUID = -6095524409863329434L;
+    
+    private Library library;
+    private String[] headers;
+    private Book book;
 
 	public TableModelBookDetail(Library library, Book book, String[] headers) {
 		this.library = library;

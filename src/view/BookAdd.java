@@ -42,7 +42,6 @@ import domain.Shelf;
 
 public class BookAdd implements Observer
 {
-
 	private JFrame frmBookAdd;
 	private JLabel lblTitle;
 	private JTextField txtTitle;
@@ -164,7 +163,8 @@ public class BookAdd implements Observer
 		gbc_lblShelf.gridy = 5;
 		panel.add(lblShelf, gbc_lblShelf);
 
-		comboBoxShelf = new JComboBox();
+		comboBoxShelf = new JComboBox();    
+		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 2;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
@@ -172,7 +172,6 @@ public class BookAdd implements Observer
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 5;
 		panel.add(comboBoxShelf, gbc_comboBox);
-		comboBoxShelf.setModel(new DefaultComboBoxModel(Shelf.values()));
 
 		ImageIcon iconAddBook = new ImageIcon("icons/book_add.png");
 		btnAddBook = new JButton("Buch erfassen", iconAddBook);

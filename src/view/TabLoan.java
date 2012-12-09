@@ -43,7 +43,10 @@ import domain.Library;
 import domain.Loan;
 
 public class TabLoan extends JPanel implements Observer {
-	private Library library;
+
+    private static final long serialVersionUID = -7205105883833687794L;
+    
+    private Library library;
 	private JLabel lblAmountOfLoans;
 	private JLabel lblAmountOfLentLoans;
 	private JLabel lblAmountOfOverdueLoans;
@@ -54,8 +57,7 @@ public class TabLoan extends JPanel implements Observer {
 	private TableRowSorter<TableModelTabLoan> sorter;
 	private JButton btnShowSelected;
 	private JButton btnAddLoan;
-	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis",
-			"Ausgeliehen An" };
+	private final String[] header = new String[] { "Status", "Exemplar-ID", "Titel", "Ausgeliehen Bis", "Ausgeliehen An" };
 	private JLabel lblLoans;
 	private JLabel lblLentLoans;
 	private JLabel lblOverdueLoans;

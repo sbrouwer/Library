@@ -19,11 +19,12 @@ import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import domain.Customer;
-import domain.Library;
 
 public class CustomerEdit extends JFrame {
 
-	private JPanel contentPane;
+    private static final long serialVersionUID = -2064745448448748039L;
+    
+    private JPanel contentPane;
 	private JLabel lblName;
 	private JTextField txtName;
 	private JLabel lblSurename;
@@ -36,12 +37,10 @@ public class CustomerEdit extends JFrame {
 	private JTextField txtCity;
 	private JButton btnMutateCustomer;
 
-	Library library;
-	Customer customer;
+	private Customer customer;
 	private JLabel lblStatus;
 
-	public CustomerEdit(Customer customer, Library library) {
-		this.library = library;
+	public CustomerEdit(Customer customer) {
 		this.customer = customer;
 		initialize();
 		updateFields();

@@ -18,12 +18,12 @@ import javax.swing.KeyStroke;
 
 import domain.Library;
 
-public class Master {
+public class MasterView {
 
 	private JFrame frmLibrary;
 	private Library library;
 
-	public Master(Library library) {
+	public MasterView(Library library) {
 		this.library = library;
 		initialize();
 		frmLibrary.setVisible(true);

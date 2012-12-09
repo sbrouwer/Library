@@ -10,8 +10,10 @@ import domain.Library;
 
 public class TableModelTabBook extends AbstractTableModel implements Observer {
 
-	Library library;
-	String[] headers;
+    private static final long serialVersionUID = -6702277721584235657L;
+    
+    private Library library;
+	private String[] headers;
 
 	public TableModelTabBook(Library library, String[] headers) {
 		this.library = library;

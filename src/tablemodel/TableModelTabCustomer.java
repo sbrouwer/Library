@@ -10,8 +10,10 @@ import domain.Library;
 
 public class TableModelTabCustomer extends AbstractTableModel implements Observer
 {
-	Library library;
-	String[] headers;
+    private static final long serialVersionUID = -8401554389454934712L;
+    
+    private Library library;
+    private String[] headers;
 
 	public TableModelTabCustomer(Library library, String[] headers)
 	{

@@ -36,7 +36,10 @@ import domain.Customer;
 import domain.Library;
 
 public class TabCustomer extends JPanel implements Observer {
-	private Library library;
+
+    private static final long serialVersionUID = 2059632756030340967L;
+    
+    private Library library;
 	private JTextField txtSearch;
 	private TableModelTabCustomer tableModel;
 	private TableRowSorter<TableModelTabCustomer> sorter;
@@ -283,7 +286,7 @@ public class TabCustomer extends JPanel implements Observer {
 			openOnce.get(customerToEdit).toFront();
 		} else {
 			final Customer customerToRemove = customerToEdit;
-			CustomerEdit customerEdit = new CustomerEdit(customerToEdit, library);
+			CustomerEdit customerEdit = new CustomerEdit(customerToEdit);
 			customerEdit.addWindowListener(new WindowAdapter() {
 				public void windowClosing(WindowEvent e) {
 					openOnce.remove(customerToRemove);

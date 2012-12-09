@@ -6,7 +6,6 @@ import domain.Customer;
 
 public class CustomerComperator implements Comparator<Customer>
 {
-
 	@Override
 	public int compare(Customer o1, Customer o2)
 	{

@@ -46,7 +46,9 @@ import domain.Library;
 
 public class TabBook extends JPanel implements Observer
 {
-	private JTextField txtSearch;
+    private static final long serialVersionUID = 3516134185601989079L;
+    
+    private JTextField txtSearch;
 	private Library library;
 	private JLabel lblAmountOfBooks;
 	private JLabel lblAmountOfCopies;
@@ -355,8 +357,6 @@ public class TabBook extends JPanel implements Observer
 		sorter = new TableRowSorter<TableModelTabBook>(tableModel);
 		table.setRowSorter(sorter);
 		RowFilter<TableModelTabBook, Object> rf = null;
-		List<RowFilter<TableModelTabBook, Object>> filters = new ArrayList<RowFilter<TableModelTabBook, Object>>();
-		// If current expression doesn't parse, don't update.
 		try
 		{
 			rf = RowFilter.regexFilter("[^0]", 0);

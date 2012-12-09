@@ -12,12 +12,14 @@ import domain.Loan;
 
 public class TableModelLoanDetail extends AbstractTableModel implements Observer
 {
-	Library library;
-	Customer customer;
-	String[] headers;
-	ImageIcon iconLent = new ImageIcon("icons/book_go.png", "Ausgeliehen");
-	ImageIcon iconOverdue = new ImageIcon("icons/warning.png", "Überfällig!");
-	ImageIcon iconReturned = new ImageIcon("icons/arrow-return.png", "Zurückgegeben");
+    private static final long serialVersionUID = 6872213347343698250L;
+    
+    private Library library;
+	private Customer customer;
+	private String[] headers;
+	private ImageIcon iconLent = new ImageIcon("icons/book_go.png", "Ausgeliehen");
+	private ImageIcon iconOverdue = new ImageIcon("icons/warning.png", "Überfällig!");
+	private ImageIcon iconReturned = new ImageIcon("icons/arrow-return.png", "Zurückgegeben");
 
 	public TableModelLoanDetail(Library library, Customer customer, String[] headers)
 	{

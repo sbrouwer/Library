@@ -24,7 +24,9 @@ import domain.Library;
 
 public class CustomerAdd extends JFrame {
 
-	private JPanel contentPane;
+    private static final long serialVersionUID = 4984104331872175710L;
+    
+    private JPanel contentPane;
 	private JLabel lblName;
 	private JTextField txtName;
 	private JLabel lblSurename;
@@ -36,13 +38,9 @@ public class CustomerAdd extends JFrame {
 	private JLabel lblCity;
 	private JTextField txtCity;
 	private JButton btnAddCustomer;
-
 	private Library library;
 	private JLabel lblStatus;
 
-	/**
-	 * Create the frame.
-	 */
 	public CustomerAdd(Library library) {
 		this.library = library;
 		initalize();

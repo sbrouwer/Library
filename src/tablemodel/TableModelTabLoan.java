@@ -13,11 +13,13 @@ import domain.Loan;
 
 public class TableModelTabLoan extends AbstractTableModel implements Observer{
 
-	Library library;
-	String[] headers;
-	List <Loan> loans;
-	ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
-	ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
+    private static final long serialVersionUID = 3066243659336855397L;
+    
+    private Library library;
+    private String[] headers;
+    private List <Loan> loans;
+    private ImageIcon iconOk = new ImageIcon("icons/ok.png","OK");
+    private ImageIcon iconWarning = new ImageIcon("icons/warning.png", "Fällig!");
 
 	public TableModelTabLoan(Library library, String[] headers) {
 		this.library = library;

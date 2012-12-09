@@ -40,15 +40,18 @@ import domain.Library;
 import domain.Shelf;
 
 public class BookDetail extends JFrame implements Observer {
-	private Book book;
+
+    private static final long serialVersionUID = -7866393001845760549L;
+    
+    private Book book;
 	private Library library;
 	private JTextField txtTitle;
 	private JTextField txtAuthor;
 	private JTextField txtPublisher;
-	JComboBox<Shelf> comboBoxShelf;
+	private JComboBox<Shelf> comboBoxShelf;
 	private JLabel lblCount;
-	JButton btnRemoveCopy;
-	JButton btnAddCopy;
+	private JButton btnRemoveCopy;
+	private JButton btnAddCopy;
 	private JLabel lblError;
 	private JTable table;
 	private TableRowSorter<TableModelBookDetail> sorter;
