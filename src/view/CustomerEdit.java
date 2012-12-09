@@ -47,7 +47,7 @@ public class CustomerEdit extends JFrame {
 	}
 
 	private void initialize() {
-		setTitle("Kundenangaben editieren");
+		setTitle("Kundenangaben editieren: " + customer.getName());
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 500, 250);
 		contentPane = new JPanel();
