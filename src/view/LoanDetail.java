@@ -136,7 +136,8 @@ public class LoanDetail implements Observer {
         ImageIcon iconExemplarZurueckgeben = new ImageIcon("icons/arrow-return.png");
 
         JPanel panel_customer = new JPanel();
-        panel_customer.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_customer.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+                "Kunde", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         GridBagConstraints gbc_panel_customer = new GridBagConstraints();
         gbc_panel_customer.insets = new Insets(0, 0, 5, 0);
         gbc_panel_customer.fill = GridBagConstraints.BOTH;
@@ -211,7 +212,8 @@ public class LoanDetail implements Observer {
         panel_customer.add(customersComboBox, gbc_comboBox);
         
         JPanel panel_newLoan = new JPanel();
-        panel_newLoan.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Exemplar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+        panel_newLoan.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), 
+                "Exemplar", TitledBorder.LEADING, TitledBorder.TOP, null, null));
         GridBagConstraints gbc_panel_newLoan = new GridBagConstraints();
         gbc_panel_newLoan.insets = new Insets(0, 0, 5, 0);
         gbc_panel_newLoan.fill = GridBagConstraints.BOTH;
@@ -495,7 +497,8 @@ public class LoanDetail implements Observer {
                  if (library.isCopyLent(copy)) {
                      lblStatus.setText("Buch konnte nicht ausgeliehen werden, diese Kopie ist bereits ausgeliehen!");
                  } else if (!library.checkMaxLoanAmount(customer)) {
-                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits " + Library.MAX_AMOUNT_OF_LOANS + " Bücher ausgeliehen!");
+                     lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat bereits " + 
+                             Library.MAX_AMOUNT_OF_LOANS + " Bücher ausgeliehen!");
                  } else if (library.checkHasOverdueLoans(customer)) {
                      lblStatus.setText("Buch konnte nicht ausgeliehen werden, der Kunde hat überfällige Ausleihen!");
                  } else if (copy.getCondition() == Condition.LOST) {
