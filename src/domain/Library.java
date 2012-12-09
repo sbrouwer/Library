@@ -1,5 +1,6 @@
 package domain;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -12,6 +13,7 @@ public class Library extends Observable implements Observer
 	private List<Loan> loans;
 	private List<Book> books;
 	public final static int MAX_AMOUNT_OF_LOANS = 3;
+    public final static Color NICE_ORANGE = new Color(255, 150, 0);
 
 	public Library()
 	{

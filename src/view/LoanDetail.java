@@ -69,7 +69,6 @@ public class LoanDetail implements Observer {
     private JLabel lblAmountOfActualLoansByCustomer;
     private JLabel lblOverdueLoansByCustomer;
     private JLabel lblAmountOfOverdueLoansByCustomer;
-    public final static Color NICE_ORANGE = new Color(255, 150, 0);
 
     public LoanDetail(Library library) {
         this(library, null);
@@ -411,8 +410,8 @@ public class LoanDetail implements Observer {
 
     private void updateFields() {
         if (library.getActualLoansByCustomer(customer).size() == Library.MAX_AMOUNT_OF_LOANS) {
-            lblActualLoansByCustomer.setForeground(LoanDetail.NICE_ORANGE);
-            lblAmountOfActualLoansByCustomer.setForeground(LoanDetail.NICE_ORANGE);
+            lblActualLoansByCustomer.setForeground(Library.NICE_ORANGE);
+            lblAmountOfActualLoansByCustomer.setForeground(Library.NICE_ORANGE);
         } else {
             lblActualLoansByCustomer.setForeground(Color.DARK_GRAY);
             lblAmountOfActualLoansByCustomer.setForeground(Color.DARK_GRAY);
