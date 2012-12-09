@@ -52,8 +52,7 @@ public class TableModelBookDetail extends AbstractTableModel implements Observer
 			if (l != null) {
 				if (l.isLent()) { //Damit keine schon zurückgegebene Loans angezeigt werden
 					if (!l.isOverdue()) {
-						return l.getDueDateString() + " (Noch " + l.getDaysTilDue()
-								+ " Tage bis zur Rückgabe)";
+						return l.getDueDateString() + " (Noch " + l.getDaysTilDue() + " Tage bis zur Rückgabe)";
 					} else {
 						return l.getDueDateString() + " (Fällig!)";
 					}
